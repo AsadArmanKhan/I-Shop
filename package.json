@@ -1,0 +1,26 @@
+{
+  "name": "i-shop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd frontend &&  npm run dev \" \"cd backend && node --watch index \""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AsadArmanKhan/I-Shop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AsadArmanKhan/I-Shop/issues"
+  },
+  "homepage": "https://github.com/AsadArmanKhan/I-Shop#readme",
+  "description": "",
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "react-toastify": "^11.0.5",
+    "sweetalert2": "^11.21.0"
+  }
+}

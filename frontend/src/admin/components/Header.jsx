@@ -1,43 +1,43 @@
-import React from "react";
-import { FiBell, FiSearch, FiUser } from "react-icons/fi";
+import React from 'react'
+import { FaTachometerAlt } from "react-icons/fa";
+import { FaUserSecret } from "react-icons/fa";
+import { FaCog } from "react-icons/fa";
+import { FaSignOutAlt } from "react-icons/fa";
 
-const Header = () => {
+
+
+
+export default function Header() {
   return (
-    <header className="bg-white px-6 py-4 shadow flex items-center justify-between">
-      {/* Left: Page Title */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
-        <p className="text-sm text-gray-500">Welcome back, Admin</p>
-      </div>
-
-      {/* Right: Search + Icons */}
-      <div className="flex items-center gap-4">
-        {/* Search Input */}
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <FiSearch className="absolute left-3 top-2.5 text-gray-500" />
+    <>
+      <header className="bg-gray-800 text-white px-6 py-4 flex justify-between items-center shadow-md">
+        <div className="text-2xl font-bold">
+          Admin Panel
         </div>
 
-        {/* Notification Icon */}
-        <div className="relative">
-          <FiBell className="text-xl text-gray-600 hover:text-blue-500 cursor-pointer" />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full px-[6px] py-[1px] font-semibold">
-            3
-          </span>
+        <nav className="flex space-x-6">
+          <a href="/dashboard" className="flex items-center hover:text-gray-300">
+            <FaTachometerAlt className="mr-2" /> Dashboard
+          </a>
+          <a href="/users" className="flex items-center hover:text-gray-300">
+            <FaUserSecret className="mr-2" /> Users
+          </a>
+          <a href="/settings" className="flex items-center hover:text-gray-300">
+            <FaCog className="mr-2" /> Settings
+          </a>
+        </nav>
+
+        <div className="flex items-center space-x-4">
+          <span className="hidden sm:inline">Welcome, Admin</span>
+          <a
+            href="/logout"
+            className="flex items-center bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white"
+          >
+            <FaSignOutAlt className="mr-2" /> Logout
+          </a>
         </div>
+      </header>
 
-        {/* User Avatar */}
-        <div className="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer hover:ring-2 hover:ring-blue-500">
-          <FiUser className="text-gray-700" />
-        </div>
-      </div>
-    </header>
-  );
-};
-
-export default Header;
-
+    </>
+  )
+}

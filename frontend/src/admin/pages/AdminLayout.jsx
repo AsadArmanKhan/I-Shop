@@ -12,6 +12,7 @@ export default function AdminLayout() {
                     <SideMenu />
                 </div>
                 <div className="col-span-4">
+                    {/* <Header /> */}
                     <Header />
                     <Outlet />
                 </div>

@@ -6,6 +6,11 @@ import AdminLayout from './admin/pages/AdminLayout'
 import DashBoard from './admin/pages/DashBoard'
 import ViewCategory from './admin/pages/Category/ViewCategory'
 import AddCategory from './admin/pages/Category/AddCategory'
+import EditCategory from './admin/pages/Category/EditCategory'
+import ViewColor from './admin/pages/Colors/ViewColor'
+import AddColor from './admin/pages/Colors/AddColor'
+import ViewProduct from './admin/pages/Product/ViewProduct'
+import AddProduct from './admin/pages/Product/AddProduct'
 
 export default function App() {
   const routers = createBrowserRouter([
@@ -37,6 +42,26 @@ export default function App() {
         {
           path: "category/add",
           element: <AddCategory />
+        },
+        {
+          path: "category/edit/:categoryId",
+          element: <EditCategory />
+        },
+        {
+          path: "color",
+          element: <ViewColor />
+        },
+        {
+          path: "color/add",
+          element: <AddColor />
+        },
+        {
+          path: "product",
+          element: <ViewProduct />
+        },
+        {
+          path: "product/add",
+          element: <AddProduct />
         }
       ]
     },

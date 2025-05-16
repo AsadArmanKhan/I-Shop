@@ -32,12 +32,12 @@ const SideMenu = () => {
                     <h3 className="text-xs text-gray-400 uppercase mb-2">Menu</h3>
                     <ul className="space-y-2">
                         <Link to={"/admin"}>
-                        <li className="flex items-center justify-between text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                            <span className="flex items-center gap-2">
-                                <FiGrid />
-                                Dashboards
-                            </span>
-                        </li>
+                            <li className="flex items-center justify-between text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
+                                <span className="flex items-center gap-2">
+                                    <FiGrid />
+                                    Dashboards
+                                </span>
+                            </li>
                         </Link>
                         <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
                             <FiLayout />
@@ -60,20 +60,24 @@ const SideMenu = () => {
                     <h3 className="text-xs text-gray-400 uppercase mb-2">Pages</h3>
                     <ul className="space-y-2">
                         <Link to={"/admin/category"}>
-                        <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                            <BiSolidCategory />
-                            Category
-                        </li>
+                            <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
+                                <BiSolidCategory />
+                                Category
+                            </li>
                         </Link>
-                        <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                            <IoMdColorFill />
-                            Colors
-                        </li>
-                        <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                            <FaProductHunt />
+                        <Link to={"/admin/color"}>
+                            <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
+                                <IoMdColorFill />
+                                Colors
+                            </li>
+                        </Link>
+                        <Link to={"/admin/product"}>
+                            <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
+                                <FaProductHunt />
 
-                            Product
-                        </li>
+                                Product
+                            </li>
+                        </Link>
                     </ul>
                 </div>
 

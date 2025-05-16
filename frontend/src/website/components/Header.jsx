@@ -1,86 +1,84 @@
-import React from 'react'
+import React from 'react';
+import { FaSearch, FaShoppingCart } from 'react-icons/fa';
+import { IoMdArrowDropdown } from 'react-icons/io';
 
-export default function Header() {
-    return (
-        <>
-            <header className="bg-white shadow-md sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        {/* Logo */}
-                        <div className="flex-shrink-0 text-2xl font-bold text-indigo-600">
-                            i<span className="text-gray-800">Shop</span>
-                        </div>
-                        {/* Navigation Links */}
-                        <nav className="hidden md:flex space-x-6 text-gray-700 font-medium">
-                            <a href="#" className="hover:text-indigo-600 transition">
-                                Home
-                            </a>
-                            <a href="#" className="hover:text-indigo-600 transition">
-                                Products
-                            </a>
-                            <a href="#" className="hover:text-indigo-600 transition">
-                                About
-                            </a>
-                            <a href="#" className="hover:text-indigo-600 transition">
-                                Contact
-                            </a>
-                        </nav>
-                        {/* Icons (Search, Cart, Profile) */}
-                        <div className="flex items-center space-x-4">
-                            <button className="text-gray-600 hover:text-indigo-600 transition">
-                                <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
-                                </svg>
-                            </button>
-                            <button className="relative text-gray-600 hover:text-indigo-600 transition">
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M3 3h2l.4 2M7 13h14l-1.35 6.4a2 2 0 01-2 .6H7a2 2 0 01-2-1.6L3 6h18" />
-                                </svg>
-                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
-                                    3
-                                </span>
-                            </button>
-                            <button className="text-gray-600 hover:text-indigo-600 transition">
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M5.121 17.804A9 9 0 1117.803 5.121M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </button>
-                        </div>
-                        {/* Mobile Menu Button */}
-                        <div className="md:hidden">
-                            <button className="text-gray-600 hover:text-indigo-600">
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </header>
-        </>
-    )
-}
+const Header = () => {
+  return (
+    <div className="font-sans text-sm border-b">
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-6 py-2 text-gray-700 bg-white">
+        <div className="flex items-center space-x-4">
+          <span className="text-xs bg-gray-100 px-2 py-1 rounded">Hotline 24/7</span>
+          <strong>(025) 3886 25 16</strong>
+        </div>
+        <div className="flex items-center space-x-4">
+          <a href="#" className="hover:underline">Sell on Swoo</a>
+          <a href="#" className="hover:underline">Order Tracki</a>
+          <div className="flex items-center space-x-1">
+            <span>USD</span>
+            <IoMdArrowDropdown />
+          </div>
+          <div className="flex items-center space-x-1">
+            <img src="https://flagcdn.com/us.svg" alt="English" className="w-5 h-4" />
+            <IoMdArrowDropdown />
+          </div>
+        </div>
+      </div>
+
+      {/* Middle section */}
+      <div className="flex items-center justify-between px-6 py-4 bg-white">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-teal-600 rounded-full"></div>
+          <div className="font-bold leading-tight">
+            <div>SWOO</div>
+            <div>TECH MART</div>
+          </div>
+        </div>
+
+        <nav className="flex space-x-6 font-semibold">
+          <div className="flex items-center space-x-1 cursor-pointer">HOMES <IoMdArrowDropdown /></div>
+          <div className="flex items-center space-x-1 cursor-pointer">PAGES <IoMdArrowDropdown /></div>
+          <div className="flex items-center space-x-1 cursor-pointer">PRODUCTS <IoMdArrowDropdown /></div>
+          <div className="cursor-pointer">CONTACT</div>
+        </nav>
+
+        <div className="flex items-center space-x-4">
+          <div className="text-right">
+            <div className="text-xs text-gray-500">WELCOME</div>
+            <div className="font-semibold">LOG IN / REGISTER</div>
+          </div>
+          <div className="relative">
+            <FaShoppingCart className="text-xl" />
+            <span className="absolute -top-2 -right-3 bg-green-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">$</span>
+          </div>
+          <div className="font-bold">$1,689.00</div>
+        </div>
+      </div>
+
+      {/* Search + Info Bar */}
+      <div className="bg-teal-600 text-white px-6 py-3 flex items-center justify-between">
+        <div className="flex bg-white rounded-full overflow-hidden">
+          <button className="flex items-center px-4 text-black border-r">
+            All Categories <IoMdArrowDropdown className="ml-1" />
+          </button>
+          <input
+            type="text"
+            placeholder="Search anything..."
+            className="px-4 py-2 text-black outline-none"
+          />
+          <button className="px-4 bg-teal-600 text-white">
+            <FaSearch />
+          </button>
+        </div>
+
+        <div className="flex items-center space-x-10 text-sm font-medium">
+          <span>FREE SHIPPING OVER $199</span>
+          <span>30 DAYS MONEY BACK</span>
+          <span>100% SECURE PAYMENT</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Header;
