@@ -1,35 +1,39 @@
-// import axios from "axios";
-import { useContext, useEffect, } from "react";
-import { FaArrowLeft, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { FiEdit, FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { MainContext } from "../../../Context";
+import { MainContext } from '../../../Context';
 import Swal from 'sweetalert2'
-import axios from "axios";
+// import 'sweetalert2/src/sweetalert2.scss'
 
 
 
+const ViewColor = () => {
+    const { API_BASE_URL, getColors, colors, notify } = useContext(MainContext);
+    const { getCategories, categories } = useContext(MainContext);
 
-function ViewColor() {
-    const { API_BASE_URL, CATEGORY_URL, notify, getColor, color } = useContext(MainContext)
-    const { getCategory, Categories } = useContext(MainContext);
 
     function statusHandler(id) {
-        axios.patch(API_BASE_URL + COLOR_URL + `/status/${id}`).then(
-            (res) => {
-                notify(res.data.msg, res.data.flag)
-                if (res.data.flag === 1) {
-                    getCategory()
-                    // e.target.reset()
+        axios.patch(API_BASE_URL + CATEGORY_URL + `/status/${id}`).then(
+            (resp) => {
+                notify(resp.data.msg, resp.data.flag)
+                if (resp.data.flag === 1) {
+                    getCategories()
                 }
+
             }
         ).catch(
             (err) => {
-                console.log(err);
-                notify("Something is Wrong", 0)
-            })
+                console.log(err)
+                notify("Something is wrong", 0)
+
+            }
+        )
     }
 
     function deleteHandler(id) {
+
+
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -38,106 +42,105 @@ function ViewColor() {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(API_BASE_URL + COLOR_URL + `/delete/${id}`).then(
-                    (res) => {
-                        notify(res.data.msg, res.data.flag)
-                        if (res.data.flag === 1) {
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
-                                icon: "success"
-                            });
-                            getCategory()
-                        }
-                    }
-                ).catch((err) => {
-                    console.log(err);
-                    notify("Something is Wrong", 0)
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
                 });
+
+                axios.delete(API_BASE_URL + CATEGORY_URL + `/delete/${id}`).then(
+                    (resp) => {
+                        notify(resp.data.msg, resp.data.flag)
+                        if (resp.data.flag === 1) {
+                            getCategories()
+                        }
+
+                    }
+                ).catch(
+                    (err) => {
+                        console.log(err)
+                        notify("Something is wrong", 0)
+
+                    }
+                )
+
+
+
             }
-
         });
-    }
 
-    function editHandler(id) {
+
+
+
 
     }
 
 
     useEffect(
         () => {
-            getColor()
-        }, []
+            getColors()
+        },
+        []
     )
-    return (
-        <>
-            <div className="p-6 max-w-7xl mx-auto">
-                {/* Title & Add Button */}
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-semibold">Color / View</h1>
-                    <Link to={"/admin/color/add"} >
-                        <button className="cursor-pointer flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
-                            <FaPlus />
-                            Add Color
-                        </button>
-                    </Link>
-                </div>
 
-                {/* Table */}
-                <div className="overflow-x-auto shadow rounded-lg border border-gray-200">
-                    <table className="min-w-full bg-white text-left">
-                        <thead className="bg-gray-100">
+    return (
+        <div className="p-6">
+            <div className="bg-white rounded-2xl shadow-md p-6">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-semibold text-gray-700">Color / View</h2>
+                    <Link to="/admin/color/add" className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition">  <FiPlus className="text-lg" />
+                        Add Color</Link>
+
+                </div>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full text-sm">
+                        <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
                             <tr>
-                                <th className="py-3 px-4 font-semibold text-gray-700">ID</th>
-                                <th className="py-3 px-4 font-semibold text-gray-700">NAME</th>
-                                <th className="py-3 px-4 font-semibold text-gray-700">SLUG</th>
-                                <th className="py-3 px-4 font-semibold text-gray-700">HEX CODE</th>
-                                <th className="py-3 px-4 font-semibold text-gray-700">STATUS</th>
-                                <th className="py-3 px-4 font-semibold text-gray-700">ACTIONS</th>
-                                <th className="py-3 px-4 font-semibold text-gray-700">DELETE</th>
+                                <th className="p-4 text-left">ID</th>
+                                <th className="p-4 text-left">Name</th>
+                                <th className="p-4 text-left">Slug</th>
+                                <th className="p-4 text-left">HexCode</th>
+                                <th className="p-2 text-left">Status</th>
+                                <th className="p-4 text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="text-gray-600">
-                            {Array.isArray(color) &&
-                                color.map((color, index) => (
-                                    <tr key={index} className="shadow hover:bg-gray-50">
-                                        <td className="p-4">{index + 1}</td>
-                                        <td className="p-4">{color.name}</td>
-                                        <td className="p-4">{color.slug}</td>
-                                        <td style={{ background: color.hexcode }} className="p-2 rounded-full">
-                                            {/* <img width="25px" src={`${API_BASE_URL}/images/categories/${cat.Image}`} alt="" /> */}
-                                        </td>
-                                        <td className="">
-                                            <button onClick={() => statusHandler(color._id)} className={`${color.status ? 'bg-green-500' : 'bg-red-500'} p-3 text-white bg-amber-400 rounded-2xl`}>
-                                                {color.status === true ? "Active" : "Inactive"}
-                                            </button>
-                                        </td>
-                                        <td className="px-10 py-5 ">
-                                            <Link to={`/admin/color/edit/${color._id}`}>
-                                                <button onClick={() => editHandler(color._id)} className="text-blue-500 hover:text-blue-700">
-                                                    ✏️
-                                                </button>
-                                            </Link>
-                                        </td>
-                                        <td className="px-8 py-5">
+                            {/* Example rows */}
+                            {Array.isArray(colors) && colors.map((color, index) => (
+                                <tr className=" shadow hover:bg-gray-50">
+                                    <td className="p-4">{index + 1}</td>
+                                    <td className="p-4 font-medium">{color.name}</td>
+                                    <td className="p-4">{color.slug}</td>
+                                    <td className="p-4 ">
+                                        {color.hexcode}
+                                    </td>
+                                    <td className="p-4">
+                                        <button onClick={() => statusHandler(color._id)} className={`text-white px-4 rounded-2xl ${color.status ? 'bg-green-400' : 'bg-red-500'} hover:text-yellow-600 transition`}>{
+                                            color.status == true ?
+                                                "Active" : "Inactive"
+                                        }</button>
+                                    </td>
 
-                                            <button onClick={() => deleteHandler(color._id)} className="text-red-500 hover:text-red-700">
-                                                🗑️
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    
-                                ))}
+                                    <td className="p-4 flex justify-center gap-4">
+                                        <Link className="text-yellow-500 hover:text-yellow-600 transition" to={`/admin/category/edit/${color._id}`} >
+
+                                            <FiEdit className="text-lg" />
+                                        </Link>
+                                        <button onClick={() => deleteHandler(color._id)} className="text-yellow-500 hover:text-yellow-600 transition">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
-
                     </table>
                 </div>
             </div >
-        </>
+        </div >
     );
-}
+};
 
 export default ViewColor;

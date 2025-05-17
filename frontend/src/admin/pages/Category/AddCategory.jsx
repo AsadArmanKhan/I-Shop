@@ -39,8 +39,8 @@ export default function AddCategory() {
             }
         ).catch(
             (err) => {
-                console.log(err);
-                notify("Something is Wrong", 0)
+                console.log("Add category me dikkat h", err);
+                notify("Add category me dikkat h ", 0)
             }
         )
     }

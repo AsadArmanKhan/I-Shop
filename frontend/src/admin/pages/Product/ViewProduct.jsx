@@ -1,150 +1,163 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaEdit } from "react-icons/fa";
-import { MdPreview } from "react-icons/md";
-import { AiFillDelete } from "react-icons/ai";
+import { useContext, useEffect } from "react";
+import { FaEdit, FaTrash, FaRegEye } from "react-icons/fa";
+import { MainContext } from "../../../Context";
+import axios from "axios";
+import Swal from 'sweetalert2'
+import { VscDiffMultiple } from "react-icons/vsc";
+import { Link } from "react-router-dom";
 
-const dummyProducts = [
-    {
-        _id: "1",
-        name: "Samsung Galaxy S24",
-        slug: "samsung-galaxy-s24",
-        orignalPrice: 79999,
-        discountPercentage: 15,
-        finalPrice: 67999,
-        stock: true,
-        topSelling: true,
-        status: true,
-        thumbnail: "https://via.placeholder.com/150",
-    },
-    {
-        _id: "2",
-        name: "Sony Bravia 55'' 4K TV",
-        slug: "sony-bravia-55-4k-tv",
-        orignalPrice: 120000,
-        discountPercentage: 10,
-        finalPrice: 108000,
-        stock: false,
-        topSelling: false,
-        status: false,
-        thumbnail: "",
-    },
-    {
-        _id: "3",
-        name: "HP Pavilion Laptop",
-        slug: "hp-pavilion-laptop",
-        orignalPrice: 60000,
-        discountPercentage: 20,
-        finalPrice: 48000,
-        stock: true,
-        topSelling: false,
-        status: true,
-        thumbnail: "https://via.placeholder.com/150",
-    },
-];
+// import 'sweetalert2/src/sweetalert2.sc
+
+
 
 const ViewProduct = () => {
-    const navigate = useNavigate();
+  const { API_BASE_URL, PRODUCT_URL, notify } = useContext(MainContext)
+  const { getProduct, products } = useContext(MainContext);
 
-    return (
-        <div className="p-4">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold text-gray-800">Product List</h2>
-                <Link to={"/admin/product/add"}>
-                    <button
-                        className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition"
-                    >
-                        + Add Product
-                    </button>
-                </Link>
-            </div>
+  function statusHandler(id, flag) {
+    axios.patch(API_BASE_URL + PRODUCT_URL + `/status/${id}`, { flag }).then(
+      (response) => {
+        notify(response.data.msg, response.data.flag)
+        if (response.data.flag === 1) {
+          getProduct()
+        }
 
-            <div className="overflow-x-auto">
-                <table className="min-w-full border border-gray-200 text-sm bg-white shadow-md rounded-lg">
-                    <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
-                        <tr>
-                            <th className="p-3 text-left">Thumbnail</th>
-                            <th className="p-3 text-left">Name</th>
-                            <th className="p-3 text-left">Category</th>
-                            <th className="p-3 text-left">Original Price</th>
-                            <th className="p-3 text-left">Discount (%)</th>
-                            <th className="p-3 text-left">Final Price</th>
-                            <th className="p-3 text-left">Stock</th>
-                            <th className="p-3 text-left">Top Selling</th>
-                            <th className="p-3 text-left">Status</th>
-                            <th className="p-3 text-left">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {dummyProducts.map((item) => (
-                            <tr key={item._id} className="border-t hover:bg-gray-50">
-                                <td className="p-3">
-                                    {item.thumbnail ? (
-                                        <img
-                                            src={item.thumbnail}
-                                            alt={item.name}
-                                            className="w-12 h-12 rounded object-cover border"
-                                        />
-                                    ) : (
-                                        <span className="italic text-gray-400">No Image</span>
-                                    )}
-                                </td>
-                                <td className="p-3">{item.name}</td>
-                                <td className="p-3">{item.slug}</td>
-                                <td className="p-3">₹{item.orignalPrice}</td>
-                                <td className="p-3">{item.discountPercentage}%</td>
-                                <td className="p-3 text-green-600 font-semibold">₹{item.finalPrice}</td>
-                                <td className="p-3">
-                                    <span
-                                        className={`px-2 py-1 text-xs font-medium rounded-full ${item.stock ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"
-                                            }`}
-                                    >
-                                        {item.stock ? "In Stock" : "Out of Stock"}
-                                    </span>
-                                </td>
-                                <td className="p-3">
-                                    <span
-                                        className={`px-2 py-1 text-xs font-medium rounded-full ${item.topSelling ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-500"
-                                            }`}
-                                    >
-                                        {item.topSelling ? "Yes" : "No"}
-                                    </span>
-                                </td>
-                                <td className="p-3">
-                                    <span
-                                        className={`px-2 py-1 text-xs font-medium rounded-full ${item.status ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"
-                                            }`}
-                                    >
-                                        {item.status ? "Active" : "Inactive"}
-                                    </span>
-                                </td>
-                                <td className="p-5 space-x-2">
-                                    <button
-                                        onClick={() => navigate(`/edit-product/${item._id}`)}
-                                        className="px-3 py-3 text-xs text-white bg-yellow-500 rounded hover:bg-yellow-600"
-                                    >
-                                        <FaEdit />
-                                    </button>
-                                    <button
-                                        onClick={() => navigate(`/edit-product/${item._id}`)}
-                                        className="px-3 py-3 text-xs text-white bg-black rounded hover:bg-yellow-600"
-                                    >
-                                        <MdPreview />
-                                    </button>
-                                    <button
-                                        onClick={() => alert(`Delete product ${item._id}`)}
-                                        className="px-3 py-3 text-xs text-white bg-red-500 rounded hover:bg-red-600"
-                                    >
-                                        <AiFillDelete />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
+      }
+    ).catch(
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  function deleteHandler(id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+        axios.delete(API_BASE_URL + PRODUCT_URL + `/delete/${id}`).then(
+          (response) => {
+            notify(response.data.msg, response.data.flag)
+            if (response.data.flag === 1) {
+              getProduct()
+            }
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        )
+
+
+      }
+    });
+
+
+
+  }
+
+
+  useEffect(
+    () => {
+      getProduct()
+    },
+    []
+  )
+
+  return (
+    <div className="overflow-x-auto bg-white rounded-xl shadow-lg p-4">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Name</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Category</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700"> </th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700"> Price</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700"> disc</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Stock</th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Top Selling</th>
+            <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100">
+          {products.map((product) => (
+            <tr key={product._id} className="hover:bg-gray-50">
+              <td className="px-4 py-3 text-sm text-gray-900">{product.name}</td>
+              <td className="px-10 py-3 text-sm text-gray-700">{product.category || "-"}</td>
+                <td className="" > {product.originalPrice}</td>
+                <td className="px-4 py-3">{product.finalPrice}</td>
+                <td className="px-4 py-3">{product.discountPercentage}%</td>
+
+              <td className="px-4 py-3 text-sm">
+                {product.status ? (
+                  <span onClick={() => statusHandler(product._id, 1)} className="text-green-600 font-medium cursor-pointer">Active</span>
+                ) : (
+                  <span onClick={() => statusHandler(product._id, 1)} className="text-red-600 font-medium cursor-pointer">Inactive</span>
+                )}
+              </td>
+              <td className="px-4 py-3 text-sm">
+                {product.stock ? (
+                  <span onClick={() => statusHandler(product._id, 2)} className="text-green-600  cursor-pointerfont-medium">In Stock</span>
+                ) : (
+                  <span onClick={() => statusHandler(product._id, 2)} className="text-red-600 cursor-pointer font-medium">Out of Stock</span>
+                )}
+              </td>
+              <td className="px-4 py-3 text-sm">
+                {product.topSelling ? (
+                  <span onClick={() => statusHandler(product._id, 3)} className="text-indigo-600 cursor-pointer font-medium">Yes</span>
+                ) : (
+                  <span onClick={() => statusHandler(product._id, 3)} className="text-gray-500 cursor-pointer">No</span>
+                )}
+              </td>
+              <td className="px-4 py-3 text-center">
+                <button
+                  title="Edit"
+                  className="text-blue-600 hover:text-blue-800 mx-1"
+                >
+                  <FaEdit />
+                </button>
+                <button
+                  onClick={() => deleteHandler(product._id)}
+                  title="Delete"
+                  className="text-red-600 hover:text-red-800 mx-1"
+                >
+                  <FaTrash />
+                </button>
+                <button
+                  title="Delete"
+                  className="text-red-600 hover:text-red-800 mx-1"
+                >
+                  <FaRegEye />
+                </button>
+                <Link to={`/admin/product/multiple/${product._id}`}>
+                  <button
+                    title="Delete"
+                    className="text-red-600 hover:text-red-800 mx-1"
+                  >
+                    <VscDiffMultiple />
+
+                  </button></Link>
+
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
 export default ViewProduct;

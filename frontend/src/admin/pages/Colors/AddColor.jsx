@@ -8,7 +8,7 @@ export default function AddColor() {
 
     const formData = new FormData();
 
-    const { API_BASE_URL, CATEGORY_URL, COLOR_URL, notify } = useContext(MainContext)
+    const { API_BASE_URL, COLOR_URL, notify } = useContext(MainContext)
     const nameref = useRef();
     const slugref = useRef();
     // const fileRef = useRef();
@@ -33,13 +33,13 @@ export default function AddColor() {
             (res) => {
                 notify(res.data.msg, res.data.flag);
                 if (res.data.flag === 1) {
-                    // e.target.reset();
+                    e.target.reset();
                 }
             }
         ).catch(
             (err) => {
                 console.log(err);
-                notify("Something is Wrong", 0)
+                notify("Dikkat Add color me h ", 0)
             }
         )
     }
@@ -96,7 +96,7 @@ export default function AddColor() {
                             type="color"
                             // ref={fileRef}
                             name="hexcode"
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="w-full h-[50px] px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                     </div>
 

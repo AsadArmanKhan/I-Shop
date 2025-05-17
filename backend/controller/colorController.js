@@ -66,7 +66,7 @@ const colorController = {
 
 
         } catch (error) {
-            res.send({ msg: "Kuch na Kuch gad bad h", flag: 0, error })
+            res.send({ msg: "Color controller me dikkat h ", flag: 0, error })
             // console.log(error);
         }
     },
