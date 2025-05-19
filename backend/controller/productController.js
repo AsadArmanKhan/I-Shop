@@ -1,6 +1,8 @@
 const ProductModel = require("../model/productModel");
 const { createUniqueImageName } = require("../helper");
-const { unlinkSync } = require("fs")
+const { unlinkSync } = require("fs");
+const { update } = require("./categoryController");
+const productModel = require("../model/productModel");
 
 const productController = {
     async create(req, res) {
@@ -147,6 +149,80 @@ const productController = {
 
         } catch (error) {
             res.send({ msg: "Internal server error", flag: 0 })
+        }
+    },
+    async update(req, res) {
+        try {
+            const id = req.params.id;
+            const image = req.files && req.files.Image ? req.files.Image : null;
+            const product = await productModel.findById(id);
+            if (!product) {
+                return res.send({ msg: "No catigories found", flag: 0 })
+            }
+
+            if (image) {
+                //All field update
+                const productImage = createUniqueImageName(image.name);
+                const destination = `./public/images/categories/${productImage}`;
+                image.mv(
+                    destination,
+                    async (err) => {
+                        if (err) {
+                            return res.send({ msg: "Unable to update Product Image ", flag: 0 })
+
+                        } else {
+                            try {
+
+
+                                await ProductModel.updateOne(
+                                    {
+                                        _id: id
+                                    },
+                                    {
+                                     ...req.body,
+                                     thumbnail: productImage,
+                                    colors: JSON.parse(req.body.colors)
+                                    },
+                                );
+                                const oldImagePath = `./public/images/categories/${product.thumbnail}`;
+                                if (fs.existsSync(oldImagePath)) {
+                                    fs.unlinkSync(oldImagePath);
+                                }
+                            } catch (error) {
+
+                                res.send({ msg: "Unable to update Product", flag: 0, error })
+                                console.log(error);
+
+                            }
+                        }
+                    }
+                )
+
+            } else {
+                await productModel.updateOne(
+                    {
+                        _id: id
+                    },
+                    {
+                        name: req.body.name,
+                        slug: req.body.slug,
+                        // image: categoryImage
+                    },
+
+                ).then(
+                    () => {
+                        res.send({ msg: "Product updated succsefully", flag: 1 })
+                    }
+                ).catch(
+                    (error) => {
+                        res.send({ msg: "Unable to update Product", flag: 0, error })
+                        console.log(error);
+                    }
+                )
+            }
+        } catch (error) {
+            res.send({ msg: "Kuch na Kuch gad bad h", flag: 0, error })
+            console.log(error);
         }
     },
     async multiple(req, res) {

@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import { MainContext } from "../../../Context";
 import Select from 'react-select'
 import axios from "axios";
+import { Link } from "react-router-dom"; // Make sure this is at the top
 
 
 export default function AddProduct() {
@@ -68,6 +69,14 @@ export default function AddProduct() {
     return (
         <section className="bg-white">
             <div className="py-10 px-6 mx-auto max-w-5xl lg:py-20">
+                <div className="mb-6">
+                    <Link to="/admin/product">
+                        <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg transition-all duration-200 shadow-sm">
+                            ← Back to View
+                        </button>
+                    </Link>
+                </div>
+
                 <h2 className="mb-6 text-2xl font-bold text-gray-900">Add a New Product</h2>
                 <form onSubmit={submitHandler} className="space-y-8">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

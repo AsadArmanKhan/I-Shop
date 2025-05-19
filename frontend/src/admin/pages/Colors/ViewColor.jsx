@@ -125,7 +125,7 @@ const ViewColor = () => {
                                     </td>
 
                                     <td className="p-4 flex justify-center gap-4">
-                                        <Link className="text-yellow-500 hover:text-yellow-600 transition" to={`/admin/category/edit/${color._id}`} >
+                                        <Link className="text-yellow-500 hover:text-yellow-600 transition" to={`/admin/color/edit/${color._id}`} >
 
                                             <FiEdit className="text-lg" />
                                         </Link>

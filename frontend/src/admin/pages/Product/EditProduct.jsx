@@ -1,13 +1,24 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import { MainContext } from '../../../Context';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useRef, useState } from "react";
+// import { FaPlus } from "react-icons/fa";
+import { MainContext } from "../../../Context";
+import Select from 'react-select'
+import axios from "axios";
+import { Link, useParams } from "react-router-dom"; // Make sure this is at the top
 
-const EditCategory = () => {
-    const { categoryId } = useParams()
-    const { API_BASE_URL, CATEGORY_URL, notify, getCategories, categories } = useContext(MainContext)
+
+export default function EditProduct() {
+    const { API_BASE_URL, PRODUCT_URL, getColors, colors, notify, getCategory, Categories, products, getProduct } = useContext(MainContext)
+    const [selcolors, setSelColors] = useState([]);
+    const { productId } = useParams()
+
+    // console.log(products)
+
     const nameRef = useRef();
     const slugRef = useRef();
+    const originalPriceRef = useRef();
+    const discountPerRef = useRef()
+    const finalPriceRef = useRef();
+
 
     function handleNameChange() {
         const name = nameRef.current.value;
@@ -15,121 +26,248 @@ const EditCategory = () => {
         slugRef.current.value = slug;
     }
 
-
-
-    function submiHandle(e) {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append("name", nameRef.current.value);
-        formData.append("slug", slugRef.current.value);
-        formData.append("image", e.target.category_image.files[0])
-
-        axios.put(API_BASE_URL + CATEGORY_URL + "/update/" + categoryId, formData).then(
-            (resp) => {
-                notify(resp.data.msg, resp.data.flag)
-                if (resp.data.flag === 1) {
-                    e.target.reset()
-                }
-
-            }
-        ).catch(
-            (err) => {
-                console.log(err)
-                notify("Something is wrong", 0)
-
-
-            }
-        )
+    function finalPriceCal() {
+        const op = originalPriceRef.current.value;
+        const dp = discountPerRef.current.value;
+        const fp = Math.floor(op - (op * (dp / 100)));
+        finalPriceRef.current.value = fp;
 
     }
 
+    function submitHandler(e) {
+        e.preventDefault();
+        const formData = new FormData()
+        formData.append('name', nameRef.current.value);
+        formData.append('slug', slugRef.current.value);
+        formData.append('originalPrice', originalPriceRef.current.value);
+        formData.append('discountPercentage', discountPerRef.current.value);
+        formData.append('finalPrice', finalPriceRef.current.value);
+        formData.append('thumbnail', e.target.thumbnail.files[0]);
+        formData.append('shortDescription', e.target.shortDescription.value);
+        formData.append('longDescription', e.target.longDescription.value);
+        formData.append("categoryId", e.target.categoryId.value);
+        formData.append("colors", JSON.stringify(selcolors))
+
+        axios.put(API_BASE_URL + PRODUCT_URL + "/update/" + productId, formData).then(
+            (res) => {
+                notify(res.data.msg, res.data.flag);
+                if (res.data.flag === 1) {
+                    e.target.reset();
+                }
+            }
+        ).catch(
+            (err) => {
+                console.log("Add Product me dikkat h", err);
+                notify("Add Product me dikkat h ", 0)
+            }
+        )
+    }
     useEffect(
         () => {
-            getCategories(categoryId)
+            getCategory()
+            getColors()
+            getProduct(productId)
         },
-        [categoryId]
+        [productId]
     )
-
-
-
-
     return (
-        <div class="p-6">
-            <div class="bg-white rounded-2xl p-8">
-
-                <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-2xl font-bold text-gray-800">Category / Create</h2>
-                    <button class="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-all">
-                        Back to View
-                    </button>
+        <section className="bg-white">
+            <div className="py-10 px-6 mx-auto max-w-5xl lg:py-20">
+                <div className="mb-6">
+                    <Link to="/admin/product">
+                        <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg transition-all duration-200 shadow-sm">
+                            ← Back to View
+                        </button>
+                    </Link>
                 </div>
 
-
-                <div class="mx-auto p-8 rounded-xl">
-                    <form onSubmit={submiHandle} class="space-y-6">
-
+                <h2 className="mb-6 text-2xl font-bold text-gray-900">Add a New Product</h2>
+                <form onSubmit={submitHandler} className="space-y-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        {/* Name */}
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                                Category Name
+                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
+                                Product Name
                             </label>
                             <input
                                 type="text"
+                                name="na0me"
                                 id="name"
-                                defaultValue={categories?.name}
+                                defaultValue={products?.name}
                                 ref={nameRef}
                                 onChange={handleNameChange}
-                                placeholder="Enter category name"
-                                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                                className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
+                                placeholder="Product Name"
+                                required
                             />
                         </div>
 
-
+                        {/* Slug */}
                         <div>
-                            <label for="slug" class="block text-sm font-medium text-gray-700 mb-2">
-                                Category Slug
+                            <label htmlFor="slug" className="block mb-2 text-sm font-medium text-gray-900">
+                                Slug
                             </label>
                             <input
                                 type="text"
-                                id="slug"
+                                name="slug"
                                 ref={slugRef}
-                                defaultValue={categories?.slug}
-                                placeholder="Slug will be generated automatically"
-                                class="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-2 text-gray-600 focus:outline-none cursor-not-allowed"
-                                readonly
+                                defaultValue={products.slug}
+                                onChange={handleNameChange}
+                                readOnly
+                                id="slug"
+                                className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
+                                placeholder="product-name"
                             />
                         </div>
 
+                        <div className="col-span-full grid grid-cols-3 gap-4">
+                            {/* Original Price */}
+                            <div>
+                                <label htmlFor="originalPrice" className="block mb-2 text-sm font-medium text-gray-900">
+                                    Original Price
+                                </label>
+                                <input
+                                    type="number"
+                                    name="originalPrice"
+                                    ref={originalPriceRef}
+                                    defaultValue={products?.orignalPrice}
+                                    onChange={finalPriceCal}
+                                    id="originalPrice"
+                                    className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
+                                    placeholder="100"
+                                />
+                            </div>
 
+                            {/* Discount Percentage */}
+                            <div>
+                                <label htmlFor="discountPercentage" className="block mb-2 text-sm font-medium text-gray-900">
+                                    Discount Percentage
+                                </label>
+                                <input
+                                    type="number"
+                                    ref={discountPerRef}
+                                    defaultValue={products?.discountPercentage}
+                                    onChange={finalPriceCal}
+                                    name="discountPercentage"
+                                    id="discountPercentage"
+                                    className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
+                                    placeholder="2"
+                                />
+                            </div>
+
+                            {/* Final Price */}
+                            <div>
+                                <label htmlFor="finalPrice" className="block mb-2 text-sm font-medium text-gray-900">
+                                    Final Price
+                                </label>
+                                <input
+                                    type="number"
+                                    name="finalPrice"
+                                    ref={finalPriceRef}
+                                    defaultValue={products?.finalPrice}
+                                    readOnly
+                                    id="finalPrice"
+                                    className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
+                                    placeholder="99"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Category */}
                         <div>
-                            <label for="category-image" class="block text-sm font-medium text-gray-700 mb-2">
-                                Category Image
+                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">
+                                Category ID
                             </label>
-                            <input
-                                type="file"
-                                id="category-image"
-                                name="category_image"
-                                class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-600 focus:outline-none"
-                            />
+                            <Select name="categoryId" options={
+                                Categories.map(
+                                    (cat, index) => {
+                                        return { value: cat._id, label: cat.name }
 
-                            <img width={100} src={`${API_BASE_URL}images/category/${categories.image}`} alt="" />
+                                    }
+                                )
+                            } />
+
 
                         </div>
 
+                        {/* Colors */}
+                        <div>
+                            <label htmlFor="colors" className="block mb-2 text-sm font-medium text-gray-900">
+                                Colors (IDs, comma separated)
+                            </label>
+                            <Select
+                                onChange={
+                                    (color) => {
+                                        const col = color.map(o => o.value)
+                                        setSelColors(col)
+                                    }
+                                }
+                                isMulti closeMenuOnSelect={false} options={
+                                    colors.map(
+                                        (color, index) => {
+                                            return { value: color._id, label: color.name }
 
-                        <div class="pt-4">
-                            <button
-                                type="submit"
-                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all"
-                            >
-                                Create Category
-                            </button>
+                                        }
+                                    )
+                                } />
+
                         </div>
-                    </form>
-                </div>
+                        {/* Short Description */}
+                        <div className="sm:col-span-2">
+                            <label htmlFor="shortDescription" className="block mb-2 text-sm font-medium text-gray-900">
+                                Short Description
+                            </label>
+                            <textarea
+                                id="shortDescription"
+                                name="shortDescription"
+                                defaultValue={products?.shortDescription}
+                                rows="4"
+                                className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
+                                placeholder="Short description here"
+                            ></textarea>
+                        </div>
+
+                        {/* Long Description */}
+                        <div className="sm:col-span-2">
+                            <label htmlFor="longDescription" className="block mb-2 text-sm font-medium text-gray-900">
+                                Long Description
+                            </label>
+                            <textarea
+                                id="longDescription"
+                                name="longDescription"
+                                defaultValue={products?.longDescription}
+                                rows="6"
+                                className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
+                                placeholder="Detailed description here"
+                            ></textarea>
+                        </div>
+                    </div>
+                    {/* Thumbnail */}
+                    <div className="col-span-full">
+                        <label htmlFor="thumbnail" className="block   mb-2 text-sm font-medium text-gray-900">
+                            Thumbnail
+                        </label>
+                        <input
+                            type="file"
+                            name="thumbnail"
+                            id="thumbnail"
+                            // defaultValue={products?.thumbnail}
+                            className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
+                            placeholder="https://example.com/image.jpg"
+                        />
+                        <img width="250px" src={`${API_BASE_URL}/images/product/${products?.thumbnail}`} alt="" />
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="inline-flex items-center gap-2 rounded-xl bg-primary-600 px-6 py-3 text-sm font-medium text-balck shadow-md hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300"
+                    >
+                        Save
+                    </button>
+                </form>
             </div>
-        </div>
-
+        </section>
     );
 };
 
-export default EditCategory;

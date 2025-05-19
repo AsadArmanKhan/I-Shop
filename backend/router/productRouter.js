@@ -10,6 +10,7 @@ productRouter.get("/:id?", productController.getdata);
 productRouter.patch("/status/:id", productController.status);
 productRouter.delete("/delete/:id", productController.delete);
 productRouter.patch("/multiple-images/:id", fileupload({ createParentPath: true }), productController.multiple);
+productRouter.put("/update/:id", fileupload({ createParentPath: true }), productController.update),
 
-module.exports = productRouter;
+    module.exports = productRouter;
 

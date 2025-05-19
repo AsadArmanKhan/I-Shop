@@ -11,6 +11,9 @@ import ViewColor from './admin/pages/Colors/ViewColor'
 import AddColor from './admin/pages/Colors/AddColor'
 import ViewProduct from './admin/pages/Product/ViewProduct'
 import AddProduct from './admin/pages/Product/AddProduct'
+import MultipleImage from './admin/pages/Product/MultipleImage'
+import EditProduct from './admin/pages/Product/EditProduct'
+import EditColor from './admin/pages/Colors/EditColor'
 
 export default function App() {
   const routers = createBrowserRouter([
@@ -56,12 +59,24 @@ export default function App() {
           element: <AddColor />
         },
         {
+          path: "color/edit/:colorId",
+          element: <EditColor />
+        },
+        {
           path: "product",
           element: <ViewProduct />
         },
         {
           path: "product/add",
           element: <AddProduct />
+        },
+        {
+          path: `product/multiple/:productId`,
+          element: <MultipleImage />
+        },
+        {
+          path: `product/edit/:productId`,
+          element: <EditProduct />
         }
       ]
     },
