@@ -14,6 +14,7 @@ import AddProduct from './admin/pages/Product/AddProduct'
 import MultipleImage from './admin/pages/Product/MultipleImage'
 import EditProduct from './admin/pages/Product/EditProduct'
 import EditColor from './admin/pages/Colors/EditColor'
+import AdminLogin from './admin/pages/AdminLogin'
 
 export default function App() {
   const routers = createBrowserRouter([
@@ -77,9 +78,15 @@ export default function App() {
         {
           path: `product/edit/:productId`,
           element: <EditProduct />
-        }
+        },
       ]
     },
+    {
+
+      path: "/admin/login",
+      element: <AdminLogin />
+
+    }
 
   ])
   return (
