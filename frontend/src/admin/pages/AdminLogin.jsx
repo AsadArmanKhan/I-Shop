@@ -1,17 +1,60 @@
+import axios from "axios"
+import React, { useContext } from "react";
+import { MainContext } from "../../Context";
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from "react-redux";
+
+
 export default function AdminLogin() {
+    const { API_BASE_URL, COLOR_URL, ADMIN_URL, notify } = useContext(MainContext)
+    const navigator = useNavigate()
+    const dispach = useDispatch()
+    const submitHandler = (e) => {
+        e.preventDefault();
+
+        const data = {
+            password: e.target.password.value,
+            email: e.target.email.value,
+        }
+        console.log(data);
+
+
+
+        axios.post(API_BASE_URL + ADMIN_URL + "/login", data).then(
+            (res) => {
+                notify(res.data.msg, res.data.flag);
+                if (res.data.flag === 1) {
+                    console.log(res.data?.admin);
+                    e.target.reset();
+                    navigator('/admin')
+                    dispach(setAdmin({
+                        data: res.data?.admin
+                    }
+                    ))
+                }
+            }
+        ).catch(
+            (err) => {
+                console.log(err);
+                notify("Dikkat Add color me h ", 0)
+            }
+        )
+    }
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-800 via-slate-700 to-gray-900
  p-4">
             <div className="w-full max-w-md bg-[#f0f8ff] text-gray-900 rounded-2xl shadow-2xl p-8">
                 <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Admin Login</h2>
 
-                <form className="space-y-6">
+                <form onSubmit={submitHandler} className="space-y-6">
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                             Email Address
                         </label>
                         <input
                             type="email"
+                            name="email"
                             id="email"
                             className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="admin@example.com"
@@ -25,6 +68,7 @@ export default function AdminLogin() {
                         </label>
                         <input
                             type="password"
+                            name="password"
                             id="password"
                             className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="••••••••"

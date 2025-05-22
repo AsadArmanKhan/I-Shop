@@ -15,7 +15,6 @@ const Card = () => {
 
   return (
     <>
-
       <div className="flex flex-col bg-gradient-to-br from-black to-gray-200 p-4 rounded-2xl overflow-hidden">
         <div className="flex">
           {/* Left Sidebar */}

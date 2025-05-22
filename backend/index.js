@@ -4,13 +4,15 @@ const cors = require("cors");
 const categoryRouter = require("./router/categoryRouter");
 const colorRouter = require("./router/colorRouter");
 const server = express();
-const productRouter = require("./router/productRouter")
+const productRouter = require("./router/productRouter");
+const adminRouter = require("./router/adminRouter");
 server.use(cors())
 server.use(express.json());
 server.use("/category", categoryRouter);
 server.use("/color", colorRouter);
 server.use("/product", productRouter)
-server.use(express.static("./public"))
+server.use("/admin", adminRouter)
+server.use(express.static("./public"));
 
 mongoose.connect("mongodb://localhost:27017/", { dbName: 'Ishop' }).then(
     (res) => {

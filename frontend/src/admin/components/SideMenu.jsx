@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     FiGrid,
     FiLayout,
     FiBox,
     FiLayers,
-    FiChevronDown,
 } from "react-icons/fi";
 import { FaProductHunt } from "react-icons/fa6";
 import { IoMdColorFill } from "react-icons/io";
 import { BiSolidCategory } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+// import { state } from "../../redux/slice/adminSlice";
+// import { state } from "../../redux/slice/adminSlice";
 
 
 
 // import { MdWhatshot } from "react-icons/md";
 
 const SideMenu = () => {
+
+
+    const admin = useSelector((state) => state.admin?.data)
+    const navigator = useNavigate()
+    useEffect(
+        () => {
+            if (admin == null) {
+                navigator("/admin/login")
+            }
+        },
+        [admin]
+    )
+
     return (
         <div className="w-full h-full bg-[#0f172a] text-white shadow-lg p-4 space-y-6">
             {/* Logo */}

@@ -15,6 +15,13 @@ import MultipleImage from './admin/pages/Product/MultipleImage'
 import EditProduct from './admin/pages/Product/EditProduct'
 import EditColor from './admin/pages/Colors/EditColor'
 import AdminLogin from './admin/pages/AdminLogin'
+import LoginPage from './website/pages/LoginPage'
+import RegisterPage from './website/pages/RegisterPage'
+import Card from './website/components/Card'
+import Cart from './website/pages/Cart'
+import Profile from './website/pages/Profile'
+import Homeeee from './website/pages/Homeeee'
+// import HomePage from './website/pages/Homeeee'
 
 export default function App() {
   const routers = createBrowserRouter([
@@ -25,8 +32,27 @@ export default function App() {
         {
           path: "/",
           element: <Home />
-
-        }
+        },
+        {
+          path: "/login",
+          element: <LoginPage />
+        },
+        {
+          path: "/register",
+          element: <RegisterPage />
+        },
+        {
+          path: "/cart",
+          element: <Cart />
+        },
+        {
+          path: "/profile",
+          element: <Profile />
+        },
+        {
+          path: "/ghar",
+          element: <Homeeee />
+        },
       ]
     },
 
@@ -91,9 +117,7 @@ export default function App() {
   ])
   return (
     <div>
-
       <RouterProvider router={routers} />
-
     </div>
   )
 }
