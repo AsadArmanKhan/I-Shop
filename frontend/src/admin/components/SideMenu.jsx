@@ -1,114 +1,148 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import {
     FiGrid,
     FiLayout,
+    FiChevronDown,
     FiBox,
-    FiLayers,
-} from "react-icons/fi";
+    FiCpu,
+    FiTrendingUp
+} from 'react-icons/fi';
 import { FaProductHunt } from "react-icons/fa6";
-import { IoMdColorFill } from "react-icons/io";
-import { BiSolidCategory } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-// import { state } from "../../redux/slice/adminSlice";
-// import { state } from "../../redux/slice/adminSlice";
+import { IoIosColorPalette } from "react-icons/io";
+import { TbCategoryFilled } from "react-icons/tb";
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logout, setAdmin } from '../../redux/slice/adminSlice';
 
 
 
-// import { MdWhatshot } from "react-icons/md";
 
 const SideMenu = () => {
-
-
-    const admin = useSelector((state) => state.admin?.data)
     const navigator = useNavigate()
+    const dispatcher = useDispatch()
+    const admin = useSelector((state) => state.admin?.data)
+
+    const getlsAdmin = () => {
+        const admin = localStorage.getItem("admin")
+        if (admin) {
+            const adminStamp = localStorage.getItem("adminTimeStamp");
+            const currentTime = new Date().getTime()
+            const rem = currentTime - adminStamp;
+            // console.log(rem);
+            if (rem > (10000 * 10000000)) {
+                navigator("login")
+                dispatcher(logout())
+                return undefined
+            } else {
+                return admin
+            }
+
+        } else {
+            return undefined
+        }
+    }
     useEffect(
         () => {
+            const admin = getlsAdmin();
             if (admin == null) {
-                navigator("/admin/login")
+                navigator('/admin/login')
+            } else {
+                navigator("/admin")
             }
+
         },
         [admin]
-    )
+    );
 
+    useEffect(
+        () => {
+            const admin = getlsAdmin();
+            if (admin) {
+                const Isadmin = JSON.parse(admin)
+                dispatcher(setAdmin(
+                    {
+                        admin: Isadmin
+                    }
+                ))
+            }
+        }, []
+    )
     return (
-        <div className="w-full h-full bg-[#0f172a] text-white shadow-lg p-4 space-y-6">
+        <div className="w-full h-screen bg-[#1e1e2f] text-gray-300 p-5">
             {/* Logo */}
-            <div className="text-3xl font-bold text-center tracking-wider">
-                <span className="text-white">ADMIN</span>
-                <span className="text-yellow-400">|</span>
-                <span className="text-white">ZONE</span>
+            <div className="text-white text-2xl font-bold mb-8 tracking-wide">
+                <span className="text-white">ISHOP</span>
+                <span className="text-yellow-400"> AD</span>
+                <span className="text-white">MIN</span>
             </div>
 
-            {/* Sections */}
+            {/* Menu Section */}
             <div className="space-y-4">
-                {/* Menu Section */}
-                <div>
-                    <h3 className="text-xs text-gray-400 uppercase mb-2">Menu</h3>
-                    <ul className="space-y-2">
-                        <Link to={"/admin"}>
-                            <li className="flex items-center justify-between text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                                <span className="flex items-center gap-2">
-                                    <FiGrid />
-                                    Dashboards
-                                </span>
-                            </li>
-                        </Link>
-                        <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                            <FiLayout />
-                            Apps
-                        </li>
-                        <li className="flex items-center justify-between text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                            <span className="flex items-center gap-2">
-                                <FiLayout />
-                                Layouts
-                            </span>
-                            <span className="bg-red-600 text-white text-[10px] font-semibold px-2 py-[2px] rounded-full">
-                                HOT
-                            </span>
-                        </li>
-                    </ul>
+                <div className="uppercase text-xs text-gray-500 font-semibold">Menu</div>
+
+                <div className="flex items-center justify-between hover:text-white cursor-pointer">
+                    <Link to="/admin">
+                        <div className="flex items-center gap-3">
+                            <FiTrendingUp className="text-lg" />
+                            <span>Dashboards</span>
+                        </div>
+                    </Link>
+
+
                 </div>
 
-                {/* Pages Section */}
-                <div>
-                    <h3 className="text-xs text-gray-400 uppercase mb-2">Pages</h3>
-                    <ul className="space-y-2">
-                        <Link to={"/admin/category"}>
-                            <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                                <BiSolidCategory />
-                                Category
-                            </li>
-                        </Link>
-                        <Link to={"/admin/color"}>
-                            <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                                <IoMdColorFill />
-                                Colors
-                            </li>
-                        </Link>
-                        <Link to={"/admin/product"}>
-                            <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                                <FaProductHunt />
-
-                                Product
-                            </li>
-                        </Link>
-                    </ul>
+                <div className="flex items-center justify-between hover:text-white cursor-pointer">
+                    <div className="flex items-center gap-3">
+                        <FiGrid className="text-lg" />
+                        <span>Apps</span>
+                    </div>
+                    <FiChevronDown className="text-sm" />
                 </div>
 
-                {/* Components Section */}
-                <div>
-                    <h3 className="text-xs text-gray-400 uppercase mb-2">Components</h3>
-                    <ul className="space-y-2">
-                        <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                            <FiBox />
-                            Base UI
-                        </li>
-                        <li className="flex items-center gap-2 text-sm hover:bg-slate-800 rounded-md px-3 py-2 cursor-pointer">
-                            <FiLayers />
-                            Advance UI
-                        </li>
-                    </ul>
+                <div className="flex items-center gap-3 hover:text-white cursor-pointer">
+                    <FiLayout className="text-lg" />
+                    <span>Layouts</span>
+                    <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full font-semibold">Hot</span>
+                </div>
+            </div>
+
+            {/* Pages Section */}
+            <div className="mt-8 space-y-4">
+                <div className="uppercase text-xs text-gray-500 font-semibold">Pages</div>
+                <Link className="flex items-center gap-3 hover:text-white cursor-pointer" to="/admin/category">
+
+                    <TbCategoryFilled className="text-lg" />
+                    <span>Category</span>
+                </Link>
+
+                <Link to="/admin/color" className="flex items-center gap-3 hover:text-white cursor-pointer">
+                    <IoIosColorPalette className="text-lg" />
+                    <span>Color</span>
+
+                </Link>
+
+                <Link to="/admin/product" className="flex items-center gap-3 hover:text-white cursor-pointer">
+                    <FaProductHunt className="text-lg" />
+                    <span>Product</span>
+
+                </Link>
+            </div>
+
+            {/* Components Section */}
+            <div className="mt-8 space-y-4">
+                <div className="uppercase text-xs text-gray-500 font-semibold">Components</div>
+
+                <div className="flex items-center gap-3 hover:text-white cursor-pointer">
+                    <FiBox className="text-lg" />
+                    <span>Base UI</span>
+
+                </div>
+
+                <div className="flex items-center gap-3 hover:text-white cursor-pointer">
+                    <FiCpu className="text-lg" />
+                    <span>Advance UI</span>
+
                 </div>
             </div>
         </div>

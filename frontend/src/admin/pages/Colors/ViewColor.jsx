@@ -9,7 +9,7 @@ import Swal from 'sweetalert2'
 
 
 const ViewColor = () => {
-    const { API_BASE_URL, getColors, colors, notify } = useContext(MainContext);
+    const { API_BASE_URL,COLOR_URL,CATEGORY_URL, getColors, colors, notify } = useContext(MainContext);
     const { getCategories, categories } = useContext(MainContext);
 
 

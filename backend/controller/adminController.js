@@ -1,3 +1,4 @@
+const { generateToken } = require("../helper");
 const adminModel = require("../model/adminModel");
 const express = require("express");
 // const colorModel = require("../model/colorModel");
@@ -10,12 +11,17 @@ const adminController = {
             console.log(req.body);
 
             if (!password || !email) {
-                return res.send({ msg:"All field is required", flag:0 });
+                return res.send({ msg: "All field is required", flag: 0 });
             };
             const admin = await adminModel.findOne({ email: email });
             if (admin) {
                 if (admin.password == password) {
-                    res.send({ msg: "Login succesfully", flag: 1, admin: { ...admin.toJSON, password: null } });
+                    res.send({
+                        msg: "Login succesfully",
+                        flag: 1,
+                        admin: { ...admin.toJSON, password: null },
+                        token: generateToken({ ...admin.toJSON() })
+                    }); 
                 } else {
                     res.send({ msg: "Incorrect password", flag: 0 });
                 }

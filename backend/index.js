@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -14,7 +15,7 @@ server.use("/product", productRouter)
 server.use("/admin", adminRouter)
 server.use(express.static("./public"));
 
-mongoose.connect("mongodb://localhost:27017/", { dbName: 'Ishop' }).then(
+mongoose.connect(process.env.MONGODB,{ dbName: 'Ishop' }).then(
     (res) => {
         server.listen(5000, () => {
             console.log("Server in runng on port no. 5000");

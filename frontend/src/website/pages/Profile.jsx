@@ -14,7 +14,6 @@ export default function Profile() {
             </Link>
             {' / '}
             <span>pages</span>
-            {' / '}
             <span className="font-bold text-black">Profile</span>
           </nav>
         </div>

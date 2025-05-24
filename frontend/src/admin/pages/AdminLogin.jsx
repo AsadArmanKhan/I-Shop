@@ -1,45 +1,96 @@
-import axios from "axios"
-import React, { useContext } from "react";
-import { MainContext } from "../../Context";
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from "react-redux";
-
+import React, { useContext } from 'react';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { MainContext } from '../../Context';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setAdmin, logout } from '../../redux/slice/adminSlice';
 
 export default function AdminLogin() {
-    const { API_BASE_URL, COLOR_URL, ADMIN_URL, notify } = useContext(MainContext)
+    const { API_BASE_URL, ADMIN_URL, notify } = useContext(MainContext)
     const navigator = useNavigate()
-    const dispach = useDispatch()
-    const submitHandler = (e) => {
+    const dispatcher = useDispatch()
+    function submitHandler(e) {
         e.preventDefault();
-
         const data = {
-            password: e.target.password.value,
             email: e.target.email.value,
+            password: e.target.password.value,
         }
-        console.log(data);
-
-
+        console.log("Hello")
 
         axios.post(API_BASE_URL + ADMIN_URL + "/login", data).then(
-            (res) => {
-                notify(res.data.msg, res.data.flag);
-                if (res.data.flag === 1) {
-                    console.log(res.data?.admin);
-                    e.target.reset();
-                    navigator('/admin')
-                    dispach(setAdmin({
-                        data: res.data?.admin
-                    }
+            (resp) => {
+                // console.log();
+
+                notify(resp.data.msg, resp.data.flag)
+                if (resp.data.flag === 1) {
+                    console.log(resp.data?.admin)
+                    e.target.reset()
+                    navigator("/admin")
+                    dispatcher(setAdmin(
+                        {
+                            admin: resp.data?.admin,
+
+                            token: resp.data.token
+                        }
                     ))
                 }
+
             }
         ).catch(
             (err) => {
-                console.log(err);
-                notify("Dikkat Add color me h ", 0)
+                console.log(err)
+                notify("Login me dikkat h", 0)
+
+
             }
         )
+
     }
+
+
+    // import axios from "axios"
+    // import React, { useContext } from "react";
+    // import { MainContext } from "../../Context";
+    // import { useNavigate } from 'react-router-dom'
+    // import { useDispatch } from "react-redux";
+
+
+    // export default function AdminLogin() {
+    //     const { API_BASE_URL, COLOR_URL, ADMIN_URL, notify } = useContext(MainContext)
+    //     const navigator = useNavigate()
+    //     const dispach = useDispatch()
+    //     const submitHandler = (e) => {
+    //         e.preventDefault();
+
+    //         const data = {
+    //             password: e.target.password.value,
+    //             email: e.target.email.value,
+    //         }
+    //         console.log(data);
+
+
+
+    //         axios.post(API_BASE_URL + ADMIN_URL + "/login", data).then(
+    //             (res) => {
+    //                 notify(res.data.msg, res.data.flag);
+    //                 if (res.data.flag === 1) {
+    //                     console.log(res.data?.admin);
+    //                     e.target.reset();
+    //                     navigator('/admin')
+    //                     dispach(setAdmin({
+    //                         data: res.data?.admin
+    //                     }
+    //                     ))
+    //                 }
+    //             }
+    //         ).catch(
+    //             (err) => {
+    //                 console.log(err);
+    //                 notify("Dikkat Add color me h ", 0)
+    //             }
+    //         )
+    //     }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-800 via-slate-700 to-gray-900

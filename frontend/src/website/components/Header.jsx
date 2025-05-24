@@ -1,8 +1,13 @@
+// import { defineConfig } from "vite";
+// import tailwindcss from "@tailwindcss/vite";
+// import react from "@vitejs/plugin-react";
 import React from 'react';
 import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+
+
 
 const Header = () => {
   return (
@@ -55,19 +60,18 @@ const Header = () => {
             <motion.div whileHover={{ scale: 1.1 }} className="cursor-pointer">PRODUCTS</motion.div>
           </Link>
           <motion.div whileHover={{ scale: 1.1 }} className="cursor-pointer">CONTACT</motion.div>
-          <motion.div whileHover={{ scale: 1.1 }} className="cursor-pointer">PROFILE</motion.div>
+          <Link to={"/profile"}>
+            <motion.div whileHover={{ scale: 1.1 }} className="cursor-pointer">PROFILE</motion.div>
+          </Link>
         </nav>
 
         <div className="flex items-center space-x-4">
           <div className="flex text-right space-x-1">
             <Link to={"/login"}>
-              <div className="font-semibold hover:text-teal-600 transition">LOG IN |</div>
+              <div className="font-semibold text-black hover:text-teal-600 transition">LOG IN |</div>
             </Link>
             <Link to={"/register"}>
-              <div className="font-semibold hover:text-teal-600 transition">| REGISTER |</div>
-            </Link>
-            <Link to={"/profile"}>
-              <div className="font-semibold hover:text-teal-600 transition">| PROFILE</div>
+              <div className="font-semibold text-black hover:text-teal-600 transition">| REGISTER |</div>
             </Link>
           </div>
 
