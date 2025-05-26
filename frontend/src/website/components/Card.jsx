@@ -12,7 +12,6 @@ const Card = () => {
     { label: "Tablets", icon: <TbDeviceTabletShare />, count: 4 },
     { label: "Cameras", icon: <FaCameraRetro />, count: 5 },
   ];
-
   return (
     <>
       <div className="flex flex-col bg-gradient-to-br from-black to-gray-200 p-4 rounded-2xl overflow-hidden">

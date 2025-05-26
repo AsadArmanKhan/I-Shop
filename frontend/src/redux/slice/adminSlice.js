@@ -14,25 +14,28 @@ export const adminSlice = createSlice({
             state.token = payload.token;
             // return console.log(payload.token);
             localStorage.setItem("admin", JSON.stringify(payload.admin));
-            localStorage.setItem("adminTimeStamp", new Date().getTime());
             localStorage.setItem("token", state.token)
+            localStorage.setItem("adminTimeStamp", new Date().getTime());
             console.log(state.token);
         },
-        // logout() {
-        //     state.data = null;
-        //     localStorage.removeItem("admin")
-        //     localStorage.removeItem("adminTimeStamp")
-        // },
-        lsAdmin(state) {
-            const admin = localStorage.getItem("admin")
-            
+        logout(state) {
+            state.data = null;
+            state.token = null;
 
-            console.log(admin)
-            if (admin) {
-                state.data = payload.admin;
-                state.token = localStorage.getItem("token")  
-            }
-        }
+            localStorage.removeItem("admin")
+            localStorage.removeItem("token");
+            localStorage.removeItem("adminTimeStamp")
+        },
+        // lsAdmin(state) {
+        //     const storedAdmin = localStorage.getItem("admin")
+        //     const storedToken = localStorage.getItem("token");
+        //     console.log(storedAdmin)
+        //     if (storedAdmin && storedToken) {
+        //         state.data = JSON.parse(storedAdmin);
+        //         // console.log(payload.ad);
+        //         state.token = storedToken;
+        //     }
+        // }
 
     },
 })
@@ -41,25 +44,3 @@ export const adminSlice = createSlice({
 export const { setAdmin, lsAdmin, logout } = adminSlice.actions
 
 export default adminSlice.reducer
-
-// import { createSlice } from '@reduxjs/toolkit'
-
-
-// const initialState = {
-
-//     data: null,
-
-// }
-// export const adminSlice = createSlice({
-//     name: 'admin',
-//     initialState,
-//     reducers: {
-//         setAdmin(state, action) {
-//             console.log(action,"admin information");
-//         }
-//     }
-// })
-// // Action creators are generated for each case reducer function
-// export const { setAdmin, } = adminSlice.actions
-
-// export default adminSlice.reducer

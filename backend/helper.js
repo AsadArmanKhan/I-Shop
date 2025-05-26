@@ -7,5 +7,4 @@ function createUniqueImageName(Image) {
 
 const generateToken = (token) => jwt.sign(token, process.env.SECRET_KEY);
 const verifyToken = (token) => jwt.verify(token, process.env.SECRET_KEY);
-
 module.exports = { createUniqueImageName, generateToken, verifyToken };

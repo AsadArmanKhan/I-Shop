@@ -3,9 +3,12 @@ import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios"
 import { MainContext } from "../../../Context";
+import { useSelector } from "react-redux";
 
 export default function AddCategory() {
-
+    const admin = useSelector((state) => state.admin)
+    console.log("admin in AddCategory:", admin);    
+    console.log(admin);
     const formData = new FormData();
 
     const { API_BASE_URL, CATEGORY_URL, notify } = useContext(MainContext)
@@ -29,20 +32,27 @@ export default function AddCategory() {
         // console.log(e.target.categoryImage.files[0]);
         // return
         // formData.append("file", fileRef.current.files[0]);
+        // console.log("Token being sent:", admin?.token);
 
-        axios.post(API_BASE_URL + CATEGORY_URL + "/create", formData).then(
-            (res) => {
-                notify(res.data.msg, res.data.flag);
-                if (res.data.flag === 1) {
-                    e.target.reset();
+        axios.post(API_BASE_URL + CATEGORY_URL + "/create", formData,
+            {
+                headers: {
+                    Authorization: admin?.token
                 }
-            }
-        ).catch(
-            (err) => {
-                console.log("Add category me dikkat h", err);
-                notify("Add category me dikkat h ", 0)
-            }
-        )
+            })
+            .then(
+                (res) => {
+                    notify(res.data.msg, res.data.flag);
+                    if (res.data.flag === 1) {
+                        e.target.reset();
+                    }
+                }
+            ).catch(
+                (err) => {
+                    console.log("Add category me dikkat h", err);
+                    notify("Add category me dikkat h ", 0)
+                }
+            )
     }
 
     return (

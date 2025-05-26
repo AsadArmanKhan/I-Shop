@@ -5,19 +5,27 @@ import { MainContext } from "../../../Context";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
 const ViewProduct = () => {
+  const admin = useSelector((state) => state.admin)
   const { API_BASE_URL, PRODUCT_URL, notify, getProduct, products } = useContext(MainContext);
   // console.log(products._id);
   // return
 
   function statusHandler(id, flag) {
-    axios.patch(`${API_BASE_URL}${PRODUCT_URL}/status/${id}`, { flag })
+    axios.patch(`${API_BASE_URL}${PRODUCT_URL}/status/${id}`, { flag },
+      {
+        headers: {
+          Authorization: admin.token
+        }
+      }
+    )
       .then((res) => {
         notify(res.data.msg, res.data.flag);
-        if (res.data.flag === 1){
-         getProduct();
-        }  
+        if (res.data.flag === 1) {
+          getProduct();
+        }
       })
       .catch(console.log);
   }
@@ -79,7 +87,7 @@ const ViewProduct = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-             { Array.isArray(products) && products.map((product) => (
+            {Array.isArray(products) && products.map((product) => (
               <tr key={product._id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 font-medium">{product.name}</td>
                 <td className="px-4 py-3">{product.category || "-"}</td>
@@ -114,11 +122,11 @@ const ViewProduct = () => {
                   </span>
                 </td>
                 <td className="px-4 py-3 text-center space-x-2">
-                <Link to={`/admin/product/edit/${product._id}`}>
-                  <button title="Edit" className="text-blue-600 hover:text-blue-800">
-                    <FaEdit />
-                  </button>
-                </Link>
+                  <Link to={`/admin/product/edit/${product._id}`}>
+                    <button title="Edit" className="text-blue-600 hover:text-blue-800">
+                      <FaEdit />
+                    </button>
+                  </Link>
                   <button onClick={() => deleteHandler(product._id)} title="Delete" className="text-red-600 hover:text-red-800">
                     <FaTrash />
                   </button>
@@ -139,7 +147,7 @@ const ViewProduct = () => {
 
       {/* Mobile Cards */}
       <div className="lg:hidden space-y-4">
-        { Array.isArray(products) && products.map((product) => (
+        {Array.isArray(products) && products.map((product) => (
           <div key={product._id} className="border rounded-md p-4 bg-white shadow-sm">
             <h2 className="text-lg font-semibold mb-1">{product.name}</h2>
             <p className="text-sm text-gray-600 mb-1">Category: {product.category || "-"}</p>

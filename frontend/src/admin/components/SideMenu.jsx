@@ -23,51 +23,26 @@ const SideMenu = () => {
     const dispatcher = useDispatch()
     const admin = useSelector((state) => state.admin?.data)
 
-    const getlsAdmin = () => {
-        const admin = localStorage.getItem("admin")
-        if (admin) {
-            const adminStamp = localStorage.getItem("adminTimeStamp");
-            const currentTime = new Date().getTime()
-            const rem = currentTime - adminStamp;
-            // console.log(rem);
-            if (rem > (10000 * 10000000)) {
-                navigator("login")
-                dispatcher(logout())
-                return undefined
-            } else {
-                return admin
-            }
-
-        } else {
-            return undefined
-        }
-    }
     useEffect(
         () => {
-            const admin = getlsAdmin();
+            const admin = localStorage.getItem('admin')
+            const token = localStorage.getItem('token')
             if (admin == null) {
-                navigator('/admin/login')
+                navigator("/admin/login")
             } else {
-                navigator("/admin")
+                const lsadmin = JSON.parse(admin)
+                dispatcher(setAdmin({ admin: lsadmin, token: token }))
             }
-
         },
-        [admin]
-    );
+        [])
+    const handleLogout = () => {
+        localStorage.removeItem("admin")
+        localStorage.removeItem("adminTimeStamp")
+        localStorage.removeItem("token")
+        navigator("/admin/login");
+        dispatcher(setAdmin(null))
+    }
 
-    useEffect(
-        () => {
-            const admin = getlsAdmin();
-            if (admin) {
-                const Isadmin = JSON.parse(admin)
-                dispatcher(setAdmin(
-                    {
-                        admin: Isadmin
-                    }
-                ))
-            }
-        }, []
-    )
     return (
         <div className="w-full h-screen bg-[#1e1e2f] text-gray-300 p-5">
             {/* Logo */}
@@ -147,6 +122,6 @@ const SideMenu = () => {
             </div>
         </div>
     );
-};
+}
 
 export default SideMenu;

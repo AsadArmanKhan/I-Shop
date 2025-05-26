@@ -21,6 +21,7 @@ import Card from './website/components/Card'
 import Cart from './website/pages/Cart'
 import Profile from './website/pages/Profile'
 import Homeeee from './website/pages/Homeeee'
+import Store from './website/pages/Store'
 // import HomePage from './website/pages/Homeeee'
 
 export default function App() {
@@ -53,6 +54,10 @@ export default function App() {
           path: "/ghar",
           element: <Homeeee />
         },
+        {
+          path: "/store",
+          element: <Store />
+        }
       ]
     },
 

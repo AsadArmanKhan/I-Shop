@@ -31,7 +31,13 @@ function ViewCategory() {
       confirmButtonText: "Yes, delete it!"
     }).then(result => {
       if (result.isConfirmed) {
-        axios.delete(`${API_BASE_URL}${CATEGORY_URL}/delete/${id}`)
+        const token = localStorage.getItem("token"); // 🔐 Get token from storage
+        axios.delete(`${API_BASE_URL}${CATEGORY_URL}/delete/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+        )
           .then(res => {
             notify(res.data.msg, res.data.flag);
             if (res.data.flag === 1) {
@@ -41,7 +47,7 @@ function ViewCategory() {
           })
           .catch(err => {
             console.log(err);
-            notify("Something is Wrong", 0);
+            notify("View Category me dikkat h", 0);
           });
       }
     });

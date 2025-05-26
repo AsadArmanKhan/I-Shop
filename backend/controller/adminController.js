@@ -21,7 +21,7 @@ const adminController = {
                         flag: 1,
                         admin: { ...admin.toJSON, password: null },
                         token: generateToken({ ...admin.toJSON() })
-                    }); 
+                    });
                 } else {
                     res.send({ msg: "Incorrect password", flag: 0 });
                 }

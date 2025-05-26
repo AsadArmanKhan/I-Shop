@@ -16,7 +16,7 @@ export default function AdminLogin() {
             email: e.target.email.value,
             password: e.target.password.value,
         }
-        console.log("Hello")
+        // console.log("Hello")
 
         axios.post(API_BASE_URL + ADMIN_URL + "/login", data).then(
             (resp) => {
@@ -24,7 +24,7 @@ export default function AdminLogin() {
 
                 notify(resp.data.msg, resp.data.flag)
                 if (resp.data.flag === 1) {
-                    console.log(resp.data?.admin)
+                    // console.log(resp.data?.admin)
                     e.target.reset()
                     navigator("/admin")
                     dispatcher(setAdmin(

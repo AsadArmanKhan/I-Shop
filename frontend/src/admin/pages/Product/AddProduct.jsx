@@ -45,7 +45,13 @@ export default function AddProduct() {
         formData.append("categoryId", e.target.categoryId.value);
         formData.append("colors", JSON.stringify(selcolors))
 
-        axios.post(API_BASE_URL + PRODUCT_URL + "/create", formData).then(
+        axios.post(API_BASE_URL + PRODUCT_URL + "/create", formData,
+            {
+                headers:{
+                    Authorization:admin?.token
+                }
+            }
+        ).then(
             (res) => {
                 notify(res.data.msg, res.data.flag);
                 if (res.data.flag === 1) {
