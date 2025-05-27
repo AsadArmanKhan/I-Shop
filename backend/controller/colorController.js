@@ -61,7 +61,7 @@ const colorController = {
             if (!colors) {
                 return res.send({ msg: "No color found", flag: 0 })
             }
-            res.send({ msg: "colors fetched successfully", flag: 1, colors  })
+            res.send({ msg: "colors fetched successfully", flag: 1, colors })
 
 
 
@@ -72,143 +72,85 @@ const colorController = {
     },
 
 
-    // async status(req, res) {
-    //     try {
-    //         const id = req.params.id
-    //         const category = await categoryModel.findById(id);
-    //         if (!category) {
-    //             return res.send({ msg: "No catigories found", flag: 0 })
-    //         }
-    //         await categoryModel.updateOne(
-    //             { _id: id },
-    //             { status: !category.status }
-    //         ).then(
-    //             (result) => {
-    //                 return res.send({ msg: "Category update", flag: 1 });
-    //             }).catch(
-    //                 (error) => {
-    //                     console.log(error)
-    //                     return res.send({ msg: "Unable to update Category", flag: 0, }
-    //                     );
-    //                 }
-    //             )
-    //     } catch (error) {
-    //         res.send({ msg: "Kuch na Kuch gad bad h", flag: 0, error })
-    //         console.log(error);
-    //     }
-    // },
-    // async delete(req, res) {
-    //     try {
-    //         const id = req.params.id;
-    //         const category = await categoryModel.findById(id);
-    //         await categoryModel.deleteOne(
-    //             {
-    //                 _id: id
-    //             }
-    //         ).then(
-    //             () => {
-
-    //                 const oldImagePath = `./public/images/categories/${category.Image}`;
-    //                 if (fs.existsSync(oldImagePath)) {
-    //                     unlinkSync(oldImagePath);
-    //                 }
-
-    //                 res.send({ msg: "Category Deleted", flag: 1 })
-    //             }
-    //         ).catch(
-    //             (error) => {
-    //                 res.send({ msg: " Unable to delete category", flag: 0, error })
-    //                 console.log(error);
+    async status(req, res) {
+        try {
+            const id = req.params.id
+            const color = await colorModel.findById(id);
+            if (!color) {
+                return res.send({ msg: "No color found", flag: 0 })
+            }
+            color.status = !color.status
+            await color.save().then(
+                () => {
+                    return res.send({ msg: "color updated succesfully", flag: 1 })
+                }
+            ).catch(() => {
+                return res.send({ msg: "unable to update color", flag: 0 });
+            })
+        } catch (error) {
+            res.send({ msg: "Kuch na Kuch gad bad h", flag: 0, error })
+            console.log(error);
+        }
+    },
+    async delete(req, res) {
+        try {
+            const id = req.params.id;
+            const color = await colorModel.findById(id);
+            await colorModel.deleteOne(
+                {
+                    _id: id
+                }
+            ).then(
+                () => {
+                    return res.send({ msg: "Color Deleted Succesfully", flag: 1 })
+                }
+            ).catch(
+                (error) => {
+                    res.send({ msg: " Unable to delete color", flag: 0, error })
+                    console.log(error);
 
 
-    //             }
-    //         )
+                }
+            )
 
-    //     } catch (error) {
-    //         console.log(error);
-    //         res.status(500).send({ msg: "Internal Server Error", flag: 0, error });
-    //     }
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({ msg: "Internal Server Error", flag: 0, error });
+        }
 
-    // },
-    // async update(req, res) {
-    //     try {
-    //         const id = req.params.id;
-    //         const image = req.files && req.files.Image ? req.files.Image : null;
-    //         const category = await categoryModel.findById(id);
-    //         if (!category) {
-    //             return res.send({ msg: "No catigories found", flag: 0 })
-    //         }
+    },
 
-    //         if (image) {
-    //             //All field update
-    //             const categoryImage = createUniqueImageName(image.name);
-    //             const destination = `./public/images/categories/${categoryImage}`;
-    //             image.mv(
-    //                 destination,
-    //                 async (err) => {
-    //                     if (err) {
-    //                         return res.send({ msg: "Unable to update Category Image ", flag: 0 })
+    async update(req, res) {
+        try {
+            if (!color) {
+                return res.send({ msg: "No color found", flag: 0 })
+            } else {
+                await colorModel.updateOne(
+                    {
+                        _id: id
+                    },
+                    {
+                        name: req.body.name,
+                        slug: req.body.slug,
+                        hexcode: req.body.hexcode,
+                    }
+                ).then(
+                    () => {
+                        res.send({ msg: "color updated succesfully", flag: 1 })
+                    }
+                ).catch(
+                    (error) => {
+                        res.send({ msg: "Unable to Update color", flag: 0 })
+                    }
+                )
+            }
+        } catch (error) {
+            res.send({ msg: "Color controller me dikkat h", flag: 0, error })
+            console.log(error);
 
-    //                     } else {
-    //                         try {
-
-
-    //                             await categoryModel.updateOne(
-    //                                 {
-    //                                     _id: id
-    //                                 },
-    //                                 {
-    //                                     name: req.body.name,
-    //                                     slug: req.body.slug,
-    //                                     image: categoryImage
-    //                                 },
-    //                             );
-    //                             const oldImagePath = `./public/images/categories/${category.Image}`;
-    //                             if (fs.existsSync(oldImagePath)) {
-    //                                 fs.unlinkSync(oldImagePath);
-    //                             }
-    //                         } catch (error) {
-
-    //                             res.send({ msg: "Unable to update Category", flag: 0, error })
-    //                             console.log(error);
-
-    //                         }
-    //                     }
-    //                 }
-    //             )
-
-    //         } else {
-    //             await categoryModel.updateOne(
-    //                 {
-    //                     _id: id
-    //                 },
-    //                 {
-    //                     name: req.body.name,
-    //                     slug: req.body.slug,
-    //                     // image: categoryImage
-    //                 },
-
-    //             ).then(
-    //                 () => {
-    //                     res.send({ msg: "Category updated succsefully", flag: 1 })
-    //                 }
-    //             ).catch(
-    //                 (error) => {
-    //                     res.send({ msg: "Unable to update Category", flag: 0, error })
-    //                     console.log(error);
-    //                 }
-    //             )
-    //         }
-    //         await categoryModel.updateOne(
-    //             { _id: id },
-    //             { status: !category.status }
-    //         )
-    //     } catch (error) {
-    //         res.send({ msg: "Kuch na Kuch gad bad h", flag: 0, error })
-    //         console.log(error);
-    //     }
-    // },
-
+        }
+    }
 }
+
 
 module.exports = colorController;

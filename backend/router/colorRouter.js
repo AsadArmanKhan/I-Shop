@@ -8,8 +8,8 @@ const colorRouter = express.Router();
 
 colorRouter.post("/create", colorController.create);
 colorRouter.get("/:id?", colorController.getdata);
-// colorRouter.patch("/status/:id", colorController.status);
-// colorRouter.delete("/delete/:id", colorController.delete);
+colorRouter.patch("/status/:id", colorController.status);
+colorRouter.delete("/delete/:id", colorController.delete);
 // colorRouter.put("/update/:id", fileupload({ createParentPath: true }), colorController.update),
 
 

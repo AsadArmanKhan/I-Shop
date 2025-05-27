@@ -62,8 +62,12 @@ const productSchema = new mongoose.Schema(
             type: Boolean,
             default: true
         },
+        videoUrl: {
+            // require: true,
+        }
     }, { timestamps: true }
 );
 
 const productModel = mongoose.model("Product", productSchema);
 module.exports = productModel;
+// https://ferrari-cdn.thron.com/delivery/public/video/ferrari/d8bd40af-823a-406c-818a-962d0aefb560/bocxuw/WEBFULLHD/GT-Ferrari_Gamma_Copertina_Sh

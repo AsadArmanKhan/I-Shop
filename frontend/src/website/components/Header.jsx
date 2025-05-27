@@ -18,7 +18,7 @@ const Header = () => {
       className="mx-auto font-sans text-sm border-b shadow-md"
     >
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 py-2 text-gray-700 bg-white">
+      {/* <div className="flex items-center justify-between px-6 py-2 text-gray-700 bg-gradient-to-r from-orange-500 to-indigo-500">
         <div className="flex items-center space-x-4">
           <span className="text-xs bg-gray-100 px-2 py-1 rounded">Hotline 24/7</span>
           <strong>(025) 3886 25 16</strong>
@@ -35,7 +35,7 @@ const Header = () => {
             <IoMdArrowDropdown />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Middle section */}
       <motion.div
@@ -60,6 +60,9 @@ const Header = () => {
             <motion.div whileHover={{ scale: 1.1 }} className="cursor-pointer">PRODUCTS</motion.div>
           </Link>
           <motion.div whileHover={{ scale: 1.1 }} className="cursor-pointer">CONTACT</motion.div>
+          <Link to={"/store"}>
+            <motion.div whileHover={{ scale: 1.1 }} className="cursor-pointer">STORE</motion.div>
+          </Link>
           <Link to={"/profile"}>
             <motion.div whileHover={{ scale: 1.1 }} className="cursor-pointer">PROFILE</motion.div>
           </Link>
@@ -92,10 +95,10 @@ const Header = () => {
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="bg-teal-600 text-white px-6 py-3 flex items-center justify-between"
+        className="bg-gradient-to-r from-orange-500 to-indigo-500  text-white px-6 py-3 flex items-center justify-between"
       >
         <div className="flex bg-white rounded-full overflow-hidden shadow-md">
-          <button className="flex items-center px-4 text-black border-r">
+          <button className="flex items-center  px-4 text-black border-r">
             All Categories <IoMdArrowDropdown className="ml-1" />
           </button>
           <input
@@ -103,7 +106,7 @@ const Header = () => {
             placeholder="Search anything..."
             className="px-4 py-2 text-black outline-none w-64"
           />
-          <button className="px-4 bg-teal-600 text-white hover:bg-teal-700 transition">
+          <button className="px-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white hover:bg-teal-700 transition">
             <FaSearch />
           </button>
         </div>

@@ -53,11 +53,13 @@ const productController = {
         try {
             const id = req.params.id;
             let products = null;
+            console.log(req.query), "asad"
+
             if (id) {
                 products = await ProductModel.findById(id)
 
             } else {
-                products = await ProductModel.find().populate(["categoryId", "colors"]);
+                products = await ProductModel.find().limit(req.query.limit || 0).populate(["categoryId", "colors"]);
             }
 
             if (!products) {
@@ -179,9 +181,9 @@ const productController = {
                                         _id: id
                                     },
                                     {
-                                     ...req.body,
-                                     thumbnail: productImage,
-                                    colors: JSON.parse(req.body.colors)
+                                        ...req.body,
+                                        thumbnail: productImage,
+                                        colors: JSON.parse(req.body.colors)
                                     },
                                 );
                                 const oldImagePath = `./public/images/categories/${product.thumbnail}`;

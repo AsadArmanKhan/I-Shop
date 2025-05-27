@@ -61,14 +61,20 @@ function Context(props) {
     }
 
 
-    function getProduct(id = null) {
+    function getProduct(id = null, limit = 0) {
+        console.log(limit, "limit");
+
         let URL = API_BASE_URL + PRODUCT_URL
         //http://localhost:5000/category/id
         if (id != null) {
             URL = URL + `/${id}`
 
         }
-        axios.get(URL).then(
+        const query = new URLSearchParams();
+
+        query.append(limit, 'limit')
+
+        axios.get(URL + "?" + query).then(
             (response) => {
                 if (response.data.flag === 1) {
                     setProducts(response.data.products)
@@ -88,7 +94,7 @@ function Context(props) {
 
     return (
         <MainContext.Provider value={{
-            API_BASE_URL, CATEGORY_URL,ADMIN_URL, notify, getCategory, Categories,
+            API_BASE_URL, CATEGORY_URL, ADMIN_URL, notify, getCategory, Categories,
             COLOR_URL, getColors, colors, PRODUCT_URL, getProduct, products
         }}>
             <ToastContainer position="top-right"

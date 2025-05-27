@@ -4,21 +4,28 @@ import { FiEdit, FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { MainContext } from '../../../Context';
 import Swal from 'sweetalert2'
+import { useSelector } from 'react-redux';
 // import 'sweetalert2/src/sweetalert2.scss'
 
 
 
 const ViewColor = () => {
-    const { API_BASE_URL,COLOR_URL,CATEGORY_URL, getColors, colors, notify } = useContext(MainContext);
+    const admin = useSelector((state) => state.admin)
+    const { API_BASE_URL, COLOR_URL, CATEGORY_URL, getColors, colors, notify } = useContext(MainContext);
     const { getCategories, categories } = useContext(MainContext);
 
-
     function statusHandler(id) {
-        axios.patch(API_BASE_URL + CATEGORY_URL + `/status/${id}`).then(
+        axios.patch(API_BASE_URL + COLOR_URL + `/status/${id}`
+            , {}, {
+            headers: {
+                Authorization: admin.token
+            }
+        }
+        ).then(
             (resp) => {
                 notify(resp.data.msg, resp.data.flag)
                 if (resp.data.flag === 1) {
-                    getCategories()
+                    getColors()
                 }
 
             }
@@ -31,9 +38,8 @@ const ViewColor = () => {
         )
     }
 
+    // const admin = useSelector((state) => state.admin)
     function deleteHandler(id) {
-
-
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -49,32 +55,28 @@ const ViewColor = () => {
                     text: "Your file has been deleted.",
                     icon: "success"
                 });
-
-                axios.delete(API_BASE_URL + CATEGORY_URL + `/delete/${id}`).then(
+                // const token = localStorage.getItem("token")
+                axios.delete(`${API_BASE_URL}${COLOR_URL}/delete/${id}`, {
+                    headers: {
+                        Authorization: admin.token
+                    }
+                }).then(
                     (resp) => {
                         notify(resp.data.msg, resp.data.flag)
                         if (resp.data.flag === 1) {
-                            getCategories()
+                            // getCategories()
+                            getColors()
                         }
 
                     }
                 ).catch(
                     (err) => {
                         console.log(err)
-                        notify("Something is wrong", 0)
+                        notify("kuch dikkat h", 0)
 
-                    }
-                )
-
-
-
+                    })
             }
         });
-
-
-
-
-
     }
 
 
@@ -110,7 +112,7 @@ const ViewColor = () => {
                         <tbody className="text-gray-600">
                             {/* Example rows */}
                             {Array.isArray(colors) && colors.map((color, index) => (
-                                <tr className=" shadow hover:bg-gray-50">
+                                <tr key={color._id} className=" shadow hover:bg-gray-50">
                                     <td className="p-4">{index + 1}</td>
                                     <td className="p-4 font-medium">{color.name}</td>
                                     <td className="p-4">{color.slug}</td>

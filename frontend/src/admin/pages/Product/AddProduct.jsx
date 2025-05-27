@@ -4,6 +4,7 @@ import { MainContext } from "../../../Context";
 import Select from 'react-select'
 import axios from "axios";
 import { Link } from "react-router-dom"; // Make sure this is at the top
+import { useSelector } from "react-redux";
 
 
 export default function AddProduct() {
@@ -31,6 +32,7 @@ export default function AddProduct() {
 
     }
 
+    const admin = useSelector((state) => state.admin)
     function submitHandler(e) {
         e.preventDefault();
         const formData = new FormData()
@@ -44,11 +46,14 @@ export default function AddProduct() {
         formData.append('longDescription', e.target.longDescription.value);
         formData.append("categoryId", e.target.categoryId.value);
         formData.append("colors", JSON.stringify(selcolors))
+        // formData.append("video", e.target.videoUrl)
+        // console.log(formData);
+
 
         axios.post(API_BASE_URL + PRODUCT_URL + "/create", formData,
             {
-                headers:{
-                    Authorization:admin?.token
+                headers: {
+                    Authorization: admin?.token
                 }
             }
         ).then(
@@ -223,6 +228,20 @@ export default function AddProduct() {
                                 placeholder="https://example.com/image.jpg"
                             />
                         </div>
+                        {/* Video Link URL */}
+                        <div className="sm:col-span-2">
+                            <label htmlFor="videoUrl" className="block mb-2 text-sm font-medium text-gray-900">
+                                Video Link URL
+                            </label>
+                            <input
+                                type="url"
+                                name="videoUrl"
+                                id="videoUrl"
+                                className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
+                                placeholder="https://example.com/video"
+                            />
+                        </div>
+
 
 
                         {/* Short Description */}

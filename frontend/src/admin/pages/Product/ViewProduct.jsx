@@ -76,7 +76,7 @@ const ViewProduct = () => {
           <thead className="bg-gray-50 text-gray-700 uppercase">
             <tr>
               <th className="px-4 py-3 text-left">Name</th>
-              <th className="px-4 py-3 text-left">Category</th>
+              <th className="px-4 py-3 text-left">SLUG</th>
               <th className="px-4 py-3 text-left">Original</th>
               <th className="px-4 py-3 text-left">Price</th>
               <th className="px-4 py-3 text-left">Disc</th>
@@ -88,9 +88,10 @@ const ViewProduct = () => {
           </thead>
           <tbody className="divide-y divide-gray-100">
             {Array.isArray(products) && products.map((product) => (
+              console.log(product),
               <tr key={product._id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 font-medium">{product.name}</td>
-                <td className="px-4 py-3">{product.category || "-"}</td>
+                <td className="px-4 py-3">{product.slug || "-"}</td>
                 <td className="px-4 py-3">₹{product.originalPrice}</td>
                 <td className="px-4 py-3">₹{product.finalPrice}</td>
                 <td className="px-4 py-3">{product.discountPercentage}%</td>
@@ -151,7 +152,8 @@ const ViewProduct = () => {
           <div key={product._id} className="border rounded-md p-4 bg-white shadow-sm">
             <h2 className="text-lg font-semibold mb-1">{product.name}</h2>
             <p className="text-sm text-gray-600 mb-1">Category: {product.category || "-"}</p>
-            <p className="text-sm">Original: ₹{product.originalPrice}</p>
+            <p className="text-sm">Original: ₹{product.orignalPrice
+            }</p>
             <p className="text-sm">Price: ₹{product.finalPrice} ({product.discountPercentage}%)</p>
             <p className="text-sm mt-1">
               Status:{" "}

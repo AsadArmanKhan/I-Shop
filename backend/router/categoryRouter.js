@@ -7,7 +7,7 @@ const adminAuth = require("../middleWare/adminAuth");
 
 categoryRouter.post("/create", [adminAuth, fileupload({ createParentPath: true })], categoryController.create);
 categoryRouter.get("/:id?", categoryController.getdata);
-categoryRouter.patch("/status/:id", categoryController.status);
+categoryRouter.patch("/status/:id", adminAuth, categoryController.status);
 categoryRouter.delete("/delete/:id", adminAuth, categoryController.delete);
 categoryRouter.put("/update/:id", fileupload({ createParentPath: true }), categoryController.update),
 

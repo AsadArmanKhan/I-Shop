@@ -4,12 +4,20 @@ import { Link } from "react-router-dom";
 import { MainContext } from "../../../Context";
 import Swal from 'sweetalert2'
 import axios from "axios";
+import { useSelector } from 'react-redux'
 
 function ViewCategory() {
+  const admin = useSelector((state) => state.admin)
   const { API_BASE_URL, CATEGORY_URL, notify, getCategory, Categories } = useContext(MainContext);
 
   function statusHandler(id) {
-    axios.patch(`${API_BASE_URL}${CATEGORY_URL}/status/${id}`)
+    axios.patch(`${API_BASE_URL}${CATEGORY_URL}/status/${id}`,
+      {}, {
+      headers: {
+        Authorization: admin?.token
+      }
+    }
+    )
       .then(res => {
         notify(res.data.msg, res.data.flag);
         if (res.data.flag === 1) getCategory();
@@ -32,12 +40,12 @@ function ViewCategory() {
     }).then(result => {
       if (result.isConfirmed) {
         const token = localStorage.getItem("token"); // 🔐 Get token from storage
-        axios.delete(`${API_BASE_URL}${CATEGORY_URL}/delete/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        }
-        )
+        axios.delete(`${API_BASE_URL}${CATEGORY_URL}/delete/${id}`,
+          {
+            headers: {
+              Authorization: admin.token,
+            }
+          })
           .then(res => {
             notify(res.data.msg, res.data.flag);
             if (res.data.flag === 1) {
