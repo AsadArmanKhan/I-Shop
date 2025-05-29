@@ -16,7 +16,7 @@ export const adminSlice = createSlice({
             localStorage.setItem("admin", JSON.stringify(payload.admin));
             localStorage.setItem("token", state.token)
             localStorage.setItem("adminTimeStamp", new Date().getTime());
-            console.log(state.token);
+            // console.log(state.token);
         },
         logout(state) {
             state.data = null;

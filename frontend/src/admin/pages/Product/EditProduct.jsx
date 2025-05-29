@@ -57,8 +57,8 @@ export default function EditProduct() {
             }
         ).catch(
             (err) => {
-                console.log("Add Product me dikkat h", err);
-                notify("Add Product me dikkat h ", 0)
+                console.log("Error from Add Product", err);
+                notify("Error from Add Product", 0)
             }
         )
     }
@@ -198,7 +198,7 @@ export default function EditProduct() {
                             <Select
                                 onChange={
                                     (color) => {
-                                        const col = color.map(o => o.value)
+                                        const col = color.map(col => col.value)
                                         setSelColors(col)
                                     }
                                 }

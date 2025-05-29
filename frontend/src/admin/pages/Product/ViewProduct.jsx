@@ -92,7 +92,7 @@ const ViewProduct = () => {
               <tr key={product._id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 font-medium">{product.name}</td>
                 <td className="px-4 py-3">{product.slug || "-"}</td>
-                <td className="px-4 py-3">₹{product.originalPrice}</td>
+                <td className="px-4 py-3">₹{product.orignalPrice}</td>
                 <td className="px-4 py-3">₹{product.finalPrice}</td>
                 <td className="px-4 py-3">{product.discountPercentage}%</td>
                 <td className="px-4 py-3">

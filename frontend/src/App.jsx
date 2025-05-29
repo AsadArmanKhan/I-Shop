@@ -55,7 +55,7 @@ export default function App() {
           element: <Homeeee />
         },
         {
-          path: "/store",
+          path: "/store/:categorySlug?",
           element: <Store />
         }
       ]

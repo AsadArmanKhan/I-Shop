@@ -13,7 +13,8 @@ const adminAuth = (req, res, next) => {
             return res.status(401).send({ msg: "Token Required", flag: 0 });
         }
     } catch (error) {
-        res.status(500).send({ msg: "admin auth me dikkat h", flag: 0 });
+        console.log(error.message)
+        res.status(200).send({ msg: "error from Admin Auth", flag: 0 });
     }
 };
 

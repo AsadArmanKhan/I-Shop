@@ -11,21 +11,25 @@ function ViewCategory() {
   const { API_BASE_URL, CATEGORY_URL, notify, getCategory, Categories } = useContext(MainContext);
 
   function statusHandler(id) {
-    axios.patch(`${API_BASE_URL}${CATEGORY_URL}/status/${id}`,
+    axios.patch(API_BASE_URL + CATEGORY_URL + `/status/${id}`,
       {}, {
       headers: {
         Authorization: admin?.token
       }
     }
+    ).then(
+      (resp) => {
+        notify(resp.data.msg, resp.data.flag)
+        if (resp.data.flag === 1) {
+          getCategory();
+        }
+      }
+    ).catch(
+      (error) => {
+        console.log(error)
+        notify("something is wrong", 0)
+      }
     )
-      .then(res => {
-        notify(res.data.msg, res.data.flag);
-        if (res.data.flag === 1) getCategory();
-      })
-      .catch(err => {
-        console.log(err);
-        notify("Something is Wrong", 0);
-      });
   }
 
   function deleteHandler(id) {

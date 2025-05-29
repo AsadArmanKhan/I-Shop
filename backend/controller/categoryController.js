@@ -81,32 +81,58 @@ const categoryController = {
         }
     },
 
-
     async status(req, res) {
         try {
-            const id = req.params.id
+            const id = req.params.id;
             const category = await categoryModel.findById(id);
             if (!category) {
-                return res.send({ msg: "No catigories found", flag: 0 })
+                return res.send({ msg: "No Categories found", flag: 0 });
             }
             await categoryModel.updateOne(
                 { _id: id },
                 { status: !category.status }
             ).then(
-                (result) => {
-                    return res.send({ msg: "Category update", flag: 1 });
-                }).catch(
-                    (error) => {
-                        console.log(error)
-                        return res.send({ msg: "Unable to update Category", flag: 0, }
-                        );
-                    }
-                )
+                () => {
+                    return res.send({ msg: 'Category update', flag: 1 })
+                }
+            ).catch(
+                () => {
+                    return res.send({ msg: 'Enable to update Category ', flag: 0 })
+                }
+            )
+
         } catch (error) {
-            res.send({ msg: "Kuch na Kuch gad bad h", flag: 0, error })
-            console.log(error);
+            res.send({ msg: "Internal Server Error", flag: 0 })
         }
+
     },
+    // async status(req, res) {
+    //     try {
+    //         const id = req.params.id
+    //         const category = await categoryModel.findById(id);
+    //         if (!category) {
+    //             return res.send({ msg: "No catigories found", flag: 0 })
+    //         }
+    //         await categoryModel.updateOne(
+    //             { _id: id },
+    //             { status: !category.status }
+    //         ).then(
+    //             (result) => {
+    //                 return res.send({ msg: "Category update", flag: 1 });
+    //             }).catch(
+    //                 (error) => {
+    //                     console.log(error)
+    //                     return res.send({ msg: "Unable to update Category", flag: 0, }
+    //                     );
+    //                 }
+    //             )
+    //     } catch (error) {
+    //         res.send({ msg: "Kuch na Kuch gad bad h", flag: 0, error })
+    //         console.log(error);
+    //     }
+    // },
+
+
     async delete(req, res) {
         try {
             const id = req.params.id;

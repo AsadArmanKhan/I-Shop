@@ -47,31 +47,29 @@ export default function ByColor() {
     const { getProduct, products, getCategory, Categories,
         COLOR_URL, getColors, colors, API_BASE_URL } = useContext(MainContext)
     return (
-        <div className="flex">
-            {/* Sidebar */}
-            <aside className="w-64 p-4 border-r hidden lg:block">
-               
-
-                {/* <div className="mb-4">
-                    <h4 className="font-semibold mb-2">By Memory</h4>
-                    {['12GB', '8GB', '6GB', '4GB', '3GB', '1.5GB', '1GB', '512MB'].map(mem => (
-                        <div key={mem} className="flex items-center mb-1">
-                            <input type="checkbox" className="mr-2" /> <label>{mem}</label>
-                        </div>
-                    ))}
-                </div> */}
-                {/* <div className="mb-4">
-                    <h4 className="font-semibold mb-2">By Conditions</h4>
-                    {['New', 'Like New', 'Open Box'].map(cond => (
-                        <div key={cond} className="flex items-center mb-1">
-                            <input type="checkbox" className="mr-2" /> <label>{cond}</label>
-                        </div>
-                    ))}
-                </div> */}
-            </aside >
-        </div >
+        // <div className="flex">
+        //     {/* Sidebar */}
+        //     <aside className="w-64 p-4 border-r hidden lg:block">
 
 
-
+        //         {/* <div className="mb-4">
+        //             <h4 className="font-semibold mb-2">By Memory</h4>
+        //             {['12GB', '8GB', '6GB', '4GB', '3GB', '1.5GB', '1GB', '512MB'].map(mem => (
+        //                 <div key={mem} className="flex items-center mb-1">
+        //                     <input type="checkbox" className="mr-2" /> <label>{mem}</label>
+        //                 </div>
+        //             ))}
+        //         </div> */}
+        //         {/* <div className="mb-4">
+        //             <h4 className="font-semibold mb-2">By Conditions</h4>
+        //             {['New', 'Like New', 'Open Box'].map(cond => (
+        //                 <div key={cond} className="flex items-center mb-1">
+        //                     <input type="checkbox" className="mr-2" /> <label>{cond}</label>
+        //                 </div>
+        //             ))}
+        //         </div> */}
+        //     </aside >
+        // </div >
+        <div className=""></div>
     );
 }

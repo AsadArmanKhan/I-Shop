@@ -3,6 +3,8 @@ const { createUniqueImageName } = require("../helper");
 const { unlinkSync } = require("fs");
 const { update } = require("./categoryController");
 const productModel = require("../model/productModel");
+const categoryModel = require("../model/categoryModel");
+const colorModel = require("../model/colorModel");
 
 const productController = {
     async create(req, res) {
@@ -52,14 +54,27 @@ const productController = {
     async getdata(req, res) {
         try {
             const id = req.params.id;
-            let products = null;
-            console.log(req.query), "asad"
+            // let products = null;
+            const filterQuery = {};
+            if (req.query.categorySlug) {
+                // console.log(req.query.categorySlug);
+                const category = await categoryModel.findOne({ slug: req.query.categorySlug })
+                filterQuery.categoryId = category._id
+                // console.log(categoryId);
+                if (req.query.colorSlug) {
+                    const color = await colorModel.findOne({ slug: req.query.colorSlug })
+                    filterQuery.colors = { $in: [color._id] };
+
+                }
+
+            }
+            // console.log(req.query), "asad"
 
             if (id) {
                 products = await ProductModel.findById(id)
 
             } else {
-                products = await ProductModel.find().limit(req.query.limit || 0).populate(["categoryId", "colors"]);
+                products = await ProductModel.find(filterQuery).limit(req.query.limit || 0).populate(["categoryId", "colors"]);
             }
 
             if (!products) {
@@ -174,8 +189,6 @@ const productController = {
 
                         } else {
                             try {
-
-
                                 await ProductModel.updateOne(
                                     {
                                         _id: id
@@ -223,7 +236,7 @@ const productController = {
                 )
             }
         } catch (error) {
-            res.send({ msg: "Kuch na Kuch gad bad h", flag: 0, error })
+            res.send({ msg: "Error From ProductController", flag: 0, error })
             console.log(error);
         }
     },

@@ -61,7 +61,7 @@ function Context(props) {
     }
 
 
-    function getProduct(id = null, limit = 0) {
+    function getProduct(id = null, limit = 0, categorySlug = null, colorSlug = null) {
         console.log(limit, "limit");
 
         let URL = API_BASE_URL + PRODUCT_URL
@@ -73,6 +73,12 @@ function Context(props) {
         const query = new URLSearchParams();
 
         query.append(limit, 'limit')
+        if (categorySlug) {
+            query.append("categorySlug", categorySlug)
+        }
+        if (colorSlug) {
+            query.append("colorSlug", colorSlug)
+        }
 
         axios.get(URL + "?" + query).then(
             (response) => {
