@@ -1,110 +1,162 @@
-import { FaMinus, FaPlus } from 'react-icons/fa';
-import { BsDot } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { MainContext } from "../../Context";
+import { qtyHandler } from "../../redux/slice/cartSlice";
 
-export default function Cart() {
+const Cart = () => {
+  const dispatch = useDispatch()
+  function handlerCart(payload) {
+    dispatch(qtyHandler(payload))
+
+  }
+  const { getProduct, products, API_BASE_URL, } = useContext(MainContext)
+  const cart = useSelector((state) => state.cart);
+  // console.log(cart);
+
+  useEffect(
+    () => {
+      getProduct()
+
+    }, []
+  )
+  // useEffect(() => {
+  //   const canvas = document.getElementById("cartCanvas");
+  //   const ctx = canvas.getContext("2d");
+  //   canvas.width = window.innerWidth;
+  //   canvas.height = window.innerHeight;
+
+  //   // const particles = Array.from({ length: 120 }, () => ({
+  //   //   x: Math.random() * canvas.width,
+  //   //   y: Math.random() * canvas.height,
+  //   //   size: Math.random() * 2 + 1,
+  //   //   speedY: Math.random() * 1 + 0.3,
+  //   // }));
+
+  //   // const animate = () => {
+  //   //   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //   //   particles.forEach((p) => {
+  //   //     ctx.beginPath();
+  //   //     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+  //   //     ctx.fillStyle = "rgba(255, 215, 0, 0.25)";
+  //   //     ctx.fill();
+  //   //     p.y += p.speedY;
+  //   //     if (p.y > canvas.height) p.y = 0;
+  //   //   });
+  //   //   requestAnimationFrame(animate);
+  //   // };
+
+  //   animate();
+  // }, []);
+
   return (
-    <div className="bg-[#f6f9fc] min-h-screen py-10">
-      {/* Breadcrumb */}
-      <div className="max-w-6xl mx-auto px-4">
-      <div className="w-full max-w-6xl  my-5 bg-white shadow px-6 py-6 rounded-xl">
-        <nav className="text-sm text-gray-500">
-          <Link to={""}>
-            <span className="font-semibold text-gray-700">Home</span>
-          </Link>
-          / <span>pages</span> / <span className="font-bold text-black">Register</span>
-        </nav>
-      </div>
+    <div className="relative min-h-screen bg-gradient-to-br from-[#0f0f0f] to-[#1b1b1b] text-yellow-100 p-6">
+      {/* Canvas Background */}
+      {/* <canvas
+        id="cartCanvas"
+        className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+      /> */}
 
-        {/* Main Section */}
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Left - Cart Items */}
-          <div className="flex-1 space-y-4">
-            {[1, 2, 3].map((_, i) => (
-              <div key={i} className="bg-white rounded-lg p-4 flex flex-col md:flex-row items-center md:items-start shadow-sm">
-                {/* Image */}
-                <div className="w-32 h-32 mb-4 md:mb-0 md:mr-6 flex-shrink-0">
-                  <img
-                    src={`https://via.placeholder.com/150?text=Product+${i + 1}`}
-                    alt="Product"
-                    className="w-full h-full object-cover rounded"
-                  />
-                </div>
+      {/* Title */}
+      <h1 className="text-3xl font-bold mb-6 text-yellow-400 relative z-10">
+        Your Cart
+      </h1>
 
-                {/* Info */}
-                <div className="flex-1 w-full">
-                  {/* Top Row */}
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="text-xs font-semibold text-white bg-black px-2 py-0.5 rounded">{i === 0 ? 'SAVE $199.00' : 'NEW'}</div>
-                    <div className="flex gap-2">
-                      <div className="w-5 h-5 rounded-full bg-gray-200"></div>
-                      <div className="w-5 h-5 rounded-full bg-red-100"></div>
+      {/* Cart Layout */}
+      <div className="relative z-10 flex flex-col lg:flex-row gap-8">
+        {/* Product Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 flex-1">
+          {
+            // Array.isArray(cart)
+            cart?.item?.map((item) => {
+              const product = products.find((p) => p._id === item.productId)
+              // console.log(product)
+              if (!product) return null;
+              return (
+                <>
+                  <div
+                    className="bg-gradient-to-br from-gray-900 to-blue-700 border border-gray-600 rounded-2xl p-4 hover:scale-105 transform transition duration-300 shadow-xl hover:shadow-yellow-500/20"
+                  >
+                    {/* Product Image */}
+                    <img
+                      src={`${API_BASE_URL}/images/product/${product?.thumbnail}`}
+                      alt="Product"
+                      className="w-full rounded-lg mb-4"
+                    />
+                    {/* Product Info */}
+                    <h1 className="  text-gray-200">{product.name}</h1>
+                    <p className="font-bold text-lg mt-2">
+                      <span className="text-yellow-400">{product.finalPrice}</span>
+                      <span className="text-gray-500 line-through ml-2">{product.orignalPrice}</span>
+                    </p>
+                    <div className="flex gap-25">
+                      <div className="">
+                        <p className="text-xs text-green-400 font-semibold mt-1">FREE SHIPPING</p>
+                        <p className="text-sm mt-1">
+                          <span className="">In Stock</span>
+                        </p>
+                      </div>
+                      <div className="">
+                        <button onClick={() => handlerCart({ productId: item.productId, type: 'dec', finalPrice: product.finalPrice, orignalPrice: product.orignalPrice })} className="rounded px-2 bg-gray-400 text-black">
+                          -
+                        </button>
+                        <span >
+                          {item.qty}
+                        </span>
+                        <button onClick={() => handlerCart({ productId: item.productId, type: 'inc', finalPrice: product.finalPrice, orignalPrice: product.orignalPrice })} className="rounded px-2 bg-gray-400 text-black">
+                          +
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <h2 className="font-semibold text-sm md:text-base leading-snug">Product Name Goes Here {i + 1}</h2>
-                  <p className="text-[#f44336] font-semibold text-lg mt-1">${(i + 5) * 100}.00</p>
 
-                  {/* Quantity + Info */}
-                  <div className="mt-2 flex items-center flex-wrap gap-2 text-xs text-gray-600">
-                    {i === 0 && (
-                      <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded">FREE SHIPPING</span>
-                    )}
-                    {i === 2 && (
-                      <>
-                        <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded">FREE SHIPPING</span>
-                        <span className="bg-pink-100 text-pink-600 px-2 py-0.5 rounded">FREE GIFT</span>
-                      </>
-                    )}
-                    {i === 1 && (
-                      <span className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded">$2.86 SHIPPING</span>
-                    )}
-                    <span className="flex items-center text-green-600">
-                      <BsDot className="text-xl" /> In stock
-                    </span>
-                  </div>
-
-                  {/* Quantity Controls */}
-                  <div className="mt-3 flex items-center gap-3">
-                    <button className="bg-gray-100 p-2 rounded">
-                      <FaMinus size={12} />
+                    {/* Button */}
+                    <button className="mt-4 w-full bg-yellow-600 hover:bg-yellow-500 text-black font-bold py-2 rounded-lg transition">
+                      Remove from Cart
                     </button>
-                    <span className="w-8 text-center">1</span>
-                    <button className="bg-gray-100 p-2 rounded">
-                      <FaPlus size={12} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                    {/* <button>
+                        asad
+                      </button> */}
+                  </div >
+                </>
+              )
+            })
+          }
 
-          {/* Right - Summary */}
-          <div className="w-full lg:w-[300px]">
-            <div className="bg-white p-6 rounded-lg border border-green-500">
-              <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span>Sub Total:</span>
-                  <span className="font-semibold">$1,000.00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Shipping estimate:</span>
-                  <span>$600.00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Tax estimate:</span>
-                  <span>$137.00</span>
-                </div>
-                <div className="flex justify-between font-bold text-black border-t pt-2 mt-2">
-                  <span>ORDER TOTAL:</span>
-                  <span>$1,737.00</span>
-                </div>
+
+        </div>
+
+        {/* Order Summary */}
+        <div className="w-full lg:w-[300px]">
+          <div className="bg-white p-6 rounded-lg border border-yellow-500 shadow-xl">
+            <h3 className="text-lg font-semibold mb-4 text-black">
+              Order Summary
+            </h3>
+            <div className="space-y-2 text-sm text-black">
+              <div className="flex justify-between">
+                <span>Sub Total:</span>
+                <span className="font-semibold">${cart.orignalTotal}</span>
               </div>
-              <button className="w-full mt-4 bg-teal-500 text-white py-2 rounded hover:bg-teal-600 transition">CHECKOUT</button>
+              <div className="flex justify-between">
+                <span>Shipping estimate:</span>
+                <span>$</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Savings</span>
+                <span>${cart.finalTotal - cart.orignalTotal}</span>
+              </div>
+              <div className="flex justify-between font-bold border-t pt-2 mt-2">
+                <span>ORDER TOTAL:</span>
+                <span>${cart.finalTotal}</span>
+              </div>
             </div>
+            <button className="w-full mt-4 bg-yellow-500 hover:bg-yellow-400 text-black py-2 rounded font-semibold transition">
+              CHECKOUT
+            </button>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
-}
+};
+
+export default Cart;

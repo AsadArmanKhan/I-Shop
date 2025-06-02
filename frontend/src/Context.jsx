@@ -62,7 +62,7 @@ function Context(props) {
 
 
     function getProduct(id = null, limit = 0, categorySlug = null, colorSlug = null) {
-        console.log(limit, "limit");
+        // console.log(limit, "limit");
 
         let URL = API_BASE_URL + PRODUCT_URL
         //http://localhost:5000/category/id

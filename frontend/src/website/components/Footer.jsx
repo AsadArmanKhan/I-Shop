@@ -4,33 +4,33 @@ import { FaTwitter, FaFacebook, FaInstagram, FaYoutube, FaPinterest } from 'reac
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-orange-500 to-indigo-500 text-shadow-black pt-10 ">
+    <footer className="bg-teal-200 text-shadow-black pt-10 ">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-8 pb-10">
-        
+
         {/* Company Info */}
         <div>
           <h2 className="text-lg font-bold mb-2">SWOO - 1ST NYC TECH ONLINE MARKET</h2>
-          <p className="text-sm text-white mb-2">HOTLINE 24/7</p>
+          <p className="text-sm text-black mb-2">HOTLINE 24/7</p>
           <p className="text-xl font-bold text-red-500 mb-2">(025) 3686 25 16</p>
-          <p className="text-sm text-white mb-1">257 Thatcher Road St, Brooklyn, Manhattan, NY 10092</p>
-          <p className="text-sm text-white">contact@Swootechmart.com</p>
+          <p className="text-sm text-black mb-1">257 Thatcher Road St, Brooklyn, Manhattan, NY 10092</p>
+          <p className="text-sm text-black">contact@Swootechmart.com</p>
           <div className="flex space-x-4 mt-4">
-<button className="bg-gray-100 p-2 rounded-full hover:bg-gray-200">
-  <FaTwitter className="w-4 h-4" />
-</button>
-<button className="bg-gray-100 p-2 rounded-full hover:bg-gray-200">
-  <FaFacebook className="w-4 h-4" />
-</button>
-<button className="bg-gray-100 p-2 rounded-full hover:bg-gray-200">
-  <FaInstagram className="w-4 h-4" />
-</button>
-<button className="bg-gray-100 p-2 rounded-full hover:bg-gray-200">
-  <FaYoutube className="w-4 h-4" />
-</button>
-<button className="bg-gray-100 p-2 rounded-full hover:bg-gray-200">
-  <FaPinterest className="w-4 h-4" />
-</button>
-</div>
+            <button className="bg-gray-300 p-2 rounded-full hover:bg-gray-500">
+              <FaTwitter className="w-4 h-4" />
+            </button>
+            <button className="bg-gray-300 p-2 rounded-full hover:bg-gray-500">
+              <FaFacebook className="w-4 h-4" />
+            </button>
+            <button className="bg-gray-300 p-2 rounded-full hover:bg-gray-500">
+              <FaInstagram className="w-4 h-4" />
+            </button>
+            <button className="bg-gray-300 p-2 rounded-full hover:bg-gray-500">
+              <FaYoutube className="w-4 h-4" />
+            </button>
+            <button className="bg-gray-300 p-2 rounded-full hover:bg-gray-500">
+              <FaPinterest className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Top Categories */}

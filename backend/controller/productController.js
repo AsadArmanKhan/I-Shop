@@ -59,6 +59,7 @@ const productController = {
             if (req.query.categorySlug) {
                 // console.log(req.query.categorySlug);
                 const category = await categoryModel.findOne({ slug: req.query.categorySlug })
+                console.log(category._id);
                 filterQuery.categoryId = category._id
                 // console.log(categoryId);
                 if (req.query.colorSlug) {
@@ -68,13 +69,14 @@ const productController = {
                 }
 
             }
+            console.log(filterQuery);
             // console.log(req.query), "asad"
 
             if (id) {
                 products = await ProductModel.findById(id)
 
             } else {
-                products = await ProductModel.find(filterQuery).limit(req.query.limit || 0).populate(["categoryId", "colors"]);
+                products = await ProductModel.find(filterQuery).limit(req.query.limit || 0).populate(["colors"]);
             }
 
             if (!products) {

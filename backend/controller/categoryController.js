@@ -3,6 +3,7 @@ const categoryModel = require("../model/categoryModel");
 const { createUniqueImageName } = require("../helper");
 const { unlinkSync } = require("fs")
 const fs = require('fs');
+const productModel = require("../model/productModel");
 
 
 const categoryController = {
@@ -30,6 +31,7 @@ const categoryController = {
                         return res.send({ msd: "unable to upload image", flag: 0 })
 
                     } else {
+
                         const category = new categoryModel(
                             {
                                 name: name,
@@ -64,14 +66,28 @@ const categoryController = {
             let categorise = null;
             if (id) {
                 categorise = await categoryModel.findById(id);
+                res.send({ msg: "Category fetched successfully", flag: 1, categorise })
             } else {
                 categorise = await categoryModel.find();
+                const allCategory = [];
+                const allPromise = categorise.map(
+                    async (Category) => {
+                        const productCount = await productModel.findOne(
+                            { categoryId: Category._id }).countDocuments();
+                        allCategory.push(
+                            {
+                                ...Category.toJSON(),
+                                productCount: productCount,
+                            });
+                    }
+                )
+                await Promise.all(allPromise)
+                res.send({ msg: "Category fetched successfully", flag: 1, categorise: allCategory })
             }
 
             if (!categorise) {
                 return res.send({ msg: "No catigories found", flag: 0 })
             }
-            res.send({ msg: "Category fetched successfully", flag: 1, categorise })
 
 
 

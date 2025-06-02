@@ -1,15 +1,28 @@
 // import { defineConfig } from "vite";
 // import tailwindcss from "@tailwindcss/vite";
 // import react from "@vitejs/plugin-react";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useDispatch, useSelector } from 'react-redux';
+import { lsToCart } from '../../redux/slice/cartSlice';
 
 
 
 const Header = () => {
+  const dispatch = useDispatch()
+  const cart = useSelector((state) => state.cart);
+  // console.log(cart, 'cart from header');
+
+  useEffect(
+    () => {
+      dispatch(lsToCart())
+    }, []
+  )
+
+
   return (
     <motion.div
       initial={{ y: -100, opacity: 0 }}
@@ -17,25 +30,6 @@ const Header = () => {
       transition={{ duration: 0.7, ease: 'easeOut' }}
       className="mx-auto font-sans text-sm border-b shadow-md"
     >
-      {/* Top bar */}
-      {/* <div className="flex items-center justify-between px-6 py-2 text-gray-700 bg-gradient-to-r from-orange-500 to-indigo-500">
-        <div className="flex items-center space-x-4">
-          <span className="text-xs bg-gray-100 px-2 py-1 rounded">Hotline 24/7</span>
-          <strong>(025) 3886 25 16</strong>
-        </div>
-        <div className="flex items-center space-x-4">
-          <a href="#" className="hover:underline transition duration-200">Sell on Swoo</a>
-          <a href="#" className="hover:underline transition duration-200">Order Track</a>
-          <div className="flex items-center space-x-1 cursor-pointer hover:text-teal-600">
-            <span>USD</span>
-            <IoMdArrowDropdown />
-          </div>
-          <div className="flex items-center space-x-1 cursor-pointer hover:text-teal-600">
-            <img src="https://flagcdn.com/us.svg" alt="English" className="w-5 h-4" />
-            <IoMdArrowDropdown />
-          </div>
-        </div>
-      </div> */}
 
       {/* Middle section */}
       <motion.div
@@ -78,24 +72,29 @@ const Header = () => {
             </Link>
           </div>
 
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            className="relative cursor-pointer"
-          >
-            <FaShoppingCart className="text-xl" />
-            <span className="absolute -top-2 -right-3 bg-green-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">$</span>
-          </motion.div>
+
+          <Link to={"/cart"}>
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              className="relative cursor-pointer"
+            >
+
+              <FaShoppingCart className="text-xl" />
+              <span className="absolute -top-2 -right-3 bg-green-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">{cart.item.length}</span>
+            </motion.div>
+          </Link>
 
           <div className="font-bold text-gray-700">$1,689.00</div>
         </div>
-      </motion.div>
+      </motion.div >
+
 
       {/* Search + Info Bar */}
-      <motion.div
+      < motion.div
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="bg-gradient-to-r from-orange-500 to-indigo-500  text-white px-6 py-3 flex items-center justify-between"
+        className=" bg-teal-600  text-white px-6 py-3 flex items-center justify-between"
       >
         <div className="flex bg-white rounded-full overflow-hidden shadow-md">
           <button className="flex items-center  px-4 text-black border-r">
@@ -106,7 +105,7 @@ const Header = () => {
             placeholder="Search anything..."
             className="px-4 py-2 text-black outline-none w-64"
           />
-          <button className="px-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white hover:bg-teal-700 transition">
+          <button className="px-4 bg-teal-600  text-white hover:bg-teal-700 transition">
             <FaSearch />
           </button>
         </div>
@@ -116,8 +115,8 @@ const Header = () => {
           <span className="hover:text-yellow-300 transition">30 DAYS MONEY BACK</span>
           <span className="hover:text-yellow-300 transition">100% SECURE PAYMENT</span>
         </div>
-      </motion.div>
-    </motion.div>
+      </motion.div >
+    </motion.div >
   );
 };
 

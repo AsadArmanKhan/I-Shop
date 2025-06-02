@@ -7,21 +7,34 @@ import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MainContext } from "../../Context";
 import { Link, useSearchParams, useParams } from "react-router-dom";
-
+import { useDispatch } from 'react-redux'
+import { addItem } from '../../redux/slice/cartSlice';
+import { hex } from 'framer-motion';
 export default function Store() {
+    const dispacher = useDispatch()
     const { categorySlug } = useParams();
     // console.log(categorySlug);
-
     const [limit, setLimit] = useState(0)
     const [colorSlug, setColorSlug] = useState();
     const [searchParams, setSearchParams] = useSearchParams()
     const { getProduct, products, getCategory, Categories,
         COLOR_URL, getColors, colors, API_BASE_URL } = useContext(MainContext)
+
+    // console.log(products)
+
+
     useEffect(
         () => {
             getCategory()
             getColors()
             // getProduct()
+            if (searchParams.get('limit')) {
+                setLimit(searchParams.get('limit'))
+            }
+            if (searchParams.get('colorSlug')) {
+                setColorSlug(searchParams.get('colorSlug'))
+            }
+
         },
         []
     )
@@ -46,119 +59,136 @@ export default function Store() {
             <BestSeller />
             {/* <AllCategories /> */}
 
-            <div className="bg-white p-6">
-                <h2 className="text-lg font-semibold mb-6">BEST SELLER IN THIS CATEGORY</h2>
+            <div className="bg-[#121212] p-6 rounded-xl shadow-xl text-white">
+                <h2 className="text-lg font-bold mb-6 text-yellow-400 tracking-wide">BEST SELLER IN THIS CATEGORY</h2>
                 <div className="grid grid-cols-6 gap-4">
                     {/* Sidebar */}
-                    <div className="col-span-1 bg-gray-100 p-4 rounded-xl">
-                        {/* <div className="">All</div> */}
-                        <h3 className="font-semibold mb-2">CATEGORIES</h3>
-                        <button className="text-sm font-semibold text-left text-gray-800 mb-4 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-gradient-to-r from-purple-500 to-indigo-500 hover:text-white px-3  rounded shadow-md">
-                            <Link to={`/store`}>
-                                All Categories
-                            </Link>
+                    <div className="col-span-1 bg-gray-900 text-white p-4 rounded-xl shadow-lg">
+                        <h3 className="font-semibold text-yellow-400 mb-4 tracking-wide">CATEGORIES</h3>
 
+                        {/* All Categories Button */}
+                        <button className="w-full text-sm font-semibold text-left mb-4 px-3 py-2 rounded shadow-md bg-gray-800 text-white hover:bg-gradient-to-r from-yellow-500 to-yellow-700 hover:text-black transition transform hover:scale-105">
+                            <Link to={`/store`}>All Categories</Link>
                         </button>
-                        <ul className="space-y-1 text-sm text-gray-700">
+
+                        {/* Category List */}
+                        <ul className="space-y-2 text-sm">
                             {Categories.map((category) => (
                                 <li
                                     key={category._id}
-                                    className="cursor-pointer text-sm font-semibold text-left text-gray-800 mb-2 py-2 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-gradient-to-r from-purple-500 to-indigo-500 hover:text-white px-3  rounded shadow-md"
+                                    className="flex justify-between cursor-pointer text-sm font-semibold text-left py-2 px-3 bg-gray-800 text-white rounded shadow-md transition transform hover:scale-105 hover:bg-gradient-to-r from-yellow-500 to-yellow-700 hover:text-black"
                                 >
                                     <Link to={`/store/${category.slug}`}>{category.name}</Link>
+                                    <span className='flex justify-end '>({category.productCount})</span>
                                 </li>
                             ))}
                         </ul>
-                        <div className="mb-4 my-10">
-                            <h4 className="font-semibold mb-2">By Color</h4>
-                            <div className="flex flex-wrap gap-2">
-                                {
-                                    colors.map((color, index) => (
-                                        <li
-                                            onClick={() => setColorSlug(color.slug)}
-                                            key={index}
-                                            className="w-5 h-5 rounded-full border list-none"
-                                            style={{ backgroundColor: color.hexcode }}
-                                        >
-                                        </li>
-                                    ))
-                                }
+
+                        {/* Color Filter */}
+                        <div className="my-10">
+                            <h4 className="font-semibold text-yellow-400 mb-2 tracking-wide">BY COLOR</h4>
+                            <div className="flex flex-wrap  gap-2">
+                                {colors.map((color, index) => (
+                                    <li
+                                        onClick={() => setColorSlug(color.slug)}
+                                        key={index}
+                                        className="w-6 h-6 rounded-full border-2 border-gray-600 list-none hover:scale-110 transition"
+                                        style={{ backgroundColor: color.hexcode }}
+                                    ></li>
+                                ))}
                             </div>
                         </div>
                     </div>
 
                     {/* Products Section */}
-                    <div className="col-span-5 " >
-                        <select onChange={(e) => setLimit(e.target.value)} className="hover:bg-gradient-to-r from-purple-500 to-indigo-500 border border-gray-300 rounded px-6 py-1 text-sm" >
-                            <Link to={`/store`}>
-                                <option value="0">All</option>
-                            </Link>
+                    <div className="col-span-5 p-4 bg-gray-900 text-white rounded-xl shadow-lg">
+                        {/* Limit Selector */}
+                        <select
+                            onChange={(e) => setLimit(e.target.value)}
+                            className="bg-gray-800 border border-gray-600 rounded-lg px-6 py-2 text-sm text-white focus:ring-2 focus:ring-yellow-500 transition-all duration-300 mb-6"
+                        >
+                            <option value="0">All</option>
                             <option value="2">2</option>
                             <option value="20">20</option>
                             <option value="24">24</option>
                         </select>
-                        <div className="flex justify-between items-center mb-4">
-                            <button className="p-2 bg-gray-100 rounded-full">
-                                <FaAngleLeft className="text-gray-600" />
+
+                        {/* Pagination Buttons */}
+                        <div className="flex justify-between items-center mb-6">
+                            <button className="p-2 bg-gray-800 hover:bg-gray-700 text-yellow-400 rounded-full transition">
+                                {/* <FaAngleLeft className="text-yellow-400" /> */}
                             </button>
-                            <button className="p-2 bg-gray-100 rounded-full">
-                                <FaAngleRight className="text-gray-600" />
+                            <button className="p-2 bg-gray-800 hover:bg-gray-700 text-yellow-400 rounded-full transition">
+                                {/* <FaAngleRight className="text-yellow-400" /> */}
                             </button>
                         </div>
-                        <div className="grid grid-cols-4 gap-6">
-                            {/* Product Card */}
-                            {
-                                products.map(
-                                    (product, index) => {
-                                        // console.log(product);
 
-                                        return (
-                                            <div className="bg-gradient-to-r from-lime-50 border-white to-purple-200 relative border rounded-xl p-4 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:border-purple-500">
-                                                <div className="text-black text-xs px-2 py-1 rounded">
-                                                    {product._id}
-                                                </div>
+                        {/* Product Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+                            {products.map((product, index) => (
+                                <div
+                                    key={index}
+                                    className="bg-[#1a1a1a] border border-[#2e2e2e] rounded-2xl p-4 hover:scale-[1.03] transform transition duration-300 shadow-xl hover:shadow-[0_0_15px_#facc15] relative"
+                                >
+                                    {/* Product ID Badge */}
+                                    <div className="absolute top-2 right-2 bg-yellow-600 text-[10px] sm:text-xs text-black px-2 py-1 rounded shadow">
+                                        {index + 1}
+                                    </div>
 
-                                                {/* Looping Video */}
-                                                {/* <video
-                                                src={product.videoUrl}
-                                                autoPlay
-                                                loop
-                                                // muted
-                                                playsInline
-                                                // controls
-                                                className="loop mx-auto mb-4 rounded-lg w-full h-40 object-cover"
-                                            /> */}
+                                    {/* Product Image */}
+                                    <img
+                                        src={`${API_BASE_URL}/images/product/${product.thumbnail}`}
+                                        alt="Product"
+                                        className="w-full object-cover rounded-lg mb-3"
+                                    />
 
-                                                {/* Image (still shown below video) */}
-                                                <img
-                                                    src={`${API_BASE_URL}/images/product/${product.thumbnail}`}
-                                                    alt="Product"
-                                                    className="mx-auto h-50 mb-4"
-                                                />
+                                    {/* Product Name */}
+                                    <p className="text-sm sm:text-base text-gray-300 font-medium text-center">
+                                        {product.name}
+                                    </p>
 
-                                                <p className="text-sm text-gray-600">{product.name}</p>
-                                                <p className="font-bold text-lg mt-2">
-                                                    <span className="text-red-600">{product.finalPrice}</span>{" "}
-                                                    <span className="text-gray-400 line-through ml-1">{product.orignalPrice}</span>
-                                                </p>
-                                                <p className="text-sm font-semibold">
-                                                    <span className="text-green-500">FREE SHIPPING</span>
-                                                </p>
-                                                <p className="text-sm">
-                                                    <span className="text-red-500">{product.stock}</span>
-                                                </p>
-                                            </div>
+                                    {/* Price */}
+                                    <p className="text-center font-bold text-base sm:text-lg mt-1">
+                                        <span className="text-yellow-400">{product.finalPrice}</span>{" "}
+                                        <span className="text-gray-500 line-through ml-2">{product.orignalPrice}</span>
+                                    </p>
 
+                                    {/* Free Shipping */}
+                                    <button className="text-xs sm:text-sm text-green-400 font-semibold text-center mt-1">
+                                        FREE SHIPPING
+                                    </button>
 
-                                        )
-                                    }
-                                )
-                            }
+                                    {/* Stock */}
+                                    <p className="text-sm text-red-400 text-center mt-1">
+                                        {product.stock}
+                                    </p>
 
+                                    {/* Add to Cart Button */}
+                                    <button
+                                        onClick={() => {
+                                            dispacher(
+
+                                                addItem({
+                                                    productId: product._id,
+                                                    finalPrice: product.finalPrice,
+                                                    orignalPrice: product.orignalPrice,
+                                                })
+                                            )
+                                            // console.log('hello');
+
+                                        }}
+                                        className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold text-sm sm:text-base py-2 rounded-lg shadow-md transition-all duration-300"
+                                    >
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            ))}
                         </div>
+
                     </div>
                 </div>
             </div>
+
 
             {/* <ByColor /> */}
 
