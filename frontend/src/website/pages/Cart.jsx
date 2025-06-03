@@ -3,16 +3,30 @@ import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MainContext } from "../../Context";
 import { qtyHandler } from "../../redux/slice/cartSlice";
+import { useNavigate } from 'react-router-dom'
 
 const Cart = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   function handlerCart(payload) {
+    console.log(payload);
+return
     dispatch(qtyHandler(payload))
 
   }
   const { getProduct, products, API_BASE_URL, } = useContext(MainContext)
   const cart = useSelector((state) => state.cart);
-  // console.log(cart);
+  const user = useSelector((state) => state.user);
+
+  function checkOutHandler() {
+    if (user.data && user.userToken) {
+      navigate("/checkout")
+    } else {
+      navigate("/login")
+    }
+  }
+
+  // console.log(user.data, user.userToken);
 
   useEffect(
     () => {
@@ -50,6 +64,7 @@ const Cart = () => {
   // }, []);
 
   return (
+    // <>
     <div className="relative min-h-screen bg-gradient-to-br from-[#0f0f0f] to-[#1b1b1b] text-yellow-100 p-6">
       {/* Canvas Background */}
       {/* <canvas
@@ -68,13 +83,15 @@ const Cart = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 flex-1">
           {
             // Array.isArray(cart)
-            cart?.item?.map((item) => {
+            cart?.item?.map((item, index) => {
               const product = products.find((p) => p._id === item.productId)
-              // console.log(product)
+              console.log(product)
+              // return
               if (!product) return null;
               return (
                 <>
                   <div
+                    key={index}
                     className="bg-gradient-to-br from-gray-900 to-blue-700 border border-gray-600 rounded-2xl p-4 hover:scale-105 transform transition duration-300 shadow-xl hover:shadow-yellow-500/20"
                   >
                     {/* Product Image */}
@@ -97,13 +114,20 @@ const Cart = () => {
                         </p>
                       </div>
                       <div className="">
-                        <button onClick={() => handlerCart({ productId: item.productId, type: 'dec', finalPrice: product.finalPrice, orignalPrice: product.orignalPrice })} className="rounded px-2 bg-gray-400 text-black">
+                        <button onClick={() => handlerCart({
+                          productId: item.productId, type: 'dec',
+                          finalPrice: product.finalPrice, orignalPrice: product.orignalPrice
+                        })}
+                          className="rounded px-2 bg-gray-400 text-black">
                           -
                         </button>
                         <span >
                           {item.qty}
                         </span>
-                        <button onClick={() => handlerCart({ productId: item.productId, type: 'inc', finalPrice: product.finalPrice, orignalPrice: product.orignalPrice })} className="rounded px-2 bg-gray-400 text-black">
+                        <button onClick={() => handlerCart({
+                          productId: item.productId, type: 'inc',
+                          finalPrice: product.finalPrice, orignalPrice: product.orignalPrice
+                        })} className="rounded px-2 bg-gray-400 text-black">
                           +
                         </button>
                       </div>
@@ -136,26 +160,27 @@ const Cart = () => {
                 <span>Sub Total:</span>
                 <span className="font-semibold">${cart.orignalTotal}</span>
               </div>
-              <div className="flex justify-between">
+              {/* <div className="flex justify-between">
                 <span>Shipping estimate:</span>
                 <span>$</span>
-              </div>
+              </div> */}
               <div className="flex justify-between">
-                <span>Savings</span>
-                <span>${cart.finalTotal - cart.orignalTotal}</span>
+                <span className="">Savings</span>
+                <span className="font-bold text-green-600">{cart.orignalTotal - cart.finalTotal}</span>
               </div>
               <div className="flex justify-between font-bold border-t pt-2 mt-2">
                 <span>ORDER TOTAL:</span>
                 <span>${cart.finalTotal}</span>
               </div>
             </div>
-            <button className="w-full mt-4 bg-yellow-500 hover:bg-yellow-400 text-black py-2 rounded font-semibold transition">
+            <button onClick={checkOutHandler} className="w-full mt-4 bg-yellow-500 hover:bg-yellow-400 text-black py-2 rounded font-semibold transition">
               CHECKOUT
             </button>
           </div>
         </div>
       </div>
     </div >
+    // </>
   );
 };
 

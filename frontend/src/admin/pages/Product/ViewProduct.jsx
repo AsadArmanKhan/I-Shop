@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 const ViewProduct = () => {
   const admin = useSelector((state) => state.admin)
   const { API_BASE_URL, PRODUCT_URL, notify, getProduct, products } = useContext(MainContext);
-  // console.log(products._id);
+  console.log(products);
   // return
 
   function statusHandler(id, flag) {
@@ -88,7 +88,7 @@ const ViewProduct = () => {
           </thead>
           <tbody className="divide-y divide-gray-100">
             {Array.isArray(products) && products.map((product) => (
-              console.log(product),
+              // console.log(product),
               <tr key={product._id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 font-medium">{product.name}</td>
                 <td className="px-4 py-3">{product.slug || "-"}</td>

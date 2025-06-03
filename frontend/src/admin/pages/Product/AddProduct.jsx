@@ -1,9 +1,9 @@
+import { Link } from "react-router-dom"; // Make sure this is at the top
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MainContext } from "../../../Context";
 import Select from 'react-select'
 import axios from "axios";
-import { Link } from "react-router-dom"; // Make sure this is at the top
 import { useSelector } from "react-redux";
 
 
@@ -13,7 +13,7 @@ export default function AddProduct() {
 
     const nameRef = useRef();
     const slugRef = useRef();
-    const originalPriceRef = useRef();
+    const orignalPriceRef = useRef();
     const discountPerRef = useRef()
     const finalPriceRef = useRef();
 
@@ -23,22 +23,20 @@ export default function AddProduct() {
         const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
         slugRef.current.value = slug;
     }
-
     function finalPriceCal() {
-        const op = originalPriceRef.current.value;
+        const op = orignalPriceRef.current.value;
         const dp = discountPerRef.current.value;
         const fp = Math.floor(op - (op * (dp / 100)));
         finalPriceRef.current.value = fp;
 
     }
-
     const admin = useSelector((state) => state.admin)
     function submitHandler(e) {
         e.preventDefault();
         const formData = new FormData()
         formData.append('name', nameRef.current.value);
         formData.append('slug', slugRef.current.value);
-        formData.append('originalPrice', originalPriceRef.current.value);
+        formData.append('orignalPrice', orignalPriceRef.current.value);
         formData.append('discountPercentage', discountPerRef.current.value);
         formData.append('finalPrice', finalPriceRef.current.value);
         formData.append('thumbnail', e.target.thumbnail.files[0]);
@@ -47,7 +45,7 @@ export default function AddProduct() {
         formData.append("categoryId", e.target.categoryId.value);
         formData.append("colors", JSON.stringify(selcolors))
         // formData.append("video", e.target.videoUrl)
-        // console.log(formData);
+        console.log(formData);
 
 
         axios.post(API_BASE_URL + PRODUCT_URL + "/create", formData,
@@ -60,7 +58,7 @@ export default function AddProduct() {
             (res) => {
                 notify(res.data.msg, res.data.flag);
                 if (res.data.flag === 1) {
-                    e.target.reset();
+                    // e.target.reset();
                 }
             }
         ).catch(
@@ -134,7 +132,7 @@ export default function AddProduct() {
                                 <input
                                     type="number"
                                     name="originalPrice"
-                                    ref={originalPriceRef}
+                                    ref={orignalPriceRef}
                                     onChange={finalPriceCal}
                                     id="originalPrice"
                                     className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
@@ -284,4 +282,3 @@ export default function AddProduct() {
         </section>
     );
 };
-

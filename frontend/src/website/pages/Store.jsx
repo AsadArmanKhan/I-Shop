@@ -126,6 +126,7 @@ export default function Store() {
                         {/* Product Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
                             {products.map((product, index) => (
+                                // console.log(product),
                                 <div
                                     key={index}
                                     className="bg-[#1a1a1a] border border-[#2e2e2e] rounded-2xl p-4 hover:scale-[1.03] transform transition duration-300 shadow-xl hover:shadow-[0_0_15px_#facc15] relative"
@@ -152,7 +153,10 @@ export default function Store() {
                                         <span className="text-yellow-400">{product.finalPrice}</span>{" "}
                                         <span className="text-gray-500 line-through ml-2">{product.orignalPrice}</span>
                                     </p>
+                                    {
+                                        console.log(product.finalPrice)
 
+                                    }
                                     {/* Free Shipping */}
                                     <button className="text-xs sm:text-sm text-green-400 font-semibold text-center mt-1">
                                         FREE SHIPPING
@@ -167,13 +171,14 @@ export default function Store() {
                                     <button
                                         onClick={() => {
                                             dispacher(
-
                                                 addItem({
                                                     productId: product._id,
                                                     finalPrice: product.finalPrice,
                                                     orignalPrice: product.orignalPrice,
                                                 })
+
                                             )
+
                                             // console.log('hello');
 
                                         }}

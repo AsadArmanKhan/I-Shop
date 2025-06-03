@@ -23,11 +23,7 @@ export const cartSlice = createSlice({
             state.finalTotal += finalPrice;
             state.orignalTotal += orignalPrice;
 
-            localStorage.setItem('cart', JSON.stringify({
-                item: state.item,
-                finalTotal: state.finalTotal,
-                orignalTotal: state.orignalTotal,
-            }));
+            localStorage.setItem('cart', JSON.stringify(state));
         },
 
         lsToCart(state) {
@@ -48,29 +44,20 @@ export const cartSlice = createSlice({
                     existingItem.qty += 1;
                     state.finalTotal += finalPrice;
                     state.orignalTotal += orignalPrice;
-                } else if (type === "dec") {
+                } else if (type === "dec" && existingItem.qty > 1) {
                     existingItem.qty -= 1;
                     state.finalTotal -= finalPrice;
-                    state.finalPrice -= orignalPrice;
+                    state.orignalTotal -= orignalPrice;
+
                 }
             }
-            localStorage.setItem("cart", JSON.stringify(state))
+            localStorage.setItem('cart', JSON.stringify(state));
 
         }
-
-        // logout(state) {
-        //     state.data = null;,
-        //     state.token = null;
-
-        //     localStorage.removeItem("admin")
-        //     localStorage.removeItem("token");
-        //     localStorage.removeItem("adminTimeStamp")
-        // },
 
     },
 })
 
-// Action creators are generated for each case reducer function
 export const { lsToCart, addItem, qtyHandler } = cartSlice.actions
 
 export default cartSlice.reducer

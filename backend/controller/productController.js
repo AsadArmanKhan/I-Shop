@@ -7,7 +7,10 @@ const categoryModel = require("../model/categoryModel");
 const colorModel = require("../model/colorModel");
 
 const productController = {
+
     async create(req, res) {
+        // console.log(req.body.orignalPrice);
+        // return
         try {
             const image = req.files.thumbnail
             if (!req.body.name || !req.body.slug) {
