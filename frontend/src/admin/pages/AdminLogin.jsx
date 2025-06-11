@@ -10,7 +10,8 @@ export default function AdminLogin() {
     const { API_BASE_URL, ADMIN_URL, notify } = useContext(MainContext)
     const navigator = useNavigate()
     const dispatcher = useDispatch()
-
+    const cartData = JSON.parse(localStorage.getItem('cart'))
+    const cart = cartData ? cartData.items : null
 
     function submitHandler(e) {
         e.preventDefault();
@@ -21,14 +22,13 @@ export default function AdminLogin() {
         // console.log("Hello")
 
         axios.post(API_BASE_URL + ADMIN_URL + "/login", data).then(
-            (resp) => {
+            async (resp) => {
                 // console.log();
 
                 notify(resp.data.msg, resp.data.flag)
                 if (resp.data.flag === 1) {
                     // console.log(resp.data?.admin)
                     e.target.reset()
-                    navigator("/admin")
                     dispatcher(setAdmin(
                         {
                             admin: resp.data?.admin,
@@ -36,6 +36,7 @@ export default function AdminLogin() {
                             token: resp.data.token
                         }
                     ))
+                    navigator("/admin")
                 }
 
             }

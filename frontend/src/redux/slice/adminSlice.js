@@ -29,6 +29,6 @@ export const adminSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setAdmin, lsAdmin, logout } = adminSlice.actions
+export const { setAdmin, logout } = adminSlice.actions
 
 export default adminSlice.reducer

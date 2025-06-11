@@ -12,6 +12,7 @@ import { lsToCart } from '../../redux/slice/cartSlice';
 
 
 const Header = () => {
+  const user = useSelector((state) => state.user.data)
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart);
   // console.log(cart, 'cart from header');
@@ -64,12 +65,22 @@ const Header = () => {
 
         <div className="flex items-center space-x-4">
           <div className="flex text-right space-x-1">
-            <Link to={"/login"}>
-              <div className="font-semibold text-black hover:text-teal-600 transition">LOG IN |</div>
-            </Link>
-            <Link to={"/register"}>
+            {
+              user == null ?
+                <Link to={"/login?ref=Products"}>
+                  <div className="font-semibold cursor-pointer text-black hover:text-teal-600 transition">LOG IN |</div>
+                </Link>
+                :
+                <div className="cursor-pointer font-semibold text-black hover:text-teal-600 transition" >
+                  LOG OUT |
+                </div>
+
+
+
+            }
+            {/* <Link to={"/register"}>
               <div className="font-semibold text-black hover:text-teal-600 transition">| REGISTER |</div>
-            </Link>
+            </Link> */}
           </div>
 
 

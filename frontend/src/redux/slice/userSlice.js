@@ -11,8 +11,10 @@ export const userSlice = createSlice({
     reducers: {
         setUser(state, { payload }) {
             state.data = payload.user;
+            
             state.userToken = payload.userToken;
-            // return console.log(payload.token);
+
+            console.log(payload.token);
 
             localStorage.setItem("user", JSON.stringify(payload.admin));
 
@@ -23,13 +25,10 @@ export const userSlice = createSlice({
             // console.log(state.token);
         },
         lsUser(state) {
-
-            const user = localStorage.getItem("user")
+            const user = JSON.parse(localStorage.getItem("user"))
             if
                 (user) {
-
-                state.data = JSON.parse(user.data);
-
+                state.data = (user.data);
                 // console.log(payload.ad);
                 state.userToken = user.userToken;
             }
@@ -37,10 +36,7 @@ export const userSlice = createSlice({
         userLogout(state) {
             state.data = null;
             state.token = null;
-
-
-            lo
-            calStorage.removeItem("user")
+            localStorage.removeItem("user")
 
             localStorage.removeItem("userToken");
             // localStorage.removeItem("adminTimeStamp")

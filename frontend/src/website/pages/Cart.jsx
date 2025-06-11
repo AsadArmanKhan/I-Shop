@@ -22,7 +22,7 @@ const Cart = () => {
 
   const checkOutHandler = () => {
     if (user.data && user.userToken) {
-      navigate("/checkout");
+      navigate("/checkout?ref=checkout");
     } else {
       navigate("/login");
     }

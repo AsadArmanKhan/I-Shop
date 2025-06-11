@@ -15,17 +15,31 @@ import MultipleImage from './admin/pages/Product/MultipleImage'
 import EditProduct from './admin/pages/Product/EditProduct'
 import EditColor from './admin/pages/Colors/EditColor'
 import AdminLogin from './admin/pages/AdminLogin'
-import LoginPage from './website/pages/LoginPage'
-import RegisterPage from './website/pages/RegisterPage'
+// import LoginPage from './website/pages/AuthForm'
+// import RegisterPage from './website/pages/RegisterPage'
 import Card from './website/components/Card'
 import Cart from './website/pages/Cart'
 import Profile from './website/pages/Profile'
 import Homeeee from './website/pages/Homeeee'
 import Store from './website/pages/Store'
 import Checkout from './website/pages/Checkout'
+import AuthForm from './website/pages/AuthForm'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+// import { lsAdmin } from './redux/slice/adminSlice'
+import { lsUser } from './redux/slice/userSlice'
 // import HomePage from './website/pages/Homeeee'
 
 export default function App() {
+  // const dispatcher = useDispatch()
+  // useEffect(
+  //   () => {
+  //     // dispatcher(lsAdmin())
+  //     // dispatcher(lsUser())
+  //   },
+  //   []
+  // )
+
   const routers = createBrowserRouter([
     {
       path: "/",
@@ -117,12 +131,8 @@ export default function App() {
 
     {
       path: "/login",
-      element: <LoginPage />
+      element: <AuthForm />
     },
-    {
-      path:"/register",
-      element:<RegisterPage/>
-    }
 
 
   ])
