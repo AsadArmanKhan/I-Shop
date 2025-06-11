@@ -14,30 +14,50 @@ function Context(props) {
     const COLOR_URL = "/color"
     const PRODUCT_URL = "/product"
     const ADMIN_URL = "/admin"
+    const USER_URL = "/user"    
 
     const notify = (msg, flag) => toast(msg, { type: flag ? "success" : "error" });
 
     function getCategory(id = null) {
         let URL = API_BASE_URL + CATEGORY_URL;
-        //http://localhost:5000/category/id
         if (id != null) {
-            URL += `/${id}`
-
+            URL += `/${id}`;
         }
 
-        axios.get(URL).then(
-            (response) => {
-                if (response.data.flag === 1) {
-                    setCategories(response.data.categorise)
-                    // console.log(response.data.categorise);
-                }
+        axios.get(URL).then((response) => {
+            if (response.data.flag === 1) {
+                const sortedCategories = [...response.data.categorise].sort((a, b) =>
+                    a.name.localeCompare(b.name)
+                );
+                setCategories(sortedCategories);
             }
-        ).catch(
-            (error) => {
-                setCategories([]);
-            }
-        )
+        }).catch((error) => {
+            setCategories([]);
+        });
     }
+
+
+    // function getCategory(id = null) {
+    //     let URL = API_BASE_URL + CATEGORY_URL;
+    //     //http://localhost:5000/category/id
+    //     if (id != null) {
+    //         URL += `/${id}`
+
+    //     }
+
+    //     axios.get(URL).then(
+    //         (response) => {
+    //             if (response.data.flag === 1) {
+    //                 setCategories(response.data.categorise)
+    //                 // console.log(response.data.categorise);
+    //             }
+    //         }
+    //     ).catch(
+    //         (error) => {
+    //             setCategories([]);
+    //         }
+    //     )
+    // }
 
     function getColors(id = null) {
         let URL = API_BASE_URL + COLOR_URL
@@ -101,7 +121,7 @@ function Context(props) {
     return (
         <MainContext.Provider value={{
             API_BASE_URL, CATEGORY_URL, ADMIN_URL, notify, getCategory, Categories,
-            COLOR_URL, getColors, colors, PRODUCT_URL, getProduct, products
+            COLOR_URL, getColors, colors, PRODUCT_URL, getProduct, products, USER_URL
         }}>
             <ToastContainer position="top-right"
                 autoClose={5000}

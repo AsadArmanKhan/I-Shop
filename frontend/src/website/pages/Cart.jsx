@@ -3,184 +3,137 @@ import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MainContext } from "../../Context";
 import { qtyHandler } from "../../redux/slice/cartSlice";
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
+import Checkout from "./Checkout";
 
 const Cart = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  function handlerCart(payload) {
-    console.log(payload);
-return
-    dispatch(qtyHandler(payload))
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  }
-  const { getProduct, products, API_BASE_URL, } = useContext(MainContext)
+  const handlerCart = (payload) => {
+    dispatch(qtyHandler(payload));
+  };
+
+  const { getProduct, products, API_BASE_URL } = useContext(MainContext);
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
+  console.log(user);
 
-  function checkOutHandler() {
+
+  const checkOutHandler = () => {
     if (user.data && user.userToken) {
-      navigate("/checkout")
+      navigate("/checkout");
     } else {
-      navigate("/login")
+      navigate("/login");
     }
-  }
+  };
 
-  // console.log(user.data, user.userToken);
-
-  useEffect(
-    () => {
-      getProduct()
-
-    }, []
-  )
-  // useEffect(() => {
-  //   const canvas = document.getElementById("cartCanvas");
-  //   const ctx = canvas.getContext("2d");
-  //   canvas.width = window.innerWidth;
-  //   canvas.height = window.innerHeight;
-
-  //   // const particles = Array.from({ length: 120 }, () => ({
-  //   //   x: Math.random() * canvas.width,
-  //   //   y: Math.random() * canvas.height,
-  //   //   size: Math.random() * 2 + 1,
-  //   //   speedY: Math.random() * 1 + 0.3,
-  //   // }));
-
-  //   // const animate = () => {
-  //   //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //   //   particles.forEach((p) => {
-  //   //     ctx.beginPath();
-  //   //     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-  //   //     ctx.fillStyle = "rgba(255, 215, 0, 0.25)";
-  //   //     ctx.fill();
-  //   //     p.y += p.speedY;
-  //   //     if (p.y > canvas.height) p.y = 0;
-  //   //   });
-  //   //   requestAnimationFrame(animate);
-  //   // };
-
-  //   animate();
-  // }, []);
+  useEffect(() => {
+    getProduct();
+  }, []);
 
   return (
-    // <>
-    <div className="relative min-h-screen bg-gradient-to-br from-[#0f0f0f] to-[#1b1b1b] text-yellow-100 p-6">
-      {/* Canvas Background */}
-      {/* <canvas
-        id="cartCanvas"
-        className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
-      /> */}
+    <div className="min-h-screen p-6 bg-white text-black">
+      <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Products */}
+        <div className="flex-1 space-y-6">
+          {cart?.item?.map((item, index) => {
+            const product = products.find((p) => p._id === item.productId);
+            if (!product) return null;
 
-      {/* Title */}
-      <h1 className="text-3xl font-bold mb-6 text-yellow-400 relative z-10">
-        Your Cart
-      </h1>
+            return (
+              <div key={index} className="border rounded-xl p-4 flex gap-4 bg-white shadow-md">
+                <img
+                  src={`${API_BASE_URL}/images/product/${product.thumbnail}`}
+                  alt={product.name}
+                  className="w-32 h-32 object-cover rounded-md"
+                />
 
-      {/* Cart Layout */}
-      <div className="relative z-10 flex flex-col lg:flex-row gap-8">
-        {/* Product Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 flex-1">
-          {
-            // Array.isArray(cart)
-            cart?.item?.map((item, index) => {
-              const product = products.find((p) => p._id === item.productId)
-              console.log(product)
-              // return
-              if (!product) return null;
-              return (
-                <>
-                  <div
-                    key={index}
-                    className="bg-gradient-to-br from-gray-900 to-blue-700 border border-gray-600 rounded-2xl p-4 hover:scale-105 transform transition duration-300 shadow-xl hover:shadow-yellow-500/20"
-                  >
-                    {/* Product Image */}
-                    <img
-                      src={`${API_BASE_URL}/images/product/${product?.thumbnail}`}
-                      alt="Product"
-                      className="w-full rounded-lg mb-4"
-                    />
-                    {/* Product Info */}
-                    <h1 className="  text-gray-200">{product.name}</h1>
-                    <p className="font-bold text-lg mt-2">
-                      <span className="text-yellow-400">{product.finalPrice}</span>
-                      <span className="text-gray-500 line-through ml-2">{product.orignalPrice}</span>
-                    </p>
-                    <div className="flex gap-25">
-                      <div className="">
-                        <p className="text-xs text-green-400 font-semibold mt-1">FREE SHIPPING</p>
-                        <p className="text-sm mt-1">
-                          <span className="">In Stock</span>
-                        </p>
+                <div className="flex-1">
+                  <div className="flex justify-between items-start">
+                    <h2 className="text-lg font-semibold">{product.name}</h2>
+                    {index === 0 && (
+                      <div className="bg-green-100 text-green-700 px-2 py-1 text-xs rounded">
+                        SAVE ${product.orignalPrice - product.finalPrice}
                       </div>
-                      <div className="">
-                        <button onClick={() => handlerCart({
-                          productId: item.productId, type: 'dec',
-                          finalPrice: product.finalPrice, orignalPrice: product.orignalPrice
-                        })}
-                          className="rounded px-2 bg-gray-400 text-black">
-                          -
-                        </button>
-                        <span >
-                          {item.qty}
-                        </span>
-                        <button onClick={() => handlerCart({
-                          productId: item.productId, type: 'inc',
-                          finalPrice: product.finalPrice, orignalPrice: product.orignalPrice
-                        })} className="rounded px-2 bg-gray-400 text-black">
-                          +
-                        </button>
+                    )}
+                    {index !== 0 && (
+                      <div className="bg-black text-white px-2 py-1 text-xs rounded">
+                        NEW
                       </div>
-                    </div>
+                    )}
+                  </div>
 
-                    {/* Button */}
-                    <button className="mt-4 w-full bg-yellow-600 hover:bg-yellow-500 text-black font-bold py-2 rounded-lg transition">
-                      Remove from Cart
+                  <p className="text-xl font-bold text-red-500 mt-2">
+                    ${product.finalPrice}
+                  </p>
+                  {product.finalPrice < product.orignalPrice && (
+                    <p className="text-sm text-gray-400 line-through">${product.orignalPrice}</p>
+                  )}
+
+                  <div className="flex items-center mt-2 space-x-2">
+                    <button
+                      onClick={() => handlerCart({ productId: item.productId, type: 'dec', finalPrice: product.finalPrice, orignalPrice: product.orignalPrice })}
+                      className="px-2 py-1 bg-gray-300 rounded"
+                    >
+                      -
                     </button>
-                    {/* <button>
-                        asad
-                      </button> */}
-                  </div >
-                </>
-              )
-            })
-          }
+                    <span>{item.qty}</span>
+                    <button
+                      onClick={() => handlerCart({ productId: item.productId, type: 'inc', finalPrice: product.finalPrice, orignalPrice: product.orignalPrice })}
+                      className="px-2 py-1 bg-gray-300 rounded"
+                    >
+                      +
+                    </button>
+                  </div>
 
+                  <div className="mt-2 flex flex-wrap gap-2 text-sm">
+                    <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded">{index === 1 ? "$2.00 SHIPPING" : "FREE SHIPPING"}</span>
+                    <span className="text-green-600">In stock</span>
+                  </div>
 
+                  <button className="mt-3 text-sm text-red-600 hover:underline">
+                    Remove from Cart
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Order Summary */}
-        <div className="w-full lg:w-[300px]">
-          <div className="bg-white p-6 rounded-lg border border-yellow-500 shadow-xl">
-            <h3 className="text-lg font-semibold mb-4 text-black">
-              Order Summary
-            </h3>
-            <div className="space-y-2 text-sm text-black">
-              <div className="flex justify-between">
-                <span>Sub Total:</span>
-                <span className="font-semibold">${cart.orignalTotal}</span>
-              </div>
-              {/* <div className="flex justify-between">
-                <span>Shipping estimate:</span>
-                <span>$</span>
-              </div> */}
-              <div className="flex justify-between">
-                <span className="">Savings</span>
-                <span className="font-bold text-green-600">{cart.orignalTotal - cart.finalTotal}</span>
-              </div>
-              <div className="flex justify-between font-bold border-t pt-2 mt-2">
-                <span>ORDER TOTAL:</span>
-                <span>${cart.finalTotal}</span>
-              </div>
+        <div className="w-full lg:w-80 bg-white p-6 rounded-lg border border-green-400 shadow-lg">
+          <h3 className="text-lg font-bold mb-4">Order Summary</h3>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span>Sub Total:</span>
+              <span className="font-semibold">${cart.orignalTotal}</span>
             </div>
-            <button onClick={checkOutHandler} className="w-full mt-4 bg-yellow-500 hover:bg-yellow-400 text-black py-2 rounded font-semibold transition">
-              CHECKOUT
-            </button>
+            <div className="flex justify-between">
+              <span>Shipping estimate:</span>
+              <span>$600.00</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Tax estimate:</span>
+              <span>$137.00</span>
+            </div>
+            <div className="flex justify-between font-bold pt-2 border-t">
+              <span>ORDER TOTAL:</span>
+              <span>${cart.finalTotal}</span>
+            </div>
           </div>
+ 
+          <button
+            onClick={checkOutHandler}
+            className="mt-4 w-full bg-green-500 hover:bg-green-400 text-white py-2 rounded-md font-semibold"
+          >
+            CHECKOUT
+          </button>
+
         </div>
       </div>
-    </div >
-    // </>
+    </div>
   );
 };
 

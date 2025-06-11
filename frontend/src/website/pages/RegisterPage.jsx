@@ -1,19 +1,68 @@
+import { useState, useContext } from 'react';
 import { FaLock, FaDollarSign, FaStar } from 'react-icons/fa';
-import { MdVisibilityOff } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { setUser } from '../../redux/slice/userSlice';
+import { MainContext } from '../../Context';
 
 export default function RegisterPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { notify, API_BASE_URL, axios } = useContext(MainContext);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  function submitHandler(e) {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
+
+    if (!name || !email || !password || !confirmPassword) {
+      notify("All fields are required", 0);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      notify("Passwords do not match", 0);
+      return;
+    }
+
+    const data = { name, email, password };
+
+    axios.post(`${API_BASE_URL}/user/register`, data)
+      .then((resp) => {
+        notify(resp.data.msg, resp.data.flag);
+        if (resp.data.flag === 1) {
+          e.target.reset();
+          dispatch(setUser({
+            user: resp.data?.user,
+            userToken: resp.data.userToken
+          }));
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        notify("Registration Unsuccessful", 0);
+      });
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
-        {/* Breadcrumb */}
-        <div className="w-full max-w-6xl  my-5 bg-white shadow px-6 py-6 rounded-xl">
-          <nav className="text-sm text-gray-500">
-            <Link to={"/"}>
-            <span className="font-semibold text-gray-700">Home</span> 
-            </Link>
-            / <span>pages</span> / <span className="font-bold text-black">Register</span>
-          </nav>
-        </div>
+      {/* Breadcrumb */}
+      <div className="w-full max-w-6xl my-5 bg-white shadow px-6 py-6 rounded-xl">
+        <nav className="text-sm text-gray-500">
+          <Link to={"/"}>
+            <span className="font-semibold text-gray-700">Home</span>
+          </Link>
+          / <span>pages</span> / <span className="font-bold text-black">Register</span>
+        </nav>
+      </div>
+
       <div className="w-full max-w-6xl">
         {/* Main Content */}
         <div className="flex flex-col md:flex-row items-center justify-center px-6 py-12 md:py-16 gap-12 bg-white rounded-b-xl shadow-md">
@@ -45,11 +94,12 @@ export default function RegisterPage() {
               <h2 className="text-2xl font-semibold text-teal-600">Register</h2>
               <p className="text-sm text-gray-500 mt-1 mb-6">JOIN TO US</p>
 
-              <form className="space-y-5">
+              <form onSubmit={submitHandler} className="space-y-5">
                 <div>
                   <label className="text-sm font-medium text-gray-700">Your name</label>
                   <input
                     type="text"
+                    name="name"
                     placeholder="Jhon Deo"
                     className="mt-1 w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
                   />
@@ -58,6 +108,7 @@ export default function RegisterPage() {
                   <label className="text-sm font-medium text-gray-700">Email Address</label>
                   <input
                     type="email"
+                    name="email"
                     placeholder="Example@gmail.com"
                     className="mt-1 w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
                   />
@@ -66,22 +117,44 @@ export default function RegisterPage() {
                   <label className="text-sm font-medium text-gray-700">Password</label>
                   <div className="relative mt-1">
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
+                      name="password"
                       placeholder="...."
                       className="w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
                     />
-                    <MdVisibilityOff className="absolute right-3 top-2.5 text-gray-400" />
+                    {showPassword ? (
+                      <MdVisibility
+                        onClick={() => setShowPassword(false)}
+                        className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                      />
+                    ) : (
+                      <MdVisibilityOff
+                        onClick={() => setShowPassword(true)}
+                        className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                      />
+                    )}
                   </div>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-700">Confirm Password</label>
                   <div className="relative mt-1">
                     <input
-                      type="password"
+                      type={showConfirm ? "text" : "password"}
+                      name="confirmPassword"
                       placeholder="...."
                       className="w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
                     />
-                    <MdVisibilityOff className="absolute right-3 top-2.5 text-gray-400" />
+                    {showConfirm ? (
+                      <MdVisibility
+                        onClick={() => setShowConfirm(false)}
+                        className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                      />
+                    ) : (
+                      <MdVisibilityOff
+                        onClick={() => setShowConfirm(true)}
+                        className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -94,8 +167,8 @@ export default function RegisterPage() {
 
                 <p className="text-sm text-gray-600 text-center">
                   ALREADY USER ?
-                  <Link to={"/login"}>
-                  <span className="text-green-600 font-semibold cursor-pointer">LOGIN</span>
+                  <Link to="/login">
+                    <span className="text-green-600 font-semibold cursor-pointer ml-1">LOGIN</span>
                   </Link>
                 </p>
               </form>

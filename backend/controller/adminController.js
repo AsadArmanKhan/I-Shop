@@ -8,7 +8,7 @@ const adminController = {
     async login(req, res) {
         try {
             const { password, email, } = req.body;
-            console.log(req.body);
+            // console.log(req.body);
 
             if (!password || !email) {
                 return res.send({ msg: "All field is required", flag: 0 });
@@ -28,7 +28,7 @@ const adminController = {
             }
 
         } catch (error) {
-            res.send({ msg: "Admin Controller me dikkat h", flag: 0, error })
+            return res.send({ msg: "Error from Admin Controller ", flag: 0, error })
             console.log(error);
 
         }

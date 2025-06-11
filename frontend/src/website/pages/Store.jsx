@@ -176,9 +176,7 @@ export default function Store() {
                                                     finalPrice: product.finalPrice,
                                                     orignalPrice: product.orignalPrice,
                                                 })
-
                                             )
-
                                             // console.log('hello');
 
                                         }}

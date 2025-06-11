@@ -22,6 +22,7 @@ import Cart from './website/pages/Cart'
 import Profile from './website/pages/Profile'
 import Homeeee from './website/pages/Homeeee'
 import Store from './website/pages/Store'
+import Checkout from './website/pages/Checkout'
 // import HomePage from './website/pages/Homeeee'
 
 export default function App() {
@@ -33,14 +34,6 @@ export default function App() {
         {
           path: "/",
           element: <Home />
-        },
-        {
-          path: "/login",
-          element: <LoginPage />
-        },
-        {
-          path: "/register",
-          element: <RegisterPage />
         },
         {
           path: "/cart",
@@ -57,10 +50,13 @@ export default function App() {
         {
           path: "/store/:categorySlug?",
           element: <Store />
+        },
+        {
+          path: "/checkout",
+          element: <Checkout />
         }
       ]
     },
-
 
     {
       path: "/admin",
@@ -112,12 +108,22 @@ export default function App() {
         },
       ]
     },
-    {
 
+    {
       path: "/admin/login",
       element: <AdminLogin />
 
+    },
+
+    {
+      path: "/login",
+      element: <LoginPage />
+    },
+    {
+      path:"/register",
+      element:<RegisterPage/>
     }
+
 
   ])
   return (

@@ -59,8 +59,6 @@ const categoryController = {
     },
 
     async getdata(req, res) {
-
-
         try {
             const id = req.params.id;
             let categorise = null;

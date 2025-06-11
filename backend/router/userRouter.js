@@ -2,14 +2,15 @@
 // const adminModel = express.Router();
 
 const express = require("express");
-const adminController = require("../controller/adminController");
-const adminRouter = express.Router();
+const UserRouter = express.Router();
+const userController = require("../controller/userController");
 
-userRouter.post("/login", adminController.login);
+UserRouter.post("/register", userController.register);
+UserRouter.post("/login", userController.login);
 // adminRouter.get("/:id?", adminController.getdata);
 // colorRouter.patch("/status/:id", colorController.status);
 // colorRouter.delete("/delete/:id", colorController.delete);
 // colorRouter.put("/update/:id", fileupload({ createParentPath: true }), colorController.update),
 
 
-module.exports = userRouter;
+module.exports = UserRouter;

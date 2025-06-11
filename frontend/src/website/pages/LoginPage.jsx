@@ -1,26 +1,67 @@
+import { useState, useContext } from 'react';
 import { FaLock, FaDollarSign, FaStar } from 'react-icons/fa';
-import { MdEmail, MdVisibilityOff } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { setUser } from '../../redux/slice/userSlice';
+import { MainContext } from '../../Context';
+import axios from 'axios';
 
 export default function LoginPage() {
+    const { notify, API_BASE_URL, USER_URL } = useContext(MainContext);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    function submitHandler(e) {
+        // console.log(`${API_BASE_URL}${USER_URL}/login`)
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+
+        if (!email || !password) {
+            notify("Please fill in both fields", 0);
+            return;
+        }
+
+        const data = { email, password };
+        // console.log("hello");
+        axios.post(`${API_BASE_URL}${USER_URL}/login`, data)
+            .then((resp) => {
+                console.log("FULL RESPONSE:", resp);
+                console.log("DATA:", resp.data);
+                notify(resp.data.msg, resp.data.flag);
+                if (resp.data.flag === 1) {
+                    e.target.reset();
+                    dispatch(setUser({
+                        user: resp.data?.user,
+                        userToken: resp.data.userToken,
+                    }));
+                    navigate("/");
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                notify("Login failed. Please try again.", 0); //  frontend toast
+            });
+    }
+
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center">
             {/* Breadcrumb */}
-            <div className="w-full max-w-6xl bg-white-400 my-5 shadow px-6 py-6 rounded-xl">
+            <div className="w-full max-w-6xl bg-white my-5 shadow px-6 py-6 rounded-xl">
                 <nav className="text-sm text-gray-500">
-                    <Link to={"/"}>
+                    <Link to="/">
                         <span className="font-semibold text-gray-700">Home</span>
                     </Link>
-                    / <span>pages</span>
-
-                    / <span className="font-bold text-black">login</span>
+                    / <span>pages</span> / <span className="font-bold text-black">Login</span>
                 </nav>
             </div>
-            <div className="w-full max-w-6xl">
 
-                {/* Main Content */}
+            <div className="w-full max-w-6xl">
                 <div className="flex flex-col md:flex-row items-center justify-center px-6 py-12 md:py-16 gap-12 bg-white rounded-b-xl shadow-md">
-                    {/* Illustration Section */}
+                    {/* Illustration */}
                     <div className="flex justify-center w-full md:w-1/2">
                         <div className="relative w-80 h-80">
                             <div className="absolute top-0 left-0 bg-white rounded-full shadow-lg p-4">
@@ -42,18 +83,19 @@ export default function LoginPage() {
                         </div>
                     </div>
 
-                    {/* Login Form Section */}
+                    {/* Login Form */}
                     <div className="w-full max-w-md">
                         <div className="bg-white rounded-xl shadow-lg p-8">
                             <h2 className="text-2xl font-semibold text-teal-600">Welcome Back</h2>
                             <p className="text-sm text-gray-500 mt-1 mb-6">LOGIN TO CONTINUE</p>
 
-                            <form className="space-y-5">
+                            <form onSubmit={submitHandler} className="space-y-5">
                                 <div>
                                     <label className="text-sm font-medium text-gray-700">Email Address</label>
                                     <input
                                         type="email"
-                                        placeholder="Example@gmail.com"
+                                        name="email"
+                                        placeholder="example@gmail.com"
                                         className="mt-1 w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
                                     />
                                 </div>
@@ -61,14 +103,25 @@ export default function LoginPage() {
                                     <label className="text-sm font-medium text-gray-700">Password</label>
                                     <div className="relative mt-1">
                                         <input
-                                            type="password"
-                                            placeholder="...."
+                                            type={showPassword ? "text" : "password"}
+                                            name="password"
+                                            placeholder="••••••••"
                                             className="w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
                                         />
-                                        <MdVisibilityOff className="absolute right-3 top-2.5 text-gray-400" />
+                                        {showPassword ? (
+                                            <MdVisibility
+                                                onClick={() => setShowPassword(false)}
+                                                className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                                            />
+                                        ) : (
+                                            <MdVisibilityOff
+                                                onClick={() => setShowPassword(true)}
+                                                className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                                            />
+                                        )}
                                     </div>
                                     <div className="text-sm text-gray-500 mt-2 underline cursor-pointer">
-                                        Forget Password ?
+                                        Forgot Password?
                                     </div>
                                 </div>
 
@@ -78,11 +131,10 @@ export default function LoginPage() {
                                 >
                                     LOGIN
                                 </button>
-
                                 <p className="text-sm text-gray-600 text-center">
-                                    NEW USER ?
-                                    <Link to={"/register"}>
-                                     <span className="text-green-600 font-semibold cursor-pointer">SIGN UP</span>
+                                    NEW USER?
+                                    <Link to="/register">
+                                        <span className="text-green-600 font-semibold cursor-pointer ml-1">SIGN UP</span>
                                     </Link>
                                 </p>
                             </form>
@@ -92,4 +144,4 @@ export default function LoginPage() {
             </div>
         </div>
     );
-}   
+}

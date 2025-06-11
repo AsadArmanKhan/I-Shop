@@ -20,8 +20,8 @@ export const cartSlice = createSlice({
                 state.item.push({ productId, qty: 1 });
             }
 
-            state.finalTotal += finalPrice;
-            state.orignalTotal += orignalPrice;
+            state.finalTotal += Number(finalPrice);
+            state.orignalTotal += Number(orignalPrice);
 
             localStorage.setItem('cart', JSON.stringify(state));
         },
@@ -42,12 +42,12 @@ export const cartSlice = createSlice({
 
                 if (type === "inc") {
                     existingItem.qty += 1;
-                    state.finalTotal += finalPrice;
-                    state.orignalTotal += orignalPrice;
+                    state.finalTotal += Number(finalPrice);
+                    state.orignalTotal += Number(orignalPrice);
                 } else if (type === "dec" && existingItem.qty > 1) {
                     existingItem.qty -= 1;
-                    state.finalTotal -= finalPrice;
-                    state.orignalTotal -= orignalPrice;
+                    state.finalTotal -= Number(finalPrice);
+                    state.orignalTotal -= Number(orignalPrice);
 
                 }
             }

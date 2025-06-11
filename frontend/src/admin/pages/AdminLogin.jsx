@@ -10,6 +10,8 @@ export default function AdminLogin() {
     const { API_BASE_URL, ADMIN_URL, notify } = useContext(MainContext)
     const navigator = useNavigate()
     const dispatcher = useDispatch()
+
+
     function submitHandler(e) {
         e.preventDefault();
         const data = {
@@ -40,7 +42,7 @@ export default function AdminLogin() {
         ).catch(
             (err) => {
                 console.log(err)
-                notify("Login me dikkat h", 0)
+                notify("Error from AdminLogin", 0)
 
 
             }
@@ -49,52 +51,8 @@ export default function AdminLogin() {
     }
 
 
-    // import axios from "axios"
-    // import React, { useContext } from "react";
-    // import { MainContext } from "../../Context";
-    // import { useNavigate } from 'react-router-dom'
-    // import { useDispatch } from "react-redux";
-
-
-    // export default function AdminLogin() {
-    //     const { API_BASE_URL, COLOR_URL, ADMIN_URL, notify } = useContext(MainContext)
-    //     const navigator = useNavigate()
-    //     const dispach = useDispatch()
-    //     const submitHandler = (e) => {
-    //         e.preventDefault();
-
-    //         const data = {
-    //             password: e.target.password.value,
-    //             email: e.target.email.value,
-    //         }
-    //         console.log(data);
-
-
-
-    //         axios.post(API_BASE_URL + ADMIN_URL + "/login", data).then(
-    //             (res) => {
-    //                 notify(res.data.msg, res.data.flag);
-    //                 if (res.data.flag === 1) {
-    //                     console.log(res.data?.admin);
-    //                     e.target.reset();
-    //                     navigator('/admin')
-    //                     dispach(setAdmin({
-    //                         data: res.data?.admin
-    //                     }
-    //                     ))
-    //                 }
-    //             }
-    //         ).catch(
-    //             (err) => {
-    //                 console.log(err);
-    //                 notify("Dikkat Add color me h ", 0)
-    //             }
-    //         )
-    //     }
-
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-800 via-slate-700 to-gray-900
- p-4">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-800 via-slate-700 to-gray-900p-4">
             <div className="w-full max-w-md bg-[#f0f8ff] text-gray-900 rounded-2xl shadow-2xl p-8">
                 <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Admin Login</h2>
 
