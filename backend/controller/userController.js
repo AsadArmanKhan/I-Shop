@@ -59,11 +59,13 @@ const userController = {
             const user = await userModel.findOne({ email: email });
             if (user) {
                 if (cryptr.decrypt(user.password) == password) {
+                    const cleanUser = { ...user.toJSON(), password: null };
+                    console.log("Clean user before sending:", cleanUser);
                     res.send({
                         msg: "Login succesfully",
                         flag: 1,
-                        user: { ...user.toJSON, password: null },
-                        token: generateToken({ ...user.toJSON() })
+                        user: cleanUser,
+                        token: generateToken(cleanUser)
                     });
                 } else {
                     res.send({ msg: "Incorrect password", flag: 0 });

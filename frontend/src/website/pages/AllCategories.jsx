@@ -5,30 +5,30 @@
 // import { BadgeCheck, Truck } from "lucide-react";
 
 // export default function AllCategories() {
-    // const [limit, setLimit] = useState(0)
-    // const [searchParams, setSearchParams] = useSearchParams()
-    // const { getProduct, products, getCategory, Categories,
-    //     COLOR_URL, getColors, colors, API_BASE_URL } = useContext(MainContext)
-    // useEffect(
-    //     () => {
-    //         getCategory()
-    //         getColors()
-    //         // getProduct()
-    //     },
-    //     []
-    // )
+//     const [limit, setLimit] = useState(0)
+//     const [searchParams, setSearchParams] = useSearchParams()
+//     const { getProduct, products, getCategory, Categories,
+//         COLOR_URL, getColors, colors, API_BASE_URL } = useContext(MainContext)
+//     useEffect(
+//         () => {
+//             getCategory()
+//             getColors()
+//             // getProduct()
+//         },
+//         []
+//     )
 
-    // useEffect(
-    //     () => {
-    //         const query = {};
-    //         if (limit) {
-    //             query.limit = limit;
-    //         }
-    //         setSearchParams(query)
-    //         getProduct(null, limit)
-    //     },
-    //     [limit]
-    // )
+//     useEffect(
+//         () => {
+//             const query = {};
+//             if (limit) {
+//                 query.limit = limit;
+//             }
+//             setSearchParams(query)
+//             getProduct(null, limit)
+//         },
+//         [limit]
+//     )
 //     return (
 //         <div className="bg-white p-6">
 //             <h2 className="text-lg font-semibold mb-6">BEST SELLER IN THIS CATEGORY</h2>

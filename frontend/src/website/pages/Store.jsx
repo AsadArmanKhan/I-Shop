@@ -112,17 +112,6 @@ export default function Store() {
                             <option value="20">20</option>
                             <option value="24">24</option>
                         </select>
-
-                        {/* Pagination Buttons */}
-                        {/* <div className="flex justify-between items-center mb-6">
-                            <button className="p-2 bg-gray-800 hover:bg-gray-700 text-yellow-400 rounded-full transition">
-                                <FaAngleLeft className="text-yellow-400" />
-                            </button>
-                            <button className="p-2 bg-gray-800 hover:bg-gray-700 text-yellow-400 rounded-full transition">
-                                <FaAngleRight className="text-yellow-400" />
-                            </button>
-                        </div> */}
-
                         {/* Product Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
                             {products.map((product, index) => (
@@ -154,7 +143,7 @@ export default function Store() {
                                         <span className="text-gray-500 line-through ml-2">{product.orignalPrice}</span>
                                     </p>
                                     {
-                                        console.log(product.finalPrice)
+                                        // console.log(product.finalPrice)
 
                                     }
                                     {/* Free Shipping */}

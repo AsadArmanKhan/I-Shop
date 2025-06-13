@@ -22,7 +22,12 @@ const Header = () => {
       dispatch(lsToCart())
     }, []
   )
-
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    localStorage.removeItem("user");
+    localStorage.removeItem("cart"); // optional
+    navigate("/login");
+  };
 
   return (
     <motion.div
@@ -71,9 +76,11 @@ const Header = () => {
                   <div className="font-semibold cursor-pointer text-black hover:text-teal-600 transition">LOG IN |</div>
                 </Link>
                 :
-                <div className="cursor-pointer font-semibold text-black hover:text-teal-600 transition" >
-                  LOG OUT |
-                </div>
+                <button onClick={handleLogout}>
+                  <div className="cursor-pointer font-semibold text-black hover:text-teal-600 transition" >
+                    LOG OUT |
+                  </div>
+                </button>
 
 
 
