@@ -12,6 +12,7 @@ export default function AuthForm() {
   const user = useSelector((state) => state.user.data);
   const [searchParams] = useSearchParams();
   const { notify, API_BASE_URL } = useContext(MainContext);
+  console.log(user);
 
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +24,9 @@ export default function AuthForm() {
 
 
   const cartData = JSON.parse(localStorage.getItem("cart"));
-  const cart = cartData ? cartData.items : null;
+  const cart = cartData ? cartData.item : null;
+  console.log(cart);
+
 
   useEffect(() => {
     console.log(user);
@@ -48,13 +51,21 @@ export default function AuthForm() {
         dispatch(setUser({
           user: resp.data.user,
           userToken: resp.data.token
-        })
-        );
+        }));
 
         const updateCart = await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
-          cart: cart || null,
-          user_id: resp.data.user._id,
-        });
+          cart: cart != null ? cart : null,
+          user_id: resp.data?.user?._id,
+        }
+        );
+        console.log("Update cart response:", updateCart.data);
+        // updateCart.data.map(
+        //   (cd) => {
+        //     const { productId, qty, user_id } = cd
+
+        //   }
+        // )
+
 
         let final_total = 0;
         let original_total = 0;

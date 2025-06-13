@@ -7,61 +7,37 @@ const express = require("express");
 const adminController = {
     async login(req, res) {
         try {
-            const { email, password } = req.body;
-            console.log(password)
+            const email = req.body.email?.trim();
+            const password = req.body.password?.trim();
+
             if (!email || !password) {
                 return res.send({ msg: "All field are required", flag: 0 });
             }
+
             const admin = await adminModel.findOne({ email: email });
             if (admin) {
+                console.log("Typed password:", password);
+                console.log("Stored password:", admin.password);
+                console.log("Are they equal?", admin.password === password);
                 if (admin.password === password) {
-                    res.send({
-                        msg: "Login Succesfully",
+                    return res.send({
+                        msg: "Login Successfully",
                         flag: 1,
                         admin: { ...admin.toJSON(), password: null },
                         token: generateToken({ ...admin.toJSON() })
-
-                    })
+                    });
                 } else {
-                    res.send({ msg: "password do'es not match", flag: 0 })
+                    return res.send({ msg: "Password doesn't match", flag: 0 });
                 }
+            } else {
+                return res.send({ msg: "Admin not found", flag: 0 });
             }
-
         } catch (err) {
-            console.log(err)
-            res.send({ msg: "Internal server error", flag: 0 })
+            console.log(err);
+            return res.send({ msg: "Internal server error", flag: 0 });
         }
+    }
 
-
-    },
-    // async login(req, res) {
-    //     try {
-    //         const { password, email, } = req.body;
-    //         // console.log(req.body);
-
-    //         if (!password || !email) {
-    //             return res.send({ msg: "All field is required", flag: 0 });
-    //         };
-    //         const admin = await adminModel.findOne({ email: email });
-    //         if (admin) {
-    //             if (admin.password == password) {
-    //                 res.send({
-    //                     msg: "Login succesfully",
-    //                     flag: 1,
-    //                     admin: { ...admin.toJSON, password: null },
-    //                     token: generateToken({ ...admin.toJSON() })
-    //                 });
-    //             } else {
-    //                 res.send({ msg: "Incorrect password", flag: 0 });
-    //             }
-    //         }
-
-    //     } catch (error) {
-    //          res.send({ msg: "Error from Admin Controller ", flag: 0, error })
-    //         console.log(error);
-
-    //     }
-    // },
 }
 
 module.exports = adminController;

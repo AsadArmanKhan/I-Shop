@@ -10,16 +10,12 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         setUser(state, { payload }) {
+            // console.log(payload);
             state.data = payload.user;
-            
+            // console.log(payload);               
             state.userToken = payload.userToken;
-
-            console.log(payload.token);
-
             localStorage.setItem("user", JSON.stringify(payload.admin));
-
             localStorage.setItem("token", state)
-
             localStorage.setItem("adminTimeStamp", new Date().getTime());
 
             // console.log(state.token);

@@ -9,7 +9,7 @@ import { MainContext } from "../../Context";
 import { Link, useSearchParams, useParams } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import { addItem } from '../../redux/slice/cartSlice';
-import { hex } from 'framer-motion';
+// import { hex } from 'framer-motion';
 export default function Store() {
     const dispacher = useDispatch()
     const { categorySlug } = useParams();
@@ -59,15 +59,15 @@ export default function Store() {
             <BestSeller />
             {/* <AllCategories /> */}
 
-            <div className="bg-[#121212] p-6 rounded-xl shadow-xl text-white">
+            <div className="bg-gray-100 p-6 rounded-xl shadow-xl text-white">
                 <h2 className="text-lg font-bold mb-6 text-yellow-400 tracking-wide">BEST SELLER IN THIS CATEGORY</h2>
                 <div className="grid grid-cols-6 gap-4">
                     {/* Sidebar */}
-                    <div className="col-span-1 bg-gray-900 text-white p-4 rounded-xl shadow-lg">
+                    <div className="col-span-1 bg-gray-200 text-white p-4 rounded-xl shadow-lg">
                         <h3 className="font-semibold text-yellow-400 mb-4 tracking-wide">CATEGORIES</h3>
 
                         {/* All Categories Button */}
-                        <button className="w-full text-sm font-semibold text-left mb-4 px-3 py-2 rounded shadow-md bg-gray-800 text-white hover:bg-gradient-to-r from-yellow-500 to-yellow-700 hover:text-black transition transform hover:scale-105">
+                        <button className="w-full text-sm font-semibold text-left mb-4 px-3 py-2 bg-blue-50 rounded shadow-md  text-black hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black transition transform hover:scale-105">
                             <Link to={`/store`}>All Categories</Link>
                         </button>
 
@@ -76,7 +76,7 @@ export default function Store() {
                             {Categories.map((category) => (
                                 <li
                                     key={category._id}
-                                    className="flex justify-between cursor-pointer text-sm font-semibold text-left py-2 px-3 bg-gray-800 text-white rounded shadow-md transition transform hover:scale-105 hover:bg-gradient-to-r from-yellow-500 to-yellow-700 hover:text-black"
+                                    className="flex justify-between cursor-pointer text-sm font-semibold text-left py-2 px-3 bg-blue-50 text-black   rounded shadow-md transition transform hover:scale-105 hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black"
                                 >
                                     <Link to={`/store/${category.slug}`}>{category.name}</Link>
                                     <span className='flex justify-end '>({category.productCount})</span>
@@ -101,11 +101,11 @@ export default function Store() {
                     </div>
 
                     {/* Products Section */}
-                    <div className="col-span-5 p-4 bg-gray-900 text-white rounded-xl shadow-lg">
+                    <div className="col-span-5 p-4 bg-white text-white rounded-xl shadow-lg">
                         {/* Limit Selector */}
                         <select
                             onChange={(e) => setLimit(e.target.value)}
-                            className="bg-gray-800 border border-gray-600 rounded-lg px-6 py-2 text-sm text-white focus:ring-2 focus:ring-yellow-500 transition-all duration-300 mb-6"
+                            className="border  rounded-lg px-6 py-2 text-sm text-black focus:ring-2 focus:ring-black transition-all duration-300 mb-6"
                         >
                             <option value="0">All</option>
                             <option value="2">2</option>
@@ -114,14 +114,14 @@ export default function Store() {
                         </select>
 
                         {/* Pagination Buttons */}
-                        <div className="flex justify-between items-center mb-6">
+                        {/* <div className="flex justify-between items-center mb-6">
                             <button className="p-2 bg-gray-800 hover:bg-gray-700 text-yellow-400 rounded-full transition">
-                                {/* <FaAngleLeft className="text-yellow-400" /> */}
+                                <FaAngleLeft className="text-yellow-400" />
                             </button>
                             <button className="p-2 bg-gray-800 hover:bg-gray-700 text-yellow-400 rounded-full transition">
-                                {/* <FaAngleRight className="text-yellow-400" /> */}
+                                <FaAngleRight className="text-yellow-400" />
                             </button>
-                        </div>
+                        </div> */}
 
                         {/* Product Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
@@ -129,10 +129,10 @@ export default function Store() {
                                 // console.log(product),
                                 <div
                                     key={index}
-                                    className="bg-[#1a1a1a] border border-[#2e2e2e] rounded-2xl p-4 hover:scale-[1.03] transform transition duration-300 shadow-xl hover:shadow-[0_0_15px_#facc15] relative"
+                                    className=" border rounded-2xl p-4 hover:scale-[1.03] transform transition duration-300 shadow-xl hover:shadow-[0_0_15px_#facc15] relative"
                                 >
                                     {/* Product ID Badge */}
-                                    <div className="absolute top-2 right-2 bg-yellow-600 text-[10px] sm:text-xs text-black px-2 py-1 rounded shadow">
+                                    <div className="absolute top-2 right-2 bg-gray-200 text-[10px] sm:text-xs text-black px-2 py-1 rounded shadow">
                                         {index + 1}
                                     </div>
 
@@ -180,7 +180,7 @@ export default function Store() {
                                             // console.log('hello');
 
                                         }}
-                                        className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold text-sm sm:text-base py-2 rounded-lg shadow-md transition-all duration-300"
+                                        className="mt-4 w-full bg-white hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black transition transform hover:scale-105 text-black font-semibold text-sm sm:text-base py-2 rounded-lg shadow-md"
                                     >
                                         Add to Cart
                                     </button>

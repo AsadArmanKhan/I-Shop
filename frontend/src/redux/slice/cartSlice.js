@@ -48,7 +48,6 @@ export const cartSlice = createSlice({
                     existingItem.qty -= 1;
                     state.finalTotal -= Number(finalPrice);
                     state.orignalTotal -= Number(orignalPrice);
-
                 }
             }
             localStorage.setItem('cart', JSON.stringify(state));
