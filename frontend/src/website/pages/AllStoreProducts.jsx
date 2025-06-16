@@ -24,6 +24,18 @@ export default function AllStoreProducts() {
         },
         []
     )
+    function cartHandler(data) {
+        console.log(data);
+        return;
+
+        dispacher(
+            addItem({
+                productId: data._id,
+                finalPrice: data.finalPrice,
+                orignalPrice: data.orignalPrice,
+            })
+        )
+    }
 
     return (
 
@@ -78,15 +90,13 @@ export default function AllStoreProducts() {
                         {/* Add to Cart Button */}
                         <button
                             onClick={() => {
-                                dispacher(
-                                    addItem({
+                                cartHandler(
+                                    {
                                         productId: product._id,
                                         finalPrice: product.finalPrice,
                                         orignalPrice: product.orignalPrice,
-                                    })
+                                    }
                                 )
-                                // console.log('hello');
-
                             }}
                             className="mt-4 w-full bg-white hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black transition transform hover:scale-105 text-black font-semibold text-sm sm:text-base py-2 rounded-lg shadow-md"
                         >

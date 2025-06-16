@@ -27,10 +27,27 @@ const Header = () => {
     setShowModal(true);
   };
 
-  const handleConfirmLogout = () => {
+  const handleConfirmLogout = async () => {
+    const localCart = JSON.parse(localStorage.getItem("Cart"))?.item || [];
+    const user = JSON.parse(localStorage.getItem("user"))?.user;
+
+    try {
+      // ✅ Sync local cart to DB before logout
+      if (user && localCart.length > 0) {
+        await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
+          cart: localCart,
+          user_id: user._id,
+        });
+        console.log("✅ Cart synced to DB on logout");
+      }
+    } catch (error) {
+      console.error("❌ Error syncing cart to DB on logout:", error);
+    }
+
+    // 🔁 Now proceed with logout
     dispatch(userLogout());
-    // localStorage.removeItem("user");
-    localStorage.removeItem("cart");
+    localStorage.removeItem("Cart");
+    // localStorage.removeItem("user"); ← optional, depending on your reducer
 
     setShowModal(false);
     setShowConfetti(true);

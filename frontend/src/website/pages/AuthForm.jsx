@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { data, useNavigate, useSearchParams } from "react-router-dom";
 import { setUser } from "../../redux/slice/userSlice";
 import { MainContext } from "../../Context";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
@@ -9,7 +9,7 @@ import axios from "axios";
 export default function AuthForm() {
   const user = useSelector((state) => state.user.data);
   const [searchParams] = useSearchParams();
-  const { notify, API_BASE_URL } = useContext(MainContext);
+  const { notify, API_BASE_URL, USER_URL } = useContext(MainContext);
 
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -18,7 +18,7 @@ export default function AuthForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const cartData = JSON.parse(localStorage.getItem("cart"));
+  const cartData = JSON.parse(localStorage.getItem("Cart"));
   const cart = cartData ? cartData.item : null;
   console.log(cart)
 
@@ -27,6 +27,7 @@ export default function AuthForm() {
   }, [user]);
 
   const handleLogin = async (e) => {
+
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -37,9 +38,8 @@ export default function AuthForm() {
     }
 
     try {
-      const resp = await axios.post(`${API_BASE_URL}/user/login`, { email, password });
+      const resp = await axios.post(`${API_BASE_URL}${USER_URL}/login`, data);
       notify(resp.data.msg, resp.data.flag);
-
       if (resp.data.flag === 1) {
         dispatch(setUser({ user: resp.data.user, userToken: resp.data.token }));
 
@@ -68,8 +68,8 @@ export default function AuthForm() {
             });
 
             localStorage.setItem(
-              "cart",
-              JSON.stringify({ items: updatedItems, final_total, original_total })
+              "Cart",
+              JSON.stringify({ item: updatedItems, final_total, original_total })
             );
           }
 
@@ -89,7 +89,7 @@ export default function AuthForm() {
 
             localStorage.setItem(
               "cart",
-              JSON.stringify({ items: updatedItems, final_total, original_total })
+              JSON.stringify({ item: updatedItems, final_total, original_total })
             );
 
             console.log("🛒 Restored cart from DB:", updatedItems);
@@ -139,8 +139,35 @@ export default function AuthForm() {
           JSON.stringify({ user: resp.data.user, userToken: resp.data.token })
         );
 
+        // 🔁 Sync local cart to DB (SAME as login)
+        if (cart && Array.isArray(cart) && cart.length > 0) {
+          const updateCart = await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
+            cart,
+            user_id: resp.data?.user?._id,
+          });
+
+          console.log("✅ Cart sync response:", updateCart.data);
+
+          if (Array.isArray(updateCart.data.cart) && updateCart.data.cart.length > 0) {
+            let final_total = 0;
+            let original_total = 0;
+
+            const updatedItems = updateCart.data.cart.map(item => {
+              final_total += item.product_id.finalPrice * item.qty;
+              original_total += item.product_id.originalPrice * item.qty;
+              return { productId: item.product_id._id, qty: item.qty };
+            });
+
+            localStorage.setItem(
+              "cart",
+              JSON.stringify({ item: updatedItems, final_total, original_total })
+            );
+          }
+        }
+
         navigate("/");
       }
+
     } catch (err) {
       console.log(err);
       notify("Registration failed. Try again.", 0);

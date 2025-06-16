@@ -87,8 +87,6 @@ const categoryController = {
                 return res.send({ msg: "No catigories found", flag: 0 })
             }
 
-
-
         } catch (error) {
             res.send({ msg: "Kuch na Kuch gad bad h", flag: 0, error })
             // console.log(error);
