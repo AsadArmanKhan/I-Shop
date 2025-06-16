@@ -3,5 +3,5 @@ const cartRouter = express.Router();
 const cartController = require("../controller/cartController");
 
 cartRouter.post("/move-to-db", cartController.moveToDb);
-
+cartRouter.get('/:user_id', cartController.getCartByUser);
 module.exports = cartRouter;

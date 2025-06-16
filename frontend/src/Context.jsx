@@ -14,7 +14,7 @@ function Context(props) {
     const COLOR_URL = "/color"
     const PRODUCT_URL = "/product"
     const ADMIN_URL = "/admin"
-    const USER_URL = "/user"    
+    const USER_URL = "/user"
 
     const notify = (msg, flag) => toast(msg, { type: flag ? "success" : "error" });
 
@@ -90,14 +90,17 @@ function Context(props) {
             URL = URL + `/${id}`
 
         }
+
         const query = new URLSearchParams();
 
-        query.append(limit, 'limit')
+        if (limit && limit !== "0") {
+            query.append("limit", limit);
+        }
         if (categorySlug) {
-            query.append("categorySlug", categorySlug)
+            query.append("categorySlug", categorySlug);
         }
         if (colorSlug) {
-            query.append("colorSlug", colorSlug)
+            query.append("colorSlug", colorSlug);
         }
 
         axios.get(URL + "?" + query).then(
@@ -109,6 +112,7 @@ function Context(props) {
             }
         ).catch(
             (error) => {
+                console.log(error);
                 setProducts([])
             }
         )

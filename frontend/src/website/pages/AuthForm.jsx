@@ -1,6 +1,4 @@
-// AuthForm.js
 import React, { useContext, useEffect, useState } from "react";
-// import { FaEnvelope, FaUser, FaLock } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { setUser } from "../../redux/slice/userSlice";
@@ -12,7 +10,6 @@ export default function AuthForm() {
   const user = useSelector((state) => state.user.data);
   const [searchParams] = useSearchParams();
   const { notify, API_BASE_URL } = useContext(MainContext);
-  console.log(user);
 
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -20,23 +17,16 @@ export default function AuthForm() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // console.log(searchParams.get("ref"));
-
 
   const cartData = JSON.parse(localStorage.getItem("cart"));
-  const cart = cartData ? cartData.items : null;
-  console.log("📦 LocalStorage Cart:", cart);
-
+  const cart = cartData ? cartData.item : null;
+  console.log(cart)
 
   useEffect(() => {
-    console.log(user);
-    // return
     if (user) navigate("/");
   }, [user]);
 
-
   const handleLogin = async (e) => {
-
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -47,22 +37,19 @@ export default function AuthForm() {
     }
 
     try {
-      console.log("📨 Sending login request with:", { email, password });
       const resp = await axios.post(`${API_BASE_URL}/user/login`, { email, password });
-      console.log("Full login response data:", resp.data);
       notify(resp.data.msg, resp.data.flag);
+
       if (resp.data.flag === 1) {
         dispatch(setUser({ user: resp.data.user, userToken: resp.data.token }));
-        console.log("user_id before sending cart:", resp.data?.user?._id);
-        // Store user in localStorage for persistence
+
         localStorage.setItem(
           "user",
           JSON.stringify({ user: resp.data.user, userToken: resp.data.token })
         );
 
-
-        // ✅ only send cart if it has items
         if (cart && Array.isArray(cart) && cart.length > 0) {
+          // ✅ Move local cart to DB
           const updateCart = await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
             cart,
             user_id: resp.data?.user?._id,
@@ -84,31 +71,43 @@ export default function AuthForm() {
               "cart",
               JSON.stringify({ items: updatedItems, final_total, original_total })
             );
-
-            console.log("🧾 Updated cart summary:", {
-              final_total,
-              original_total,
-              updatedItems,
-            });
-          } else {
-            console.log("⚠️ Skipping cart update: DB cart empty.");
           }
+
         } else {
-          console.log("🛑 Skipping cart sync — no items in localStorage.");
+          // ⬅️ Fetch cart from DB if local cart is empty
+          const dbCart = await axios.get(`${API_BASE_URL}/cart/${resp.data?.user?._id}`);
+
+          if (Array.isArray(dbCart.data.cart) && dbCart.data.cart.length > 0) {
+            let final_total = 0;
+            let original_total = 0;
+
+            const updatedItems = dbCart.data.cart.map(item => {
+              final_total += item.product_id.finalPrice * item.qty;
+              original_total += item.product_id.originalPrice * item.qty;
+              return { productId: item.product_id._id, qty: item.qty };
+            });
+
+            localStorage.setItem(
+              "cart",
+              JSON.stringify({ items: updatedItems, final_total, original_total })
+            );
+
+            console.log("🛒 Restored cart from DB:", updatedItems);
+          } else {
+            console.log("ℹ️ No cart found in DB.");
+          }
         }
+
 
         navigate(searchParams.get("ref") === "checkout" ? "/checkout" : "/");
       }
-
     } catch (err) {
       console.log(err);
       notify("Login failed. Check credentials.", 0);
     }
   };
 
-
   const handleRegister = async (e) => {
-
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
@@ -134,11 +133,12 @@ export default function AuthForm() {
           user: resp.data.user,
           userToken: resp.data.token
         }));
-        // Store user in localStorage for persistence
+
         localStorage.setItem(
           "user",
           JSON.stringify({ user: resp.data.user, userToken: resp.data.token })
         );
+
         navigate("/");
       }
     } catch (err) {
@@ -146,11 +146,6 @@ export default function AuthForm() {
       notify("Registration failed. Try again.", 0);
     }
   };
-
-
-  
-
-  // AuthForm.js (only UI part changed)
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
@@ -257,6 +252,4 @@ export default function AuthForm() {
       </div>
     </div>
   );
-
-
 }

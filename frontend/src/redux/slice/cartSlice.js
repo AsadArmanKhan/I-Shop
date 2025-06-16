@@ -52,7 +52,13 @@ export const cartSlice = createSlice({
             }
             localStorage.setItem('cart', JSON.stringify(state));
 
-        }
+        },
+        // userLogout(state) {
+        //     state.item = [];
+        //     state.finalTotal = 0;
+        //     state.orignalTotal = 0;
+        //     localStorage.removeItem("cart")
+        // }
 
     },
 })
