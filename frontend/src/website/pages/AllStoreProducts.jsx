@@ -5,11 +5,12 @@ import { useContext, useEffect, useState } from "react";
 // import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MainContext } from "../../Context";
 import { Link, useSearchParams, useParams } from "react-router-dom";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from '../../redux/slice/cartSlice';
+import axios from 'axios';
 
 export default function AllStoreProducts() {
-
+    const user = useSelector((state) => state.user?.data)
 
     const dispacher = useDispatch()
     const { categorySlug } = useParams();
@@ -25,14 +26,17 @@ export default function AllStoreProducts() {
         []
     )
     function cartHandler(data) {
-        console.log(data);
+        if (user !== null) {
+            axios.post(`${API_BASE_URL}/cart/add-to-cart`, {
+                user_id: user?._id,
+                product_id: data?.productId,
+                qty: 1,
+            })
+        }
+        console.log(data, "Data from allStorePro...");
 
         dispacher(
-            addItem({
-                productId: data._id,
-                finalPrice: data.finalPrice,
-                orignalPrice: data.orignalPrice,
-            })
+            addItem(data)
         )
     }
 
@@ -97,7 +101,9 @@ export default function AllStoreProducts() {
                                     }
                                 )
                             }}
-                            className="mt-4 w-full bg-white hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black transition transform hover:scale-105 text-black font-semibold text-sm sm:text-base py-2 rounded-lg shadow-md"
+                            className="mt-4 w-full bg-white hover:bg-gradient-to-r from-white to-yellow-700
+                             hover:text-black transition transform hover:scale-105
+                             text-black font-semibold text-sm sm:text-base py-2 rounded-lg shadow-md"
                         >
                             Add to Cart
                         </button>
@@ -106,8 +112,6 @@ export default function AllStoreProducts() {
             </div>
 
             {/* </div> */}
-
-
         </>
     )
 }

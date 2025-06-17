@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 // import { setUser } from "../../redux/features/userSlice";
 import { MainContext } from "../../Context";
-import axios from "axios";
 import { setUser } from "../../redux/slice/userSlice";
+import axios from "axios";
 
 export default function AuthForm() {
   const user = useSelector((state) => state.user.data)
@@ -21,68 +21,77 @@ export default function AuthForm() {
   console.log(cart)
 
   function submitHandle(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const data = {
-      email: e.target.email.value,
-      password: e.target.password.value,
-    };
+  const email = e.target.email.value;
+  const password = e.target.password.value;
 
-
-    axios.post("http://localhost:5000/user/login", data)
-      .then(
-        async (response) => {
-          notify(response.data.msg, response.data.flag);
-          if (response.data.flag === 1) {
-            dispacher(setUser(
-              {
-                user: response.data.user,
-                user_token: response.data.token
-              }
-            ));
-
-            const updateCart = await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
-              cart: cart != null ? cart : null,
-              user_id: response.data?.user?._id
-            })
-            let final_total = 0;
-            let original_total = 0;
-            const cartUpdate = updateCart.data.cart.map(
-              (cd) => {
-                const { product_id, qty, user_id } = cd;
-                final_total += (product_id.finalPrice * qty)
-                original_total += (product_id.originalPrice * qty)
-
-                return {
-                  productId: product_id._id,
-                  qty: qty
-
-                }
-
-              }
-            )
-
-            localStorage.setItem("cart", JSON.stringify({
-              items: cartUpdate, final_total, original_total
-            }))
-
-            if (searchParams.get("ref") === "checkout") {
-              navigator("/checkout");
-
-            } else {
-              navigator("/")
-            }
-
-          }
-          // or your desired route
-        })
-      .catch((error) => {
-        console.log(error);
-        notify("Login failed. Check credentials.", "error");
-      });
-
-    console.log("end");
+  if (!email || !password) {
+    notify("Please fill all fields", 0);
+    return;
   }
+
+  const data = { email, password };
+
+  axios.post(`${API_BASE_URL}${USER_URL}/login`, data)
+    .then(async (response) => {
+      notify(response.data.msg, response.data.flag);
+
+      if (response.data.flag === 1) {
+        const userPayload = {
+          user: response.data.user,
+          user_token: response.data.token
+        };
+
+        // ✅ Set Redux user state
+        dispacher(setUser(userPayload));
+
+        // ✅ Also store in localStorage to persist login across refreshes
+        localStorage.setItem("user", JSON.stringify(userPayload));
+
+        // ✅ Move guest cart to DB and update local cart
+        const updateCart = await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
+          cart: cart != null ? cart : null,
+          user_id: response.data?.user?._id
+        });
+
+        let final_total = 0;
+        let original_total = 0;
+
+        const cartUpdate = updateCart.data.cart.map((cd) => {
+          const { product_id, qty } = cd;
+          final_total += (product_id.finalPrice * qty);
+          original_total += (product_id.originalPrice * qty);
+
+          return {
+            productId: product_id._id,
+            qty: qty
+          };
+        });
+
+        // ✅ Save cart to localStorage
+        localStorage.setItem("cart", JSON.stringify({
+          items: cartUpdate,
+          final_total,
+          original_total
+        }));
+
+        // ✅ Navigate accordingly
+        if (searchParams.get("ref") === "checkout") {
+          navigator("/checkout");
+        } else {
+          navigator("/");
+        }
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      notify("Login failed. Check credentials.", "error");
+    });
+
+  console.log("end");
+}
+
 
   function registerHandle(e) {
     e.preventDefault();
@@ -567,8 +576,12 @@ export default function AuthForm() {
 
 //         localStorage.setItem(
 //           "user",
-//           JSON.stringify({ user: resp.data.user, userToken: resp.data.token })
-//         );
+//           JSON.stringify(
+//      {
+//  user: resp.data.user,
+//  userToken: resp.data.token
+//         }
+// ));
 
 //         if (cart && Array.isArray(cart) && cart.length > 0) {
 //           // ✅ Move local cart to DB

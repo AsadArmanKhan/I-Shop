@@ -36,7 +36,7 @@ const cartController = {
     },
     async addToCart(req, res) {
         try {
-            console.log(req.body,"req,body")
+            console.log(req.body,"cart Controller");
 
             const { userId, productId, qty } = req.body;
 

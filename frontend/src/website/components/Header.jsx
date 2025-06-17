@@ -3,7 +3,7 @@ import { FaSearch, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { lsToCart, emptyCart } from '../../redux/slice/cartSlice';
+import { emtyCart, lsToCart } from '../../redux/slice/cartSlice';
 import { userLogout } from '../../redux/slice/userSlice';
 
 const Header = () => {
@@ -14,11 +14,11 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(lsToCart());
-  }, [dispatch]);
+  }, []);
 
   const logoutHandler = () => {
     dispatch(userLogout());
-    dispatch(emptyCart());
+    dispatch(emtyCart());
   };
 
   return (

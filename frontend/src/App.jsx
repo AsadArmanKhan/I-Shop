@@ -26,19 +26,20 @@ import Checkout from './website/pages/Checkout'
 import AuthForm from './website/pages/AuthForm'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { lsToUser } from './redux/slice/userSlice'
 // import { lsAdmin } from './redux/slice/adminSlice'
 // import { lsUser } from './redux/slice/userSlice'
 // import HomePage from './website/pages/Homeeee'
 
 export default function App() {
-  // const dispatcher = useDispatch()
-  // useEffect(
-  //   () => {
-  //     // dispatcher(lsAdmin())
-  //     // dispatcher(lsUser())
-  //   },
-  //   []
-  // )
+  const dispatcher = useDispatch()
+  useEffect(
+    () => {
+      // dispatcher(lsAdmin())
+      dispatcher(lsToUser())
+    },
+    []
+  )
 
   const routers = createBrowserRouter([
     {

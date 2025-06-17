@@ -11,7 +11,7 @@ export const cartSlice = createSlice({
     initialState,
     reducers: {
         addItem(state, current) {
-            const { productId, final_price, original_price } = current.payload;
+            const { productId, orignalPrice, finalPrice } = current.payload;
             const existingItem = state.items.find(item => item.productId === productId);
             if (existingItem) {
                 existingItem.qty += 1;
@@ -21,9 +21,9 @@ export const cartSlice = createSlice({
                     qty: 1
                 });
             }
+            state.final_total += Number(finalPrice);
+            state.original_total += Number(orignalPrice);
 
-            state.final_total += final_price;
-            state.original_total += original_price;
             localStorage.setItem("cart", JSON.stringify(state));
 
         },
@@ -36,22 +36,22 @@ export const cartSlice = createSlice({
             }
         },
         qtyHandle(state, current) {
-            const { productId, type, final_price, original_price } = current.payload;
+            const { productId, type, finalPrice, orignalPrice } = current.payload;
             const existingItem = state.items.find(item => item.productId === productId);
             if (existingItem) {
                 if (type === "inc") {
                     existingItem.qty += 1;
-                    state.final_total += final_price;
-                    state.original_total += original_price;
+                    state.final_total += Number(finalPrice);
+                    state.original_total += Number(orignalPrice);
                 } else if (type === "dec" && existingItem.qty > 1) {
                     existingItem.qty -= 1;
-                    state.final_total -= final_price;
-                    state.original_total -= original_price;
+                    state.final_total -= Number(finalPrice);
+                    state.original_total -= Number(orignalPrice);
                 }
             }
             localStorage.setItem("cart", JSON.stringify(state));
         },
-        emtpyCart(state) {
+        emtyCart(state) {
             state.items = [];
             state.final_total = 0;
             state.original_total = 0;
@@ -62,6 +62,6 @@ export const cartSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addItem, lsToCart, qtyHandle, emptyCart } = cartSlice.actions
+export const { addItem, lsToCart, qtyHandle, emtyCart } = cartSlice.actions
 
 export default cartSlice.reducer

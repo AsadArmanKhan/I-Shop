@@ -46,8 +46,10 @@ const Cart = () => {
                 <div className="md:col-span-2 space-y-6">
                     {
                         cart?.items.map((item, index) => {
+                            console.log(cart);
                             const product = products.find((p) => p._id === item.productId);
                             if (!product) return null; // Skip if product not found
+                                // console.log(product);
 
                             return (
                                 <div
@@ -56,28 +58,26 @@ const Cart = () => {
                                 >
 
                                     <img
-                                        src={`${API_BASE_URL}images/product/${product.thumbnail}`}
+                                        src={`${API_BASE_URL}/images/product/${product.thumbnail}`}
                                         alt={product.name}
                                         className="w-24 h-24 object-contain"
                                     />
 
                                     <div className="flex-1 space-y-1">
-
                                         <h3 className="font-semibold">{product.name}</h3>
                                         <p className="text-red-500 font-bold text-lg">
-                                            ${product.finalPrice.toFixed(2)}
-                                        </p>
-
+                                            {Number(product.finalPrice || 0).toFixed(2)}
+                                            </p>
                                         {/* Quantity */}
                                         <div className="flex items-center gap-2 mt-1">
                                             <button onClick={() => {
-                                                handleCart({ productId: item.productId, type: 'dec', final_price: product.finalPrice, original_price: product.originalPrice });
+                                                handleCart({ productId: item.productId, type: 'dec', finalPrice: product.finalPrice, orignalPrice: product.orignalPrice });
                                             }} className="border p-1 rounded hover:bg-gray-100">
                                                 <FaMinus size={12} />
                                             </button>
                                             <span>{item.qty}</span>
                                             <button onClick={() => {
-                                                handleCart({ productId: item.productId, type: 'inc', final_price: product.finalPrice, original_price: product.originalPrice });
+                                                handleCart({ productId: item.productId, type: 'inc', finalPrice: product.finalPrice, orignalPrice: product.orignalPrice });
                                             }} className="border p-1 rounded hover:bg-gray-100">
                                                 <FaPlus size={12} />
                                             </button>
@@ -102,18 +102,46 @@ const Cart = () => {
                 </div>
 
 
+ <div className="w-full lg:w-80 bg-white p-6 rounded-lg border border-green-400 shadow-lg">
+          <h3 className="text-lg font-bold mb-4">Order Summary</h3>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span>Sub Total:</span>
+              <span className="font-semibold">₹{cart.original_total}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Shipping estimate:</span>
+              <span>₹600.00</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Tax estimate:</span>
+              <span>₹137.00</span>
+            </div>
+            <div className="flex justify-between font-bold pt-2 border-t">
+              <span>ORDER TOTAL:</span>
+              <span>₹{cart.final_total}</span>
+            </div>
+          </div>
+ 
+          <button
+            onClick={checkoutHandler}
+            className="mt-4 w-full bg-green-500 hover:bg-green-400 text-white py-2 rounded-md font-semibold"
+          >
+            CHECKOUT
+          </button>
 
+        </div>
 
-                <div className="bg-white rounded-lg p-6 border border-green-500">
+                {/* <div className="bg-white rounded-lg p-6 border border-green-500">
                     <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
                     <div className="space-y-2 text-sm text-gray-700">
                         <div className="flex justify-between">
                             <span>Original Total:</span>
-                            <span>{cart.original_total}</span>
+                            <span>{Number(cart.original_total)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Saving:</span>
-                            <span>{cart.original_total - cart.final_total}</span>
+                            <span>{Number(cart.original_total - cart.final_total)}</span>
                         </div>
 
                         <div className="flex justify-between font-bold text-black border-t pt-2">
@@ -124,7 +152,7 @@ const Cart = () => {
                     <button onClick={checkoutHandler} className="mt-6 w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded">
                         CHECKOUT
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );
@@ -381,35 +409,35 @@ export default Cart;
 //         </div>
 
 //         {/* Order Summary */}
-//         <div className="w-full lg:w-80 bg-white p-6 rounded-lg border border-green-400 shadow-lg">
-//           <h3 className="text-lg font-bold mb-4">Order Summary</h3>
-//           <div className="space-y-2 text-sm">
-//             <div className="flex justify-between">
-//               <span>Sub Total:</span>
-//               <span className="font-semibold">${cart.orignalTotal}</span>
-//             </div>
-//             <div className="flex justify-between">
-//               <span>Shipping estimate:</span>
-//               <span>$600.00</span>
-//             </div>
-//             <div className="flex justify-between">
-//               <span>Tax estimate:</span>
-//               <span>$137.00</span>
-//             </div>
-//             <div className="flex justify-between font-bold pt-2 border-t">
-//               <span>ORDER TOTAL:</span>
-//               <span>${cart.finalTotal}</span>
-//             </div>
-//           </div>
+        // <div className="w-full lg:w-80 bg-white p-6 rounded-lg border border-green-400 shadow-lg">
+        //   <h3 className="text-lg font-bold mb-4">Order Summary</h3>
+        //   <div className="space-y-2 text-sm">
+        //     <div className="flex justify-between">
+        //       <span>Sub Total:</span>
+        //       <span className="font-semibold">${cart.orignalTotal}</span>
+        //     </div>
+        //     <div className="flex justify-between">
+        //       <span>Shipping estimate:</span>
+        //       <span>$600.00</span>
+        //     </div>
+        //     <div className="flex justify-between">
+        //       <span>Tax estimate:</span>
+        //       <span>$137.00</span>
+        //     </div>
+        //     <div className="flex justify-between font-bold pt-2 border-t">
+        //       <span>ORDER TOTAL:</span>
+        //       <span>${cart.finalTotal}</span>
+        //     </div>
+        //   </div>
  
-//           <button
-//             onClick={checkOutHandler}
-//             className="mt-4 w-full bg-green-500 hover:bg-green-400 text-white py-2 rounded-md font-semibold"
-//           >
-//             CHECKOUT
-//           </button>
+        //   <button
+        //     onClick={checkOutHandler}
+        //     className="mt-4 w-full bg-green-500 hover:bg-green-400 text-white py-2 rounded-md font-semibold"
+        //   >
+        //     CHECKOUT
+        //   </button>
 
-//         </div>
+        // </div>
 //       </div>
 //     </div>
 //   );

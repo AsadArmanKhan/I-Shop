@@ -72,16 +72,49 @@ const userController = {
 
         } catch (err) {
             console.error("Login Error:", err);
-            return res.send({ msg: "Internal server error", flag: 0 });
+            return res.send({ msg: "Error in user Controller", flag: 0 });
         }
     }
-    ,
+    //   async login(req, res) {
+    //         try {
+    //             const { password, email } = req.body;
+    //             console.log(req.body);
 
+    //             if (!password || !email) {
+    //                 return res.send({ msg: "All fields are required", flag: 0 });
+    //             }
+
+    //             const user = await userModel.findOne({ email: email });
+    //             console.log(user, "User found");
+
+    //             if (user) {
+    //                 const decryptedPassword = cryptr.decrypt(user.password);
+    //                 if (decryptedPassword === password) {
+    //                     res.send({
+    //                         msg: "Login successfully",
+    //                         flag: 1,
+    //                         user: { ...user.toJSON(), password: null },
+    //                         token: generateToken({ ...user.toJSON() })
+    //                     });
+    //                 } else {
+    //                     res.send({ msg: "Incorrect password", flag: 0 });
+    //                 }
+    //             } else {
+    //                 res.send({ msg: "Email not found", flag: 0 });
+    //             }
+
+    //         } catch (error) {
+    //             console.log(error, "user error");
+    //             res.send({ msg: "Error in user Controller", flag: 0, error });
+    //         }
+    //     },
+
+    
 }
 
 module.exports = userController;
 
-                                                // Latest //
+// Latest //
 
 // const express = require("express");
 // const userModel = require("../model/userModel");
