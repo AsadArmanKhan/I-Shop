@@ -1,9 +1,11 @@
 const express = require("express");
-const cartRouter = express.Router();
-const cartController = require("../controller/cartController");
-
-cartRouter.post("/move-to-db", cartController.moveToDb);
-cartRouter.post('/add-to-cart', cartController.getCartByUser);
+const CartRouter = express.Router();
+const CartController = require("../controller/cartController")
 
 
-module.exports = cartRouter;
+CartRouter.post("/move-to-db", CartController.moveTodb);
+CartRouter.post("/add-to-cart", CartController.addToCart)
+
+
+module.exports = CartRouter;
+

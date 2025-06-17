@@ -7,62 +7,61 @@ const initialState = {
 }
 
 export const cartSlice = createSlice({
-    name: 'Cart',
+    name: 'cart',
     initialState,
     reducers: {
         addItem(state, current) {
-            const { productId, finalPrice, orignalPrice } = current.payload;
+            const { productId, final_price, original_price } = current.payload;
             const existingItem = state.item.find(item => item.productId === productId);
-
             if (existingItem) {
                 existingItem.qty += 1;
             } else {
-                state.item.push({ productId, qty: 1 });
+                state.item.push({
+                    productId,
+                    qty: 1
+                });
             }
 
-            state.finalTotal += Number(finalPrice);
-            state.orignalTotal += Number(orignalPrice);
+            state.finalTotal += final_price;
+            state.orignalTotal += original_price;
+            localStorage.setItem("cart", JSON.stringify(state));
 
-            localStorage.setItem('Cart', JSON.stringify(state));
         },
-
         lsToCart(state) {
-            const lsCart = JSON.parse(localStorage.getItem('Cart'));
+            const lsCart = JSON.parse(localStorage.getItem("cart"));
             if (lsCart) {
-                state.item = lsCart.item || [];
-                state.finalTotal = lsCart.finalTotal || 0;
-                state.orignalTotal = lsCart.orignalTotal || 0;
+                state.items = lsCart.items || [];
+                state.final_total = lsCart.final_total || 0;
+                state.original_total = lsCart.original_total || 0;
             }
         },
-
         qtyHandler(state, current) {
-            const { productId, type, finalPrice, orignalPrice } = current.payload;
-            const existingItem = state.item.find(item => item.productId === productId);
+            const { productId, type, final_price, original_price } = current.payload;
+            const existingItem = state.items.find(item => item.productId === productId);
             if (existingItem) {
-
                 if (type === "inc") {
                     existingItem.qty += 1;
-                    state.finalTotal += Number(finalPrice);
-                    state.orignalTotal += Number(orignalPrice);
+                    state.final_total += final_price;
+                    state.original_total += original_price;
                 } else if (type === "dec" && existingItem.qty > 1) {
                     existingItem.qty -= 1;
-                    state.finalTotal -= Number(finalPrice);
-                    state.orignalTotal -= Number(orignalPrice);
+                    state.final_total -= final_price;
+                    state.original_total -= original_price;
                 }
             }
-            localStorage.setItem('Cart', JSON.stringify(state));
-
+            localStorage.setItem("cart", JSON.stringify(state));
         },
-        // userLogout(state) {
-        //     state.item = [];
-        //     state.finalTotal = 0;
-        //     state.orignalTotal = 0;
-        //     localStorage.removeItem("cart")
-        // }
+        emtyCart(state) {
+            state.items = [];
+            state.final_total = 0;
+            state.original_total = 0;
+            localStorage.removeItem("cart")
+        }
 
-    },
+    }
 })
 
-export const { lsToCart, addItem, qtyHandler } = cartSlice.actions
+// Action creators are generated for each case reducer function
+export const { addItem, lsToCart, qtyHandle, emtyCart } = cartSlice.actions
 
 export default cartSlice.reducer

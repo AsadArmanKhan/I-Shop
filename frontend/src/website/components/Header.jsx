@@ -9,6 +9,7 @@ import { userLogout } from '../../redux/slice/userSlice';
 import { toast, ToastContainer } from 'react-toastify';
 import Confetti from 'react-confetti';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -19,51 +20,51 @@ const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  useEffect(() => {
-    dispatch(lsToCart());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(lsToCart());
+  // }, []);
 
-  const handleLogoutClick = () => {
-    setShowModal(true);
-  };
+  // const handleLogoutClick = () => {
+  //   setShowModal(true);
+  // };
 
-  const handleConfirmLogout = async () => {
-    const localCart = JSON.parse(localStorage.getItem("Cart"))?.item || [];
-    const user = JSON.parse(localStorage.getItem("user"))?.user;
+  // const handleConfirmLogout = async () => {
+  //   const localCart = JSON.parse(localStorage.getItem("Cart"))?.item || [];
+  //   const user = JSON.parse(localStorage.getItem("user"))?.user;
 
-    try {
-      // ✅ Sync local cart to DB before logout
-      if (user && localCart.length > 0) {
-        await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
-          cart: localCart,
-          user_id: user._id,
-        });
-        console.log("✅ Cart synced to DB on logout");
-      }
-    } catch (error) {
-      console.error("❌ Error syncing cart to DB on logout:", error);
-    }
+  //   try {
+  //     // ✅ Sync local cart to DB before logout
+  //     if (user && localCart.length > 0) {
+  //       await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
+  //         cart: localCart,
+  //         user_id: user._id,
+  //       });
+  //       console.log("✅ Cart synced to DB on logout");
+  //     }
+  //   } catch (error) {
+  //     console.error("❌ Error syncing cart to DB on logout:", error);
+  //   }
 
-    // 🔁 Now proceed with logout
-    dispatch(userLogout());
-    localStorage.removeItem("Cart");
-    // localStorage.removeItem("user"); ← optional, depending on your reducer
+  //   // 🔁 Now proceed with logout
+  //   dispatch(userLogout());
+  //   localStorage.removeItem("Cart");
+  //   // localStorage.removeItem("user"); ← optional, depending on your reducer
 
-    setShowModal(false);
-    setShowConfetti(true);
+  //   setShowModal(false);
+  //   setShowConfetti(true);
 
-    toast.success("Logged out successfully!", {
-      position: "top-right",
-      autoClose: 1000,
-      onClose: () => navigate("/"),
-    });
+  //   toast.success("Logged out successfully!", {
+  //     position: "top-right",
+  //     autoClose: 1000,
+  //     onClose: () => navigate("/"),
+  //   });
 
-    setTimeout(() => setShowConfetti(false), 3000);
-  };
+  //   setTimeout(() => setShowConfetti(false), 3000);
+  // };
 
-  const handleCancelLogout = () => {
-    setShowModal(false);
-  };
+  // const handleCancelLogout = () => {
+  //   setShowModal(false);
+  // };
 
   return (
     <motion.div
@@ -138,7 +139,7 @@ const Header = () => {
                 <div className="font-semibold cursor-pointer text-black hover:text-teal-600 transition">LOG IN |</div>
               </Link>
             ) : (
-              <button onClick={handleLogoutClick}>
+              <button >
                 <div className="cursor-pointer font-semibold text-black hover:text-teal-600 transition">
                   LOG OUT |
                 </div>

@@ -26,7 +26,6 @@ export default function AllStoreProducts() {
     )
     function cartHandler(data) {
         console.log(data);
-        return;
 
         dispacher(
             addItem({
