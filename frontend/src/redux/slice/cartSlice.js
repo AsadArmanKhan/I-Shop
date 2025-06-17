@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    item: [],
-    finalTotal: 0,
-    orignalTotal: 0,
+    items: [],
+    final_total: 0,
+    original_total: 0,
 }
 
 export const cartSlice = createSlice({
@@ -12,18 +12,18 @@ export const cartSlice = createSlice({
     reducers: {
         addItem(state, current) {
             const { productId, final_price, original_price } = current.payload;
-            const existingItem = state.item.find(item => item.productId === productId);
+            const existingItem = state.items.find(item => item.productId === productId);
             if (existingItem) {
                 existingItem.qty += 1;
             } else {
-                state.item.push({
+                state.items.push({
                     productId,
                     qty: 1
                 });
             }
 
-            state.finalTotal += final_price;
-            state.orignalTotal += original_price;
+            state.final_total += final_price;
+            state.original_total += original_price;
             localStorage.setItem("cart", JSON.stringify(state));
 
         },
@@ -35,7 +35,7 @@ export const cartSlice = createSlice({
                 state.original_total = lsCart.original_total || 0;
             }
         },
-        qtyHandler(state, current) {
+        qtyHandle(state, current) {
             const { productId, type, final_price, original_price } = current.payload;
             const existingItem = state.items.find(item => item.productId === productId);
             if (existingItem) {
@@ -51,7 +51,7 @@ export const cartSlice = createSlice({
             }
             localStorage.setItem("cart", JSON.stringify(state));
         },
-        emtyCart(state) {
+        emtpyCart(state) {
             state.items = [];
             state.final_total = 0;
             state.original_total = 0;
@@ -62,6 +62,6 @@ export const cartSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addItem, lsToCart, qtyHandle, emtyCart } = cartSlice.actions
+export const { addItem, lsToCart, qtyHandle, emptyCart } = cartSlice.actions
 
 export default cartSlice.reducer

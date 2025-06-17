@@ -27,7 +27,7 @@ import AuthForm from './website/pages/AuthForm'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 // import { lsAdmin } from './redux/slice/adminSlice'
-import { lsUser } from './redux/slice/userSlice'
+// import { lsUser } from './redux/slice/userSlice'
 // import HomePage from './website/pages/Homeeee'
 
 export default function App() {
