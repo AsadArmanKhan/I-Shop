@@ -18,79 +18,81 @@ export default function AuthForm() {
   const navigator = useNavigate()
   const cartData = JSON.parse(localStorage.getItem("cart"));
   const cart = cartData ? cartData.items : null
-  console.log(cart)
+  console.log(cartData)
 
   function submitHandle(e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  const email = e.target.email.value;
-  const password = e.target.password.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
 
-  if (!email || !password) {
-    notify("Please fill all fields", 0);
-    return;
-  }
+    if (!email || !password) {
+      notify("Please fill all fields", 0);
+      return;
+    }
 
-  const data = { email, password };
+    const data = { email, password };
 
-  axios.post(`${API_BASE_URL}${USER_URL}/login`, data)
-    .then(async (response) => {
-      notify(response.data.msg, response.data.flag);
+    axios.post(`${API_BASE_URL}${USER_URL}/login`, data)
+      .then(async (response) => {
+        notify(response.data.msg, response.data.flag);
 
-      if (response.data.flag === 1) {
-        const userPayload = {
-          user: response.data.user,
-          user_token: response.data.token
-        };
-
-        // ✅ Set Redux user state
-        dispacher(setUser(userPayload));
-
-        // ✅ Also store in localStorage to persist login across refreshes
-        localStorage.setItem("user", JSON.stringify(userPayload));
-
-        // ✅ Move guest cart to DB and update local cart
-        const updateCart = await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
-          cart: cart != null ? cart : null,
-          user_id: response.data?.user?._id
-        });
-
-        let final_total = 0;
-        let original_total = 0;
-
-        const cartUpdate = updateCart.data.cart.map((cd) => {
-          const { product_id, qty } = cd;
-          final_total += (product_id.finalPrice * qty);
-          original_total += (product_id.originalPrice * qty);
-
-          return {
-            productId: product_id._id,
-            qty: qty
+        if (response.data.flag === 1) {
+          const userPayload = {
+            user: response.data.user,
+            user_token: response.data.token
           };
-        });
 
-        // ✅ Save cart to localStorage
-        localStorage.setItem("cart", JSON.stringify({
-          items: cartUpdate,
-          final_total,
-          original_total
-        }));
+          // ✅ Set Redux user state
+          dispacher(setUser(userPayload));
 
-        // ✅ Navigate accordingly
-        if (searchParams.get("ref") === "checkout") {
-          navigator("/checkout");
-        } else {
-          navigator("/");
+          // ✅ Also store in localStorage to persist login across refreshes
+          localStorage.setItem("user", JSON.stringify(userPayload));
+
+          // ✅ Move guest cart to DB and update local cart
+          const updateCart = await axios.post(`${API_BASE_URL}/cart/move-to-db`, {
+            cart: cart != null ? cart : null,
+            user_id: response.data?.user?._id
+          });
+          console.log(updateCart);
+          
+
+          let final_total = 0;
+          let original_total = 0;
+
+          const cartUpdate = updateCart.data.cart.map((cd) => {
+            const { product_id, qty } = cd;
+            final_total += (product_id.finalPrice * qty);
+            original_total += (product_id.originalPrice * qty);
+
+            return {
+              productId: product_id._id,
+              qty: qty
+            };
+          });
+
+          // ✅ Save cart to localStorage
+          localStorage.setItem("cart", JSON.stringify({
+            items: cartUpdate,
+            final_total,
+            original_total
+          }));
+
+          // ✅ Navigate accordingly
+          if (searchParams.get("ref") === "checkout") {
+            navigator("/checkout");
+          } else {
+            navigator("/");
+          }
         }
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      notify("Login failed. Check credentials.", "error");
-    });
+      })
+      .catch((error) => {
+        console.log(error);
+        notify("Login failed. Check credentials.", "error");
+      });
 
-  console.log("end");
-}
+    console.log("end");
+  }
 
 
   function registerHandle(e) {

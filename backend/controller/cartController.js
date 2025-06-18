@@ -4,6 +4,10 @@ const CartModel = require("../model/cartModel");
 const cartController = {
     async moveTodb(req, res) {
         try {
+            // res.send('Hii')
+            console.log(req.body);
+            // return;
+            
             const { user_id, cart } = req.body;
             // Only update if cart is a valid array with items
             if (Array.isArray(cart) && cart.length > 0) {
