@@ -7,11 +7,12 @@ import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MainContext } from "../../Context";
 import { Link, useSearchParams, useParams } from "react-router-dom";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from '../../redux/slice/cartSlice';
 import AllStoreProducts from './AllStoreProducts';
 // import { hex } from 'framer-motion';
 export default function Store() {
+    // const user=useSelector((state)=>state.user?.data)
     const dispacher = useDispatch()
     const { categorySlug } = useParams();
     console.log(categorySlug);

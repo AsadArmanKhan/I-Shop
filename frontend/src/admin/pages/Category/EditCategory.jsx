@@ -6,7 +6,7 @@ import { MainContext } from "../../../Context";
 import { useEffect } from "react";
 
 export default function EditCategory() {
-    // const [category, setCategory] = useState({})
+    const [category, setCategory] = useState(null);
 
     const { categoryId } = useParams();
     // console.log(categoryId);
@@ -17,6 +17,7 @@ export default function EditCategory() {
     const nameref = useRef();
     const slugref = useRef();
     // const fileRef = useRef();
+    // console.log(Categories);
 
     const ChangeHandler = () => {
         const name = nameref.current.value;
@@ -40,7 +41,7 @@ export default function EditCategory() {
         axios.put(API_BASE_URL + CATEGORY_URL + `/update/${categoryId}`, formData).then(
             (res) => {
                 // console.log(categoryId)
-                    notify(res.data.msg, res.data.flag);
+                notify(res.data.msg, res.data.flag);
                 if (res.data.flag === 1) {
                     e.target.reset();
                 }
@@ -54,13 +55,18 @@ export default function EditCategory() {
     }
 
 
+    useEffect(() => {
+        if (Categories && categoryId) {
+            const found = Categories.find(cat => cat._id === categoryId);
+            setCategory(found);
+        }
+    }, [Categories, categoryId]);
 
-
-    useEffect(
-        () => {
-            getCategory(categoryId)
-        }, [categoryId]
-    )
+    // useEffect(
+    //     () => {
+    //         getCategory(categoryId)
+    //     }, [categoryId]
+    // )
 
     return (
         <div className="max-w-xl mx-auto p-6">
@@ -87,10 +93,27 @@ export default function EditCategory() {
                             placeholder="e.g. Electronics"
                             ref={nameref}
                             name="Image"
-                            defaultValue={Categories?.name}
+                            defaultValue={category?.name}
                             onChange={ChangeHandler}
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
+                        {/* <input
+                            type="text"
+                            ref={slugref}
+                            placeholder="Auto-generated slug"
+                            defaultValue={category?.slug}
+                            readOnly
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        /> */}
+                        {/* <input
+                            type="text"
+                            placeholder="e.g. Electronics"
+                            ref={nameref}
+                            name="Image"
+                            defaultValue={Categories?.name}
+                            onChange={ChangeHandler}
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        /> */}
                     </div>
 
                     {/* Slug */}
@@ -102,7 +125,7 @@ export default function EditCategory() {
                             type="text"
                             ref={slugref}
                             placeholder="Auto-generated slug"
-                            defaultValue={Categories?.slug}
+                            defaultValue={category?.slug}
                             readOnly
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
@@ -119,9 +142,9 @@ export default function EditCategory() {
                             name="categoryImage"
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
+                        <img width="250px" src={`${API_BASE_URL}/images/categories/${category?.Image}`} alt="" />
 
-                        <img width="250px" src={`${API_BASE_URL}/images/categories/${Categories?.Image}`} alt="" />
-
+                        {/* <img width="250px" src={`${API_BASE_URL}/images/categories/${Categories?.Image}`} alt="" /> */}
                     </div>
 
                     {/* Submit Button */}

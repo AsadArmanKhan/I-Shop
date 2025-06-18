@@ -122,34 +122,48 @@ const colorController = {
 
     async update(req, res) {
         try {
-            if (!color) {
-                return res.send({ msg: "No color found", flag: 0 })
-            } else {
-                await colorModel.updateOne(
-                    {
-                        _id: id
-                    },
-                    {
-                        name: req.body.name,
-                        slug: req.body.slug,
-                        hexcode: req.body.hexcode,
-                    }
-                ).then(
-                    () => {
-                        res.send({ msg: "color updated succesfully", flag: 1 })
-                    }
-                ).catch(
-                    (error) => {
-                        res.send({ msg: "Unable to Update color", flag: 0 })
-                    }
-                )
-            }
-        } catch (error) {
-            res.send({ msg: "Color controller me dikkat h", flag: 0, error })
-            console.log(error);
+            const id = req.params.id;
+            const color = await colorModel.findById(id);
 
+            if (!color) {
+                return res.send({ msg: "No color found", flag: 0 });
+            }
+
+            await colorModel.updateOne(
+                { _id: id },
+                {
+                    name: req.body.name,
+                    slug: req.body.slug,
+                    hexcode: req.body.hexcode,
+                }
+            );
+
+            res.send({ msg: "Color updated successfully", flag: 1 });
+
+        } catch (error) {
+            console.log(error);
+            res.send({ msg: "Error in Color controller ", flag: 0, error });
+        }
+    },
+
+
+    async getOne(req, res) {
+        try {
+            const id = req.params.id;
+            const color = await colorModel.findById(id);
+
+            if (!color) {
+                return res.send({ msg: "No color found", flag: 0 });
+            }
+
+            res.send({ msg: "Color fetched", flag: 1, data: color });
+        } catch (error) {
+            console.log(error);
+            res.send({ msg: "Error fetching color", flag: 0, error });
         }
     }
+
+
 }
 
 

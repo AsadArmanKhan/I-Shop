@@ -198,9 +198,7 @@ const categoryController = {
                             return res.send({ msg: "Unable to update Category Image ", flag: 0 })
 
                         } else {
-                            try {
-
-
+                            try {6
                                 await categoryModel.updateOne(
                                     {
                                         _id: id
