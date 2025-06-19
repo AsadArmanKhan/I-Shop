@@ -26,17 +26,19 @@ import Checkout from './website/pages/Checkout'
 import AuthForm from './website/pages/AuthForm'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { lsToUser } from './redux/slice/userSlice'
-// import { lsAdmin } from './redux/slice/adminSlice'
-// import { lsUser } from './redux/slice/userSlice'
+import { lsAdmin } from './redux/slice/adminSlice'
+import { lsUser } from './redux/slice/userSlice'
+import MyAddress from './website/pages/MyAdress'
 // import HomePage from './website/pages/Homeeee'
+// import Homeeee 
+// import MyAddress from './website/pages/MyAddress'
 
 export default function App() {
   const dispatcher = useDispatch()
   useEffect(
     () => {
-      // dispatcher(lsAdmin())
-      dispatcher(lsToUser())
+      dispatcher(lsAdmin()) 
+      dispatcher(lsUser())
     },
     []
   )
@@ -59,8 +61,12 @@ export default function App() {
           element: <Profile />
         },
         {
+           path: "/profile/myaddress",
+           element:<MyAddress/>
+        },
+        {
           path: "/ghar",
-          element: <Homeeee />
+          element: <Homeeee/>
         },
         {
           path: "/store/:categorySlug?",

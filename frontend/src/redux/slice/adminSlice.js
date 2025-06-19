@@ -16,6 +16,18 @@ export const adminSlice = createSlice({
             localStorage.setItem("token", state.token)
             localStorage.setItem("adminTimeStamp", new Date().getTime());
         },
+           lsAdmin(state) {
+            const adminData = JSON.parse(localStorage.getItem("admin"));
+            const token = localStorage.getItem("token");
+
+            if (adminData && token) {
+                state.data = adminData;
+                state.token = token;
+            } else {
+                state.data = null;
+                state.token = null;
+            }
+        },
         logout(state) {
             state.data = null;
             state.token = null;
@@ -29,6 +41,6 @@ export const adminSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setAdmin, logout } = adminSlice.actions
+export const {lsAdmin, setAdmin, logout } = adminSlice.actions
 
 export default adminSlice.reducer

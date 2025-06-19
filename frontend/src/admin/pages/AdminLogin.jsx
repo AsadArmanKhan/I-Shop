@@ -10,6 +10,8 @@ export default function AdminLogin() {
     const { API_BASE_URL, ADMIN_URL, notify } = useContext(MainContext)
     const navigator = useNavigate()
     const dispatcher = useDispatch()
+    const cartData = JSON.parse(localStorage.getItem('cart'))
+    const cart = cartData ? cartData.items : null
 
     function submitHandler(e) {
         e.preventDefault();
@@ -25,7 +27,7 @@ export default function AdminLogin() {
 
                 notify(resp.data.msg, resp.data.flag)
                 if (resp.data.flag === 1) {
-                    // console.log(resp.data?.admin)
+                    console.log(resp.data?.admin , "resp.data?.admin")
                     e.target.reset()
                     dispatcher(setAdmin(
                         {

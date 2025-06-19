@@ -39,9 +39,11 @@ export default function Profile() {
                   <button className="w-full flex justify-between items-center bg-white border px-4 py-2 rounded">
                     My order <FaArrowRight />
                   </button>
+                  <Link to={"/profile/myaddress"} >
                   <button className="w-full flex justify-between items-center bg-white border px-4 py-2 rounded">
                     My address <FaArrowRight />
                   </button>
+                  </Link>
                   <button className="w-full flex justify-between items-center bg-white border px-4 py-2 rounded">
                     Change password <FaArrowRight />
                   </button>

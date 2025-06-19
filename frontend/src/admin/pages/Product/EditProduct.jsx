@@ -178,7 +178,7 @@ export default function EditProduct() {
                             <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">
                                 Category ID
                             </label>
-                            <Select name="categoryId" options={
+                            <Select name="categoryId" isMulti closeMenuOnSelect={false} options={
                                 Categories.map(
                                     (cat, index) => {
                                         return { value: cat._id, label: cat.name }
