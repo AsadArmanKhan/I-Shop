@@ -15,8 +15,6 @@ import MultipleImage from './admin/pages/Product/MultipleImage'
 import EditProduct from './admin/pages/Product/EditProduct'
 import EditColor from './admin/pages/Colors/EditColor'
 import AdminLogin from './admin/pages/AdminLogin'
-// import LoginPage from './website/pages/AuthForm'
-// import RegisterPage from './website/pages/RegisterPage'
 import Card from './website/components/Card'
 import Cart from './website/pages/Cart'
 import Profile from './website/pages/Profile'
@@ -28,16 +26,14 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { lsAdmin } from './redux/slice/adminSlice'
 import { lsUser } from './redux/slice/userSlice'
-import MyAddress from './website/pages/MyAdress'
-// import HomePage from './website/pages/Homeeee'
-// import Homeeee 
-// import MyAddress from './website/pages/MyAddress'
+import UserAdress from './website/pages/UserAdress'
+import EditAddress from './website/pages/EditAddress'
 
 export default function App() {
   const dispatcher = useDispatch()
   useEffect(
     () => {
-      dispatcher(lsAdmin()) 
+      dispatcher(lsAdmin())
       dispatcher(lsUser())
     },
     []
@@ -61,12 +57,12 @@ export default function App() {
           element: <Profile />
         },
         {
-           path: "/profile/myaddress",
-           element:<MyAddress/>
+          path: "/profile/myaddress",
+          element: <UserAdress />
         },
         {
           path: "/ghar",
-          element: <Homeeee/>
+          element: <Homeeee />
         },
         {
           path: "/store/:categorySlug?",
@@ -75,6 +71,10 @@ export default function App() {
         {
           path: "/checkout",
           element: <Checkout />
+        },
+        {
+          path: "edit/address",
+          element: <EditAddress />
         }
       ]
     },

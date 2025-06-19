@@ -11,15 +11,15 @@ import { useNavigate } from "react-router-dom";
 import { setUser } from "../../redux/slice/userSlice";
 import axios from "axios";
 
-export default function MyAddress() {
+export default function UserAdress() {
     const navigate = useNavigate();
     const user = useSelector((state) => state.user?.data);
     const dispatch = useDispatch();
 
     // ✅ FIX: State definition
     const [address, setAddress] = useState({
-        adressLine1: "",
-        adressLine2: "",
+        addressLine1: "",
+        addressLine2: "",
         city: "",
         state: "",
         postalCode: "",

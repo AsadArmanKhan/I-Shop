@@ -58,20 +58,21 @@ export default function Store() {
 
 
     async function carthandler(data) {
-console.log(
-    data
-);
+        console.log(
+            data
+        );
 
         if (user !== null) {
+            console.log(user);
             const response = await axios.post(`${API_BASE_URL}/cart/add-to-cart`, {
                 userId: user?._id,
                 productId: data.productId,
                 qty: 1
             })
 
-            console.log(response)
+            // console.log(response,   'expected')
         }
-        
+
         dispacher(
             addItem(data)
         )
