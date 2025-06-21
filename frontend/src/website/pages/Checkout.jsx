@@ -1,16 +1,19 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { setUser } from '../../redux/slice/userSlice';
+import { MainContext } from '../../Context';
 
 export default function Checkout() {
+    const { API_BASE_URL, USER_URL, notify } = useContext(MainContext);
     const user = useSelector((state) => state.user.data);
-    console.log(user);
-    
+    const cart = useSelector((state) => state.cart);
+
     const [showSavedAddress, setShowSavedAddress] = useState(false);
     const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
     const [useSavedAddress, setUseSavedAddress] = useState(false);
+    const [paymentMode, setPaymentMode] = useState(0);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -26,31 +29,30 @@ export default function Checkout() {
         contact: '',
     });
 
-    // ✅ Use address
     const handleUseAddress = (index) => {
         const addr = savedAddresses[index];
+        // console.log(addr);
         setSelectedAddress(addr);
         setUseSavedAddress(true);
         setSelectedAddressIndex(index);
     };
 
-    // ✅ Edit address
-    const handleEditAddress = (index) => {
-        const addr = savedAddresses[index];
-        setSelectedAddress(addr);
-        setSelectedAddressIndex(null); // so we know it's editing
-        setUseSavedAddress(false);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    // const handleEditAddress = (index) => {
+    //     const addr = savedAddresses[index];
+    //     // console.log(addr);
+    //     setSelectedAddress(addr);
+    //     setSelectedAddressIndex(null);
+    //     setUseSavedAddress(false);
+    //     window.scrollTo({ top: 0, behavior: 'smooth' });
+    // };
 
-    // ✅ Delete address
     const handleDeleteAddress = async (index) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this address?');
         if (!confirmDelete) return;
 
         try {
             const updatedAddresses = savedAddresses.filter((_, i) => i !== index);
-            const res = await axios.post('http://localhost:5000/user/update-address', {
+            const res = await axios.post(`${API_BASE_URL}user/update-address`, {
                 user_id: user._id,
                 shipping_address: updatedAddresses,
             });
@@ -67,7 +69,6 @@ export default function Checkout() {
         }
     };
 
-    // ✅ Input change
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setSelectedAddress((prev) => ({
@@ -75,6 +76,54 @@ export default function Checkout() {
             [name]: value,
         }));
     };
+
+    const formatToIndianCurrency = (amount) => {
+        if (isNaN(amount)) return 'Invalid amount';
+
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            maximumFractionDigits: 2,
+        }).format(amount);
+    };
+
+
+    function handlePlaceOrder() {
+
+        const userId = user?._id;
+        // console.log(userId);
+        const shippingAddressList = user?.shipping_address;
+        // console.log(user?.shipping_address)
+        const selectedAddress = savedAddresses[selectedAddressIndex];
+
+        if (!userId || !selectedAddress) {
+            notify("Missing user ID or shipping address.", 0);
+            console.warn("Invalid order attempt", { userId, selectedAddressIndex, shippingAddressList });
+            return;
+        }
+
+        const payload = {
+            user_id: userId,
+            order_total: cart.finalTotal,
+            payment_mode: paymentMode,
+            shipping_details: selectedAddress,
+        };
+
+        console.log("Sending payload:", payload);
+
+        axios.post(`${API_BASE_URL}/order/place-order`, payload)
+            .then((response) => {
+                notify(response.data.msg, response.data.flag);
+                if (response.data.flag === 1) {
+                    console.log("Order placed:", response.data);
+                }
+            })
+            .catch((error) => {
+                console.error("Order failed:", error);
+            });
+    }
+
+
 
     return (
         <div className="w-full max-w-6xl mx-auto px-4 py-8">
@@ -92,6 +141,7 @@ export default function Checkout() {
                 {showSavedAddress && savedAddresses.length > 0 && (
                     <div className="space-y-4">
                         {savedAddresses.map((address, index) => (
+
                             <div
                                 key={index}
                                 className={`p-4 border rounded-lg bg-gray-50 text-sm space-y-1 ${selectedAddressIndex === index
@@ -99,30 +149,16 @@ export default function Checkout() {
                                     : 'border-gray-200'
                                     }`}
                             >
-                                <p>
-                                    <strong>Address Line 1:</strong> {address.adressLine1}
-                                </p>
+                                <p><strong>Address Line 1:</strong> {address.adressLine1}</p>
                                 {address.adressLine2 && (
-                                    <p>
-                                        <strong>Address Line 2:</strong> {address.adressLine2}
-                                    </p>
+                                    <p><strong>Address Line 2:</strong> {address.adressLine2}</p>
                                 )}
-                                <p>
-                                    <strong>City:</strong> {address.city}
-                                </p>
-                                <p>
-                                    <strong>State:</strong> {address.state}
-                                </p>
-                                <p>
-                                    <strong>Postal Code:</strong> {address.postalCode}
-                                </p>
-                                <p>
-                                    <strong>Country:</strong> {address.country}
-                                </p>
+                                <p><strong>City:</strong> {address.city}</p>
+                                <p><strong>State:</strong> {address.state}</p>
+                                <p><strong>Postal Code:</strong> {address.postalCode}</p>
+                                <p><strong>Country:</strong> {address.country}</p>
                                 {address.contact && (
-                                    <p>
-                                        <strong>Contact:</strong> {address.contact}
-                                    </p>
+                                    <p><strong>Contact:</strong> {address.contact}</p>
                                 )}
 
                                 <div className="flex gap-2 mt-3">
@@ -132,10 +168,7 @@ export default function Checkout() {
                                     >
                                         Use
                                     </button>
-                                    <Link
-                                        to="/edit/address"
-                                        state={{ index }}
-                                    >
+                                    <Link to="/edit/address" state={{ index }}>
                                         <button
                                             className="text-sm text-blue-600 border border-blue-600 hover:bg-blue-50 px-3 py-1 rounded"
                                             onClick={() => handleEditAddress(index)}
@@ -143,7 +176,6 @@ export default function Checkout() {
                                             Edit
                                         </button>
                                     </Link>
-
                                     <button
                                         className="text-sm text-red-600 border border-red-600 hover:bg-red-50 px-3 py-1 rounded"
                                         onClick={() => handleDeleteAddress(index)}
@@ -155,7 +187,7 @@ export default function Checkout() {
                         ))}
 
                         <button
-                            onClick={() => navigate('/profile/myaddress')}
+                            onClick={() => navigate('/profile/useraddress')}
                             className="mt-4 text-sm text-yellow-600 border border-yellow-500 hover:bg-yellow-50 px-4 py-2 rounded"
                         >
                             + Add New Address
@@ -169,7 +201,7 @@ export default function Checkout() {
 
                 <input
                     type="text"
-                    name="adressLine1"
+                    name="addressLine1"
                     placeholder="Address Line 1 *"
                     value={selectedAddress.adressLine1}
                     onChange={handleInputChange}
@@ -178,7 +210,7 @@ export default function Checkout() {
 
                 <input
                     type="text"
-                    name="adressLine2"
+                    name="addressLine2"
                     placeholder="Address Line 2"
                     value={selectedAddress.adressLine2}
                     onChange={handleInputChange}
@@ -230,7 +262,14 @@ export default function Checkout() {
                     className="w-full p-3 border rounded-md"
                 />
             </form>
-        </div>
+
+            {/* ✅ Place Order Button */}
+            <button onClick={handlePlaceOrder}
+                className="mt-6 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
+            >
+                Place Order
+            </button>
+        </div >
     );
 }
 

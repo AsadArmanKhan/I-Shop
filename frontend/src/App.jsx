@@ -57,7 +57,7 @@ export default function App() {
           element: <Profile />
         },
         {
-          path: "/profile/myaddress",
+          path: "/profile/useraddress",
           element: <UserAdress />
         },
         {

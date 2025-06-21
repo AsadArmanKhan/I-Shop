@@ -14,7 +14,7 @@ function Context(props) {
     const COLOR_URL = "/color"
     const PRODUCT_URL = "/product"
     const ADMIN_URL = "/admin"
-    const USER_URL = "/user"    
+    const USER_URL = "/user"
 
     const notify = (msg, flag) => toast(msg, { type: flag ? "success" : "error" });
 
@@ -92,7 +92,7 @@ function Context(props) {
         }
         const query = new URLSearchParams();
 
-        query.append(limit, 'limit')
+        query.append('limit', limit);
         if (categorySlug) {
             query.append("categorySlug", categorySlug)
         }
