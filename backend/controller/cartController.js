@@ -57,14 +57,20 @@ const cartController = {
             const { userId, productId, qty } = req.body;
 
             if (!userId || !productId || !qty) {
-                res.send({ msg: "all feilds are required ", flag: 0 });
+                return res.send({ msg: "All fields are required", flag: 0 });
 
             }
 
             const existingItem = await CartModel.findOne({ user_id: userId, product_id: productId });
+
             console.log(existingItem);
+
             res.send(existingItem)
+
             if (existingItem) {
+
+                // Increase quantity atomically
+
                 await CartModel.updateOne(
                     { _id: existingItem._id },
                     { $inc: { qty: Number(qty) } }
@@ -82,7 +88,9 @@ const cartController = {
 
         } catch (error) {
             console.log(error)
-            res.send({ msg: "internel server error", flag: 0 })
+            if (!res.headersSent) {
+                return res.status(500).send({ msg: "Error from Cart Controller ", flag: 0 });
+            }
         }
 
 

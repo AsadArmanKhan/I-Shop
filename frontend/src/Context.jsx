@@ -24,16 +24,18 @@ function Context(props) {
             URL += `/${id}`;
         }
 
-        axios.get(URL).then((response) => {
-            if (response.data.flag === 1) {
-                const sortedCategories = [...response.data.categorise].sort((a, b) =>
-                    a.name.localeCompare(b.name)
-                );
-                setCategories(sortedCategories);
-            }
-        }).catch((error) => {
-            setCategories([]);
-        });
+        axios.get(URL).then(
+            (response) => {
+                if (response.data.flag === 1) {
+                    const sortedCategories = [...response.data.categorise].sort((a, b) =>
+                        a.name.localeCompare(b.name)
+                    );
+                    setCategories(sortedCategories);
+                }
+            }).catch((error) => {
+                console.log(error);
+                setCategories([]);
+            });
     }
 
 
@@ -109,6 +111,7 @@ function Context(props) {
             }
         ).catch(
             (error) => {
+                console.log(error);
                 setProducts([])
             }
         )

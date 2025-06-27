@@ -37,14 +37,14 @@ export default function Checkout() {
         setSelectedAddressIndex(index);
     };
 
-    // const handleEditAddress = (index) => {
+    const handleEditAddress = (index) => {
     //     const addr = savedAddresses[index];
     //     // console.log(addr);
     //     setSelectedAddress(addr);
     //     setSelectedAddressIndex(null);
     //     setUseSavedAddress(false);
     //     window.scrollTo({ top: 0, behavior: 'smooth' });
-    // };
+    };
 
     const handleDeleteAddress = async (index) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this address?');
@@ -111,7 +111,7 @@ export default function Checkout() {
 
         console.log("Sending payload:", payload);
 
-        axios.post(`${API_BASE_URL}/order/place-order`, payload)
+        axios.post(API_BASE_URL + "/order/place-order", payload)
             .then((response) => {
                 notify(response.data.msg, response.data.flag);
                 if (response.data.flag === 1) {
@@ -119,7 +119,7 @@ export default function Checkout() {
                 }
             })
             .catch((error) => {
-                console.error("Order failed:", error);
+                console.log("Order failed:", error);
             });
     }
 

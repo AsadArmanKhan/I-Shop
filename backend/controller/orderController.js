@@ -42,28 +42,28 @@ const orderController = {
             console.log(order);
             return res.send({ msg: 'Order Placed Succesfully', flag: 1, order_id: order._id })
 
-            // if (payment_mode == 0) {
-            //     await CartModel.deleteMany({ user_id })
-            //     return res.status(200).json({ msg: "order place succesfully", flag: 1, order_id: order._id });
-            // } else {
-            //     var options = {
-            //         amount: order_total * 100,  // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            //         currency: "INR",
-            //         receipt: order._id
-            //     };
-            //     instance.orders.create(options, async function (err, Razorpayorder) {
-            //         if (err) {
-            //             return res.json({ msg: "Intital pyamnet fail", flag: 0 })
+            if (payment_mode == 0) {
+                await CartModel.deleteMany({ user_id })
+                return res.status(200).json({ msg: "order place succesfully", flag: 1, order_id: order._id });
+            } else {
+                var options = {
+                    amount: order_total * 100,  // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    currency: "INR",
+                    receipt: order._id
+                };
+                instance.orders.create(options, async function (err, Razorpayorder) {
+                    if (err) {
+                        return res.json({ msg: "Intital pyamnet fail", flag: 0 })
 
-            //         } else {
-            //             order.razorpay_order_id = Razorpayorder.id;
-            //             await order.save();
-            //             return res.send({ msg: "Order create", flag: 1, order_id: order._id, razorpay_order_id: Razorpayorder.id })
+                    } else {
+                        order.razorpay_order_id = Razorpayorder.id;
+                        await order.save();
+                        return res.send({ msg: "Order create", flag: 1, order_id: order._id, razorpay_order_id: Razorpayorder.id })
 
 
-            //         }
-            //     });
-            // }
+                    }
+                });
+            }
 
 
 
