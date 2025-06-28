@@ -14,8 +14,8 @@ export default function EditAddress() {
     const savedAddresses = user?.shipping_address || [];
 
     const [address, setAddress] = useState({
-        adressLine1: '',
-        adressLine2: '',
+        addressLine1: '',
+        addressLine2: '',
         city: '',
         state: '',
         postalCode: '',
@@ -74,7 +74,7 @@ export default function EditAddress() {
                 <input
                     name="adressLine1"
                     placeholder="Address Line 1 *"
-                    value={address.adressLine1}
+                    value={address.addressLine1}
                     onChange={handleChange}
                     required
                     className="w-full p-3 border rounded-md"
@@ -82,7 +82,7 @@ export default function EditAddress() {
                 <input
                     name="adressLine2"
                     placeholder="Address Line 2"
-                    value={address.adressLine2}
+                    value={address.addressLine2}
                     onChange={handleChange}
                     className="w-full p-3 border rounded-md"
                 />

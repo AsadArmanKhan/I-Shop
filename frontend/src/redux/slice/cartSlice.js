@@ -12,6 +12,8 @@ export const cartSlice = createSlice({
     reducers: {
         addItem(state, current) {
             const { productId, finalPrice, originalPrice } = current.payload;
+            console.log(originalPrice);
+
             const existingItem = state.item.find(item => item.productId === productId);
 
             if (existingItem) {
@@ -36,6 +38,7 @@ export const cartSlice = createSlice({
         },
 
         qtyHandler(state, current) {
+            console.log(current.payload,"current.payload")
             const { productId, type, finalPrice, originalPrice } = current.payload;
             const existingItem = state.item.find(item => item.productId === productId);
             if (existingItem) {
@@ -53,11 +56,11 @@ export const cartSlice = createSlice({
             localStorage.setItem('cart', JSON.stringify(state));
 
         },
-        emptycart(state){
-         state.item =[];
-         state.finalTotal=0;
-         state.originalTotal=0;
-         localStorage.removeItem("cart")
+        emptycart(state) {
+            state.item = [];
+            state.finalTotal = 0;
+            state.originalTotal = 0;
+            localStorage.removeItem("cart")
         },
         setCartFromDb(state, action) {
             const dbCart = action.payload; // array of cart items from backend
@@ -82,7 +85,7 @@ export const cartSlice = createSlice({
     },
 })
 
-export const { lsToCart, addItem, qtyHandler , emptycart,setCartFromDb} = cartSlice.actions
+export const { lsToCart, addItem, qtyHandler, emptycart, setCartFromDb } = cartSlice.actions
 
 export default cartSlice.reducer
 

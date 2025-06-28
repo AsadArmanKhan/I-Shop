@@ -1,280 +1,539 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { setUser } from '../../redux/slice/userSlice';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { FaPaypal } from 'react-icons/fa';
+import { MdOutlineLocalShipping } from 'react-icons/md';
+import { BsBank, BsCash } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import { MainContext } from '../../Context';
+import axios from 'axios';
 
 export default function Checkout() {
-    const { API_BASE_URL, USER_URL, notify } = useContext(MainContext);
-    const user = useSelector((state) => state.user.data);
-    const cart = useSelector((state) => state.cart);
-
+    const user = useSelector((state) => state.user?.data);
+    console.log(user?.data, "User Console")
+    const cart = useSelector((state) => state.cart)
+    console.log(cart, "cart Console")
+    const { API_BASE_URL, notify } = useContext(MainContext)
     const [showSavedAddress, setShowSavedAddress] = useState(false);
     const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
     const [useSavedAddress, setUseSavedAddress] = useState(false);
-    const [paymentMode, setPaymentMode] = useState(0);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    const savedAddresses = user?.shipping_address || [];
-
-    const [selectedAddress, setSelectedAddress] = useState({
-        addressLine1: '',
-        addressLine2: '',
+    const [paymentMode, setpaymentMode] = useState(0)
+    const [form, setForm] = useState({
+        adressLine1: '',
+        adressLine2: '',
         city: '',
         state: '',
         postalCode: '',
         country: '',
-        contact: '',
+        contact: ''
     });
+    const navigate = useNavigate();
 
-    const handleUseAddress = (index) => {
-        const addr = savedAddresses[index];
-        // console.log(addr);
-        setSelectedAddress(addr);
-        setUseSavedAddress(true);
-        setSelectedAddressIndex(index);
-    };
+    const savedAddresses = user?.shipping_address || [];
+    const saved = savedAddresses[selectedAddressIndex] || {};
 
-    const handleEditAddress = (index) => {
-    //     const addr = savedAddresses[index];
-    //     // console.log(addr);
-    //     setSelectedAddress(addr);
-    //     setSelectedAddressIndex(null);
-    //     setUseSavedAddress(false);
-    //     window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    const handleDeleteAddress = async (index) => {
-        const confirmDelete = window.confirm('Are you sure you want to delete this address?');
-        if (!confirmDelete) return;
-
-        try {
-            const updatedAddresses = savedAddresses.filter((_, i) => i !== index);
-            const res = await axios.post(`${API_BASE_URL}user/update-address`, {
-                user_id: user._id,
-                shipping_address: updatedAddresses,
-            });
-
-            if (res.data.flag === 1) {
-                dispatch(setUser(res.data.user));
-                alert('Address deleted successfully!');
-            } else {
-                alert(res.data.msg || 'Failed to delete address');
-            }
-        } catch (err) {
-            console.error(err);
-            alert('Something went wrong while deleting');
-        }
-    };
-
-    const handleInputChange = (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setSelectedAddress((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+        setForm((prev) => ({ ...prev, [name]: value }));
     };
 
-    const formatToIndianCurrency = (amount) => {
-        if (isNaN(amount)) return 'Invalid amount';
-
+    const formatCurrencyINR = (amount) => {
         return new Intl.NumberFormat('en-IN', {
             style: 'currency',
             currency: 'INR',
-            maximumFractionDigits: 2,
+            maximumFractionDigits: 2
         }).format(amount);
     };
 
 
     function handlePlaceOrder() {
-
-        const userId = user?._id;
-        // console.log(userId);
-        const shippingAddressList = user?.shipping_address;
-        // console.log(user?.shipping_address)
-        const selectedAddress = savedAddresses[selectedAddressIndex];
-
-        if (!userId || !selectedAddress) {
-            notify("Missing user ID or shipping address.", 0);
-            console.warn("Invalid order attempt", { userId, selectedAddressIndex, shippingAddressList });
-            return;
-        }
-
-        const payload = {
-            user_id: userId,
+        axios.post(API_BASE_URL + "/order/place-order", {
+            user_id: user._id,
             order_total: cart.finalTotal,
             payment_mode: paymentMode,
-            shipping_details: selectedAddress,
-        };
-
-        console.log("Sending payload:", payload);
-
-        axios.post(API_BASE_URL + "/order/place-order", payload)
-            .then((response) => {
-                notify(response.data.msg, response.data.flag);
-                if (response.data.flag === 1) {
-                    console.log("Order placed:", response.data);
-                }
-            })
-            .catch((error) => {
-                console.log("Order failed:", error);
-            });
+            shipping_details: user.shipping_address[selectedAddressIndex]
+        }).then(
+            (response) => {
+                notify(response.data.msg, response.data.flag)
+                if (response.data.flag == 1)
+                    console.log(response.data)
+            }
+        ).catch(
+            (error) => {
+                console.log(error)
+            }
+        )
     }
 
 
-
     return (
-        <div className="w-full max-w-6xl mx-auto px-4 py-8">
-            <div className="mb-6 space-y-4">
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                    <input
-                        type="checkbox"
-                        checked={showSavedAddress}
-                        onChange={() => setShowSavedAddress(!showSavedAddress)}
-                        className="accent-yellow-500"
-                    />
-                    Show Saved Shipping Addresses
-                </label>
+        <div className="w-full max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div className="lg:col-span-2 space-y-6">
+                <div className="space-y-4">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <input
+                            type="checkbox"
+                            checked={showSavedAddress}
+                            onChange={() => setShowSavedAddress(!showSavedAddress)}
+                            className="accent-yellow-500"
+                        />
+                        Show Saved Shipping Addresses
+                    </label>
 
-                {showSavedAddress && savedAddresses.length > 0 && (
-                    <div className="space-y-4">
-                        {savedAddresses.map((address, index) => (
+                    {showSavedAddress && savedAddresses.length > 0 && (
+                        <div className="space-y-4">
+                            {savedAddresses.map((address, index) => (
+                                <div
+                                    key={index}
+                                    className={`p-4 border rounded-md bg-white shadow-sm text-sm space-y-1 ${selectedAddressIndex === index ? 'border-yellow-400' : 'border-gray-200'
+                                        }`}
+                                >
+                                    <p className="font-medium text-gray-700">{address.adressLine1}, {address.city}, {address.state}</p>
+                                    <p className="text-gray-500 text-sm">{address.country} - {address.postalCode}</p>
+                                    {address.contact && <p className="text-sm text-gray-500">📞 {address.contact}</p>}
 
-                            <div
-                                key={index}
-                                className={`p-4 border rounded-lg bg-gray-50 text-sm space-y-1 ${selectedAddressIndex === index
-                                    ? 'border-yellow-400'
-                                    : 'border-gray-200'
-                                    }`}
-                            >
-                                <p><strong>Address Line 1:</strong> {address.adressLine1}</p>
-                                {address.adressLine2 && (
-                                    <p><strong>Address Line 2:</strong> {address.adressLine2}</p>
-                                )}
-                                <p><strong>City:</strong> {address.city}</p>
-                                <p><strong>State:</strong> {address.state}</p>
-                                <p><strong>Postal Code:</strong> {address.postalCode}</p>
-                                <p><strong>Country:</strong> {address.country}</p>
-                                {address.contact && (
-                                    <p><strong>Contact:</strong> {address.contact}</p>
-                                )}
-
-                                <div className="flex gap-2 mt-3">
                                     <button
-                                        className="text-sm text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded"
-                                        onClick={() => handleUseAddress(index)}
+                                        className="mt-2 text-sm text-white bg-green-600 hover:bg-green-700 px-4 py-1 rounded"
+                                        onClick={() => {
+                                            setSelectedAddressIndex(index);
+                                            setUseSavedAddress(true);
+                                        }}
                                     >
-                                        Use
-                                    </button>
-                                    <Link to="/edit/address" state={{ index }}>
-                                        <button
-                                            className="text-sm text-blue-600 border border-blue-600 hover:bg-blue-50 px-3 py-1 rounded"
-                                            onClick={() => handleEditAddress(index)}
-                                        >
-                                            Edit
-                                        </button>
-                                    </Link>
-                                    <button
-                                        className="text-sm text-red-600 border border-red-600 hover:bg-red-50 px-3 py-1 rounded"
-                                        onClick={() => handleDeleteAddress(index)}
-                                    >
-                                        Delete
+                                        Use this address
                                     </button>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
 
-                        <button
-                            onClick={() => navigate('/profile/useraddress')}
-                            className="mt-4 text-sm text-yellow-600 border border-yellow-500 hover:bg-yellow-50 px-4 py-2 rounded"
-                        >
-                            + Add New Address
-                        </button>
+                            <button
+                                onClick={() => navigate("/profile/useraddress")}
+                                className="mt-4 text-sm text-yellow-600 border border-yellow-500 hover:bg-yellow-50 px-4 py-2 rounded"
+                            >
+                                + Add New Address
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                <form className="space-y-4">
+                    <h2 className="text-xl font-semibold">Billing Details</h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                            type="text"
+                            name="adressLine1"
+                            placeholder="Address Line 1 *"
+                            value={useSavedAddress ? saved.adressLine1 : form.adressLine1}
+                            onChange={useSavedAddress ? undefined : handleChange}
+                            className="w-full p-3 border rounded-md"
+                            disabled={useSavedAddress}
+                        />
+
+                        <input
+                            type="text"
+                            name="adressLine2"
+                            placeholder="Address Line 2"
+                            value={useSavedAddress ? saved.adressLine2 : form.adressLine2}
+                            onChange={useSavedAddress ? undefined : handleChange}
+                            className="w-full p-3 border rounded-md"
+                            disabled={useSavedAddress}
+                        />
                     </div>
-                )}
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                            type="text"
+                            name="city"
+                            placeholder="City *"
+                            value={useSavedAddress ? saved.city : form.city}
+                            onChange={useSavedAddress ? undefined : handleChange}
+                            className="w-full p-3 border rounded-md"
+                            disabled={useSavedAddress}
+                        />
+
+                        <input
+                            type="text"
+                            name="state"
+                            placeholder="State *"
+                            value={useSavedAddress ? saved.state : form.state}
+                            onChange={useSavedAddress ? undefined : handleChange}
+                            className="w-full p-3 border rounded-md"
+                            disabled={useSavedAddress}
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                            type="text"
+                            name="postalCode"
+                            placeholder="Postal Code *"
+                            value={useSavedAddress ? saved.postalCode : form.postalCode}
+                            onChange={useSavedAddress ? undefined : handleChange}
+                            className="w-full p-3 border rounded-md"
+                            disabled={useSavedAddress}
+                        />
+
+                        <input
+                            type="text"
+                            name="country"
+                            placeholder="Country *"
+                            value={useSavedAddress ? saved.country : form.country}
+                            onChange={useSavedAddress ? undefined : handleChange}
+                            className="w-full p-3 border rounded-md"
+                            disabled={useSavedAddress}
+                        />
+                    </div>
+
+                    <input
+                        type="text"
+                        name="contact"
+                        placeholder="Contact"
+                        value={useSavedAddress ? saved.contact : form.contact}
+                        onChange={useSavedAddress ? undefined : handleChange}
+                        className="w-full p-3 border rounded-md"
+                        disabled={useSavedAddress}
+                    />
+
+                    <textarea
+                        placeholder="Order Notes (Optional)"
+                        className="w-full p-3 border rounded-md"
+                    ></textarea>
+                </form>
             </div>
 
-            <form className="space-y-4">
-                <h2 className="text-xl font-semibold">Billing Details</h2>
+            {/* Order Summary */}
+            <div className="bg-gray-50 border border-gray-200 p-6 rounded-md space-y-4 shadow-md">
+                <h2 className="text-lg font-semibold">Your Order</h2>
+                <div className="border-t border-b py-4">
+                    <div className="flex justify-between text-sm font-medium">
+                        <span>SUBTOTAL</span>
+                        <span className="text-black-600">{formatCurrencyINR(cart.originalTotal)}</span>
+                    </div>
 
-                <input
-                    type="text"
-                    name="addressLine1"
-                    placeholder="Address Line 1 *"
-                    value={selectedAddress.adressLine1}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border rounded-md"
-                />
+                    <div className="flex items-center justify-between mt-4">
+                        <div className="flex justify-between  text-base font-semibold">
+                            Discount
+                            <div>
 
-                <input
-                    type="text"
-                    name="addressLine2"
-                    placeholder="Address Line 2"
-                    value={selectedAddress.adressLine2}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border rounded-md"
-                />
+                            </div>
+                        </div>
+                        <p className="text-sm text-red-500">{formatCurrencyINR(cart.originalTotal - cart.finalTotal)}</p>
+                    </div>
 
-                <input
-                    type="text"
-                    name="city"
-                    placeholder="City *"
-                    value={selectedAddress.city}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border rounded-md"
-                />
+                    <div className="flex justify-between mt-4 text-base font-semibold">
+                        <span>Order Total</span>
+                        <span className="text-green-600">{formatCurrencyINR(cart.finalTotal)}</span>
+                    </div>
+                </div>
 
-                <input
-                    type="text"
-                    name="state"
-                    placeholder="State *"
-                    value={selectedAddress.state}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border rounded-md"
-                />
+                {/* Payment Options */}
+                <div className="space-y-3">
+                    <label className="flex items-start space-x-2">
+                        <input type="radio" name="payment" className="mt-1 accent-green-600" />
+                        <span>
+                            <strong className="flex items-center gap-1"><BsBank /> Direct Bank Transfer</strong><br />
+                            Make your payment directly into our bank account. Use Order ID as reference.
+                        </span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                        <input type="radio" name="payment" className="accent-gray-600" />
+                        <span className="flex items-center gap-1"><BsCash /> Cash on Delivery</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                        <input type="radio" name="payment" className="accent-blue-500" />
+                        <span className="flex items-center gap-1"><FaPaypal /> Paypal <a href="#" className="text-blue-500 underline">What is PayPal?</a></span>
+                    </label>
+                </div>
 
-                <input
-                    type="text"
-                    name="postalCode"
-                    placeholder="Postal Code *"
-                    value={selectedAddress.postalCode}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border rounded-md"
-                />
-
-                <input
-                    type="text"
-                    name="country"
-                    placeholder="Country *"
-                    value={selectedAddress.country}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border rounded-md"
-                />
-
-                <input
-                    type="text"
-                    name="contact"
-                    placeholder="Contact"
-                    value={selectedAddress.contact}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border rounded-md"
-                />
-            </form>
-
-            {/* ✅ Place Order Button */}
-            <button onClick={handlePlaceOrder}
-                className="mt-6 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
-            >
-                Place Order
-            </button>
-        </div >
+                <button
+                    onClick={handlePlaceOrder}
+                    className="w-full bg-green-500 text-white font-semibold py-3 rounded-md hover:bg-green-600 transition duration-300">
+                    PLACE ORDER
+                </button>
+            </div>
+        </div>
     );
 }
 
 
+// import { useSelector, useDispatch } from 'react-redux';
+// import { useContext, useState } from 'react';
+// import { Link, useNavigate } from 'react-router-dom';
+// import axios from 'axios';
+// import { setUser } from '../../redux/slice/userSlice';
+// import { MainContext } from '../../Context';
 
+// export default function Checkout() {
+//     const { API_BASE_URL, notify } = useContext(MainContext);
+//     const user = useSelector((state) => state?.user?.data);
+//     console.log(user, 'user11');
+//     const cart = useSelector((state) => state?.cart);
+//     console.log(cart, '13');
+
+//     const [showSavedAddress, setShowSavedAddress] = useState(false);
+//     const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
+//     const [useSavedAddress, setUseSavedAddress] = useState(false);
+//     const [paymentMode, setPaymentMode] = useState(0);
+//     const navigate = useNavigate();
+//     const dispatch = useDispatch();
+
+//     const savedAddresses = user?.shipping_address || [];
+
+//     const [selectedAddress, setSelectedAddress] = useState({
+//         addressLine1: '',
+//         addressLine2: '',
+//         city: '',
+//         state: '',
+//         postalCode: '',
+//         country: '',
+//         contact: '',
+//     });
+
+//     const handleUseAddress = (index) => {
+//         const addr = savedAddresses[index];
+//         // console.log(addr);
+//         setSelectedAddress(addr);
+//         setUseSavedAddress(true);
+//         setSelectedAddressIndex(index);
+//     };
+
+//     const handleEditAddress = (index) => {
+//         const addr = savedAddresses[index];
+//         // console.log(addr);
+//         setSelectedAddress(addr);
+//         setSelectedAddressIndex(null);
+//         setUseSavedAddress(false);
+//         window.scrollTo({ top: 0, behavior: 'smooth' });
+//     };
+
+//     const handleDeleteAddress = async (index) => {
+//         const confirmDelete = window.confirm('Are you sure you want to delete this address?');
+//         if (!confirmDelete) return;
+
+//         try {
+//             const updatedAddresses = savedAddresses.filter((_, i) => i !== index);
+//             const res = await axios.post(`${API_BASE_URL}user/update-address`, {
+//                 user_id: user._id,
+//                 shipping_address: updatedAddresses,
+//             });
+
+//             if (res.data.flag === 1) {
+//                 dispatch(setUser(res.data.user));
+//                 alert('Address deleted successfully!');
+//             } else {
+//                 alert(res.data.msg || 'Failed to delete address');
+//             }
+//         } catch (err) {
+//             console.error(err);
+//             alert('Something went wrong while deleting');
+//         }
+//     };
+
+//     const handleInputChange = (e) => {
+//         const { name, value } = e.target;
+//         setSelectedAddress((prev) => ({
+//             ...prev,
+//             [name]: value,
+//         }));
+//     };
+
+//     const formatToIndianCurrency = (amount) => {
+//         if (isNaN(amount)) return 'Invalid amount';
+
+//         return new Intl.NumberFormat('en-IN', {
+//             style: 'currency',
+//             currency: 'INR',
+//             maximumFractionDigits: 2,
+//         }).format(amount);
+//     };
+
+
+//     function handlePlaceOrder() {
+
+//         const userId = user?._id;
+//         // console.log(userId);
+//         const shippingAddressList = user?.shipping_address[selectedAddressIndex];
+//         // console.log(user?.shipping_address[selectedAddressIndex])
+//         const selectedAddress = savedAddresses[selectedAddressIndex];
+//         console.log(selectedAddress);
+
+
+//         if (!userId || !selectedAddress) {
+//             notify("Missing user ID or shipping address.", 0);
+//             console.warn("Invalid order attempt", { userId, selectedAddressIndex, shippingAddressList });
+//             return;
+//         }
+
+//         const payload = {
+//             user_id: userId,
+//             order_total: cart.finalTotal,
+//             payment_mode: paymentMode,
+//             shipping_details: selectedAddress,
+//         };
+
+//         console.log("Sending payload:", payload);
+
+//         axios.post(`http://localhost:5000/order/place-order`, payload)
+//             .then((response) => {
+//                 notify(response.data.msg, response.data.flag);
+//                 if (response.data.flag === 1) {
+//                     console.log("Order placed:", response.data);
+//                 }
+//             })
+//             .catch((error) => {
+//                 console.log("Order failed:", error);
+//             });
+//     }
+
+
+
+//     return (
+//         <div className="w-full max-w-6xl mx-auto px-4 py-8">
+//             <div className="mb-6 space-y-4">
+//                 <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+//                     <input
+//                         type="checkbox"
+//                         checked={showSavedAddress}
+//                         onChange={() => setShowSavedAddress(!showSavedAddress)}
+//                         className="accent-yellow-500"
+//                     />
+//                     Show Saved Shipping Addresses
+//                 </label>
+
+//                 {showSavedAddress && savedAddresses.length > 0 && (
+//                     <div className="space-y-4">
+//                         {savedAddresses.map((address, index) => (
+
+//                             <div
+//                                 key={index}
+//                                 className={`p-4 border rounded-lg bg-gray-50 text-sm space-y-1 ${selectedAddressIndex === index
+//                                     ? 'border-yellow-400'
+//                                     : 'border-gray-200'
+//                                     }`}
+//                             >
+//                                 <p><strong>Address Line 1:</strong> {address.addressLine1}</p>
+//                                 {address.addressLine2 && (
+//                                     <p><strong>Address Line 2:</strong> {address.addressLine2}</p>
+//                                 )}
+//                                 <p><strong>City:</strong> {address.city}</p>
+//                                 <p><strong>State:</strong> {address.state}</p>
+//                                 <p><strong>Postal Code:</strong> {address.postalCode}</p>
+//                                 <p><strong>Country:</strong> {address.country}</p>
+//                                 {address.contact && (
+//                                     <p><strong>Contact:</strong> {address.contact}</p>
+//                                 )}
+
+//                                 <div className="flex gap-2 mt-3">
+//                                     <button
+//                                         className="text-sm text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded"
+//                                         onClick={() => handleUseAddress(index)}
+//                                     >
+//                                         Use
+//                                     </button>
+//                                     <Link to="/edit/address" state={{ index }}>
+//                                         <button
+//                                             className="text-sm text-blue-600 border border-blue-600 hover:bg-blue-50 px-3 py-1 rounded"
+//                                             onClick={() => handleEditAddress(index)}
+//                                         >
+//                                             Edit
+//                                         </button>
+//                                     </Link>
+//                                     <button
+//                                         className="text-sm text-red-600 border border-red-600 hover:bg-red-50 px-3 py-1 rounded"
+//                                         onClick={() => handleDeleteAddress(index)}
+//                                     >
+//                                         Delete
+//                                     </button>
+//                                 </div>
+//                             </div>
+//                         ))}
+
+//                         <button
+//                             onClick={() => navigate('/profile/useraddress')}
+//                             className="mt-4 text-sm text-yellow-600 border border-yellow-500 hover:bg-yellow-50 px-4 py-2 rounded"
+//                         >
+//                             + Add New Address
+//                         </button>
+//                     </div>
+//                 )}
+//             </div>
+
+//             <form className="space-y-4">
+//                 <h2 className="text-xl font-semibold">Billing Details</h2>
+
+//                 <input
+//                     type="text"
+//                     name="addressLine1"
+//                     placeholder="Address Line 1 *"
+//                     value={selectedAddress.addressLine1 || ''}
+//                     onChange={handleInputChange}
+//                     className="w-full p-3 border rounded-md"
+//                 />
+
+//                 <input
+//                     type="text"
+//                     name="addressLine2"
+//                     placeholder="Address Line 2"
+//                     value={selectedAddress.addressLine2 || ''}
+//                     onChange={handleInputChange}
+//                     className="w-full p-3 border rounded-md"
+//                 />
+
+//                 <input
+//                     type="text"
+//                     name="city"
+//                     placeholder="City *"
+//                     value={selectedAddress.city || ''}
+
+//                     onChange={handleInputChange}
+//                     className="w-full p-3 border rounded-md"
+//                 />
+
+//                 <input
+//                     type="text"
+//                     name="state"
+//                     placeholder="State *"
+//                     value={selectedAddress.state || ''}
+//                     onChange={handleInputChange}
+//                     className="w-full p-3 border rounded-md"
+//                 />
+
+//                 <input
+//                     type="text"
+//                     name="postalCode"
+//                     placeholder="Postal Code *"
+//                     value={selectedAddress.postalCode || ''}
+//                     onChange={handleInputChange}
+//                     className="w-full p-3 border rounded-md"
+//                 />
+
+//                 <input
+//                     type="text"
+//                     name="country"
+//                     placeholder="Country *"
+//                     value={selectedAddress.country || ''}
+//                     onChange={handleInputChange}
+//                     className="w-full p-3 border rounded-md"
+//                 />
+
+//                 <input
+//                     type="text"
+//                     name="contact"
+//                     placeholder="Contact"
+//                     value={selectedAddress.contact || ''}
+//                     onChange={handleInputChange}
+//                     className="w-full p-3 border rounded-md"
+//                 />
+//             </form>
+
+//             {/* ✅ Place Order Button */}
+//             <button onClick={handlePlaceOrder}
+//                 className="mt-6 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
+//             >
+//                 Place Order
+//             </button>
+//         </div >
+//     );
+// }
 // import { useSelector, useDispatch } from 'react-redux';
 // import { useState } from 'react';
 // import { Link, useNavigate } from 'react-router-dom';

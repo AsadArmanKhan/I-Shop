@@ -22,7 +22,7 @@ export default function Store() {
     const { getProduct, products, getCategory, Categories,
         COLOR_URL, getColors, colors, API_BASE_URL } = useContext(MainContext)
 
-    // console.log(products)
+    console.log(products,"jsXNKJLS")
 
 
     useEffect(
@@ -58,19 +58,15 @@ export default function Store() {
 
 
     async function carthandler(data) {
-        console.log(
-            data
-        );
 
         if (user !== null) {
-            console.log(user);
             const response = await axios.post(`${API_BASE_URL}/cart/add-to-cart`, {
                 userId: user?._id,
                 productId: data.productId,
                 qty: 1
             })
 
-            // console.log(response,   'expected')
+            console.log(response)
         }
 
         dispacher(
@@ -78,6 +74,14 @@ export default function Store() {
         )
     }
 
+
+    const formatCurrencyINR = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            maximumFractionDigits: 2
+        }).format(amount);
+    };
 
     return (
         <>
@@ -140,14 +144,6 @@ export default function Store() {
                         </select>
 
                         {/* Pagination Buttons */}
-                        {/* <div className="flex justify-between items-center mb-6">
-                            <button className="p-2 bg-gray-800 hover:bg-gray-700 text-yellow-400 rounded-full transition">
-                                <FaAngleLeft className="text-yellow-400" />
-                            </button>
-                            <button className="p-2 bg-gray-800 hover:bg-gray-700 text-yellow-400 rounded-full transition">
-                                <FaAngleRight className="text-yellow-400" />
-                            </button>
-                        </div> */}
 
                         {/* Product Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
@@ -175,13 +171,13 @@ export default function Store() {
 
                                     {/* Price */}
                                     <p className="text-center font-bold text-base sm:text-lg mt-1">
-                                        <span className="text-yellow-400">{product.finalPrice}</span>{" "}
-                                        <span className="text-gray-500 line-through ml-2">{product.originalPrice}</span>
+                                        <span className="text-yellow-400">{formatCurrencyINR(product.finalPrice)}</span>{" "}
+                                        <span className="text-gray-500 line-through ml-2">{formatCurrencyINR(product.originalPrice)}</span>
                                     </p>
-                                    {/* {
-                                        console.log(product.finalPrice)
+                                    {
+                                        console.log(product.originalPrice)
 
-                                    } */}
+                                    }
                                     {/* Free Shipping */}
                                     <button className="text-xs sm:text-sm text-green-400 font-semibold text-center mt-1">
                                         FREE SHIPPING

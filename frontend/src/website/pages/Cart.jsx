@@ -3,8 +3,7 @@ import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MainContext } from "../../Context";
 import { qtyHandler } from "../../redux/slice/cartSlice";
-import { Link, useNavigate } from 'react-router-dom';
-import Checkout from "./Checkout";
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const navigate = useNavigate();
@@ -15,11 +14,10 @@ const Cart = () => {
     };
 
     const { getProduct, products, API_BASE_URL } = useContext(MainContext);
-    console.log(products)
     const cart = useSelector((state) => state.cart);
     const user = useSelector((state) => state.user);
-    // console.log(user, "USERS");
-    // console.log(cart, "lsCart")
+    console.log(user, "userr");
+    console.log(cart, "cart")
 
 
     const checkOutHandler = () => {
@@ -34,6 +32,17 @@ const Cart = () => {
         getProduct();
     }, []);
 
+
+    const formatCurrencyINR = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            maximumFractionDigits: 2
+        }).format(amount);
+    };
+
+
+
     return (
         <div className="min-h-screen p-6 bg-white text-black">
             <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
@@ -42,7 +51,7 @@ const Cart = () => {
                 <div className="flex-1 space-y-6">
                     {cart?.item?.map((item, index) => {
                         const product = products.find((p) => p._id === item.productId);
-                        // console.log(product, "PRODUCTS")
+                        console.log(product, "producccct")
                         if (!product) return null;
 
                         return (
@@ -58,7 +67,7 @@ const Cart = () => {
                                         <h2 className="text-lg font-semibold">{product.name}</h2>
                                         {index === 0 && (
                                             <div className="bg-green-100 text-green-700 px-2 py-1 text-xs rounded">
-                                                SAVE ${product.originalPrice - product.finalPrice}
+                                                {formatCurrencyINR(product.originalPrice - product.finalPrice)}
                                             </div>
                                         )}
                                         {index !== 0 && (
@@ -69,10 +78,10 @@ const Cart = () => {
                                     </div>
 
                                     <p className="text-xl font-bold text-red-500 mt-2">
-                                        ${product.finalPrice}
+                                        {formatCurrencyINR(product.finalPrice)}
                                     </p>
                                     {product.finalPrice < product.originalPrice && (
-                                        <p className="text-sm text-gray-400 line-through">${product.originalPrice}</p>
+                                        <p className="text-sm text-gray-400 line-through">{formatCurrencyINR(product.originalPrice)}</p>
                                     )}
 
                                     <div className="flex items-center mt-2 space-x-2">
@@ -83,12 +92,35 @@ const Cart = () => {
                                             -
                                         </button>
                                         <span>{item.qty}</span>
-                                        <button
+                                        {/* <button
                                             onClick={() => handlerCart({ productId: item.productId, type: 'inc', finalPrice: product.finalPrice, originalPrice: product.originalPrice })}
                                             className="px-2 py-1 bg-gray-300 rounded"
                                         >
                                             +
+                                        </button> */}
+
+                                        <button
+                                            onClick={() => {
+                                                console.log("INC clicked:", {
+                                                    productId: item.productId,
+                                                    finalPrice: product.finalPrice,
+                                                    originalPrice: product.originalPrice 
+
+                                                });
+                                                handlerCart({
+                                                    productId: item.productId,
+                                                    type: 'inc',
+                                                    finalPrice: product.finalPrice,
+                                                    originalPrice: product.originalPrice 
+
+                                                });
+                                            }}
+                                            className="px-2 py-1 bg-gray-300 rounded"
+                                        >
+                                            +
                                         </button>
+
+
                                     </div>
 
                                     <div className="mt-2 flex flex-wrap gap-2 text-sm">
@@ -111,16 +143,18 @@ const Cart = () => {
                     <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                             <span>Sub Total:</span>
-                            <span className="font-semibold">${cart.originalTotal} </span>
+                            <span className="font-semibold">{formatCurrencyINR(cart.originalTotal)} </span>
+                            {console.log(cart.originalTotal, "oriiiii")}
+                            {console.log(cart.finalTotal, "finallll")}
                         </div>
 
                         <div className="flex justify-between">
                             <span>Tax estimate:</span>
-                            <span>{cart.originalTotal - cart.finalTotal}</span>
+                            <span>{formatCurrencyINR(cart.originalTotal - cart.finalTotal)}</span>
                         </div>
                         <div className="flex justify-between font-bold pt-2 border-t">
                             <span>ORDER TOTAL:</span>
-                            <span>${cart.finalTotal}</span>
+                            <span>{formatCurrencyINR(cart.finalTotal)}</span>
                         </div>
                     </div>
 

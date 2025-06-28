@@ -13,7 +13,7 @@ export default function AddProduct() {
 
     const nameRef = useRef();
     const slugRef = useRef();
-    const orignalPriceRef = useRef();
+    const originalPriceRef = useRef();
     const discountPerRef = useRef()
     const finalPriceRef = useRef();
 
@@ -24,7 +24,7 @@ export default function AddProduct() {
         slugRef.current.value = slug;
     }
     function finalPriceCal() {
-        const op = orignalPriceRef.current.value;
+        const op = originalPriceRef.current.value;
         const dp = discountPerRef.current.value;
         const fp = Math.floor(op - (op * (dp / 100)));
         finalPriceRef.current.value = fp;
@@ -36,7 +36,7 @@ export default function AddProduct() {
         const formData = new FormData()
         formData.append('name', nameRef.current.value);
         formData.append('slug', slugRef.current.value);
-        formData.append('orignalPrice', orignalPriceRef.current.value);
+        formData.append('originalPrice', originalPriceRef.current.value);
         formData.append('discountPercentage', discountPerRef.current.value);
         formData.append('finalPrice', finalPriceRef.current.value);
         formData.append('thumbnail', e.target.thumbnail.files[0]);
@@ -132,7 +132,7 @@ export default function AddProduct() {
                                 <input
                                     type="number"
                                     name="originalPrice"
-                                    ref={orignalPriceRef}
+                                    ref={originalPriceRef}
                                     onChange={finalPriceCal}
                                     id="originalPrice"
                                     className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"

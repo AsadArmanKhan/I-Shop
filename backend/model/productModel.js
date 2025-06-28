@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema(
         longDescription: {
             type: String
         },
-        orignalPrice: {
+        originalPrice: {
             type: Number,
             default: 1
         },

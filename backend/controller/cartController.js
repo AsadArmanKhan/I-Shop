@@ -60,7 +60,6 @@ const cartController = {
                 return res.send({ msg: "All fields are required", flag: 0 });
 
             }
-
             const existingItem = await CartModel.findOne({ user_id: userId, product_id: productId });
 
             console.log(existingItem);
@@ -105,7 +104,7 @@ const cartController = {
                 .populate({
                     path: 'product_id',
                     match: { status: true },
-                    select: '_id name thumbnail finalPrice orignalPrice',
+                    select: '_id name thumbnail finalPrice originalPrice',
                 })
                 .sort({ updatedAt: -1 });
 

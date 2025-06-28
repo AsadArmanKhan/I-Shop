@@ -92,7 +92,7 @@ const ViewProduct = () => {
               <tr key={product._id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 font-medium">{product.name}</td>
                 <td className="px-4 py-3">{product.slug || "-"}</td>
-                <td className="px-4 py-3">₹{product.orignalPrice}</td>
+                <td className="px-4 py-3">₹{product.originalPrice}</td>
                 <td className="px-4 py-3">₹{product.finalPrice}</td>
                 <td className="px-4 py-3">{product.discountPercentage}%</td>
                 <td className="px-4 py-3">
@@ -152,7 +152,7 @@ const ViewProduct = () => {
           <div key={product._id} className="border rounded-md p-4 bg-white shadow-sm">
             <h2 className="text-lg font-semibold mb-1">{product.name}</h2>
             <p className="text-sm text-gray-600 mb-1">Category: {product.category || "-"}</p>
-            <p className="text-sm">Original: ₹{product.orignalPrice
+            <p className="text-sm">Original: ₹{product.originalPrice
             }</p>
             <p className="text-sm">Price: ₹{product.finalPrice} ({product.discountPercentage}%)</p>
             <p className="text-sm mt-1">
