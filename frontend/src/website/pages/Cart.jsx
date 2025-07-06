@@ -16,8 +16,8 @@ const Cart = () => {
     const { getProduct, products, API_BASE_URL } = useContext(MainContext);
     const cart = useSelector((state) => state.cart);
     const user = useSelector((state) => state.user);
-    console.log(user, "userr");
-    console.log(cart, "cart")
+    // console.log(user, "userr");
+    // console.log(cart, "cart")
 
 
     const checkOutHandler = () => {
@@ -51,7 +51,7 @@ const Cart = () => {
                 <div className="flex-1 space-y-6">
                     {cart?.item?.map((item, index) => {
                         const product = products.find((p) => p._id === item.productId);
-                        console.log(product, "producccct")
+                        // console.log(product, "producccct")
                         if (!product) return null;
 
                         return (
@@ -104,14 +104,14 @@ const Cart = () => {
                                                 console.log("INC clicked:", {
                                                     productId: item.productId,
                                                     finalPrice: product.finalPrice,
-                                                    originalPrice: product.originalPrice 
+                                                    originalPrice: product.originalPrice
 
                                                 });
                                                 handlerCart({
                                                     productId: item.productId,
                                                     type: 'inc',
                                                     finalPrice: product.finalPrice,
-                                                    originalPrice: product.originalPrice 
+                                                    originalPrice: product.originalPrice
 
                                                 });
                                             }}
@@ -144,8 +144,8 @@ const Cart = () => {
                         <div className="flex justify-between">
                             <span>Sub Total:</span>
                             <span className="font-semibold">{formatCurrencyINR(cart.originalTotal)} </span>
-                            {console.log(cart.originalTotal, "oriiiii")}
-                            {console.log(cart.finalTotal, "finallll")}
+                            {/* {console.log(cart.originalTotal, "orignalPrice")} */}
+                            {/* {console.log(cart.finalTotal, "finalPrice")} */}
                         </div>
 
                         <div className="flex justify-between">

@@ -13,8 +13,8 @@ const productDetailsSchema = new Schema({
 const shippingDetailsSchema = new Schema({
     name: { type: String },
     contact: { type: String, require: true },
-    addressLine1: { type: String, required: true },
-    addressLine2: { type: String },
+    adressLine1: { type: String, required: true },
+    adressLine2: { type: String },
     city: { type: String, required: true },
     state: { type: String, required: true },
     postalCode: { type: String, required: true },
