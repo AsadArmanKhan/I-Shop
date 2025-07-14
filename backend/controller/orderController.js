@@ -5,7 +5,7 @@ const orderModel = require("../model/orderModel");
 const orderController = {
     async placeOrder(req, res) {
         try {
-             console.log(req.body,"reqqqqqqq")
+            console.log(req.body, "reqqqqqqq")
             const { user_id, order_total, payment_mode, shipping_details } = req.body;
             const cart = await CartModel.find({ user_id }).populate(
                 'product_id',
@@ -29,10 +29,17 @@ const orderController = {
                     payment_mode: payment_mode,
                     shipping_details: shipping_details,
                     product_details: product_details,
+                    // order_status: 0
                 }
-            )
-            console.log(order, "orderrr")
-            res.send({ msg: "order place succesfully", flag: 1, order_id: order._id })
+            ).save()
+            if (payment_mode === 0) {
+                await CartModel.deleteMany({ user_id })
+                res.send({ msg: "order place succesfully", flag: 1, order_id: order._id })
+            } else {
+
+            }
+
+            console.log(order, "order")
 
         } catch (error) {
             console.log(error)
