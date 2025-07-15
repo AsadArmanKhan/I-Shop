@@ -178,14 +178,15 @@ export default function AddProduct() {
                             <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">
                                 Category ID
                             </label>
-                            <Select name="categoryId" options={
-                                Categories.map(
-                                    (cat, index) => {
-                                        return { value: cat._id, label: cat.name }
+                            <Select name="categoryId"
+                                options={
+                                    Categories.map(
+                                        (cat, index) => {
+                                            return { value: cat._id, label: cat.name }
 
-                                    }
-                                )
-                            } />
+                                        }
+                                    )
+                                } />
 
 
                         </div>

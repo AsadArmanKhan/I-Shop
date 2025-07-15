@@ -28,6 +28,8 @@ import { lsAdmin } from './redux/slice/adminSlice'
 import { lsUser } from './redux/slice/userSlice'
 import UserAdress from './website/pages/UserAdress'
 import EditAddress from './website/pages/EditAddress'
+import ThankYou from './website/pages/ThankYou'
+import ProductDetailPage from './website/pages/ProductDetailPage'
 
 export default function App() {
   const dispatcher = useDispatch()
@@ -75,6 +77,14 @@ export default function App() {
         {
           path: "edit/address",
           element: <EditAddress />
+        },
+        {
+          path: `/thankyou/:orderId`,
+          element: <ThankYou />
+        },
+        {
+          path: '/productdetailpage',
+          element: <ProductDetailPage />
         }
       ]
     },

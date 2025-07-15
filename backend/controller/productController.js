@@ -57,43 +57,97 @@ const productController = {
     async getdata(req, res) {
         try {
             const id = req.params.id;
-            // let products = null;
             const filterQuery = {};
+
+            // Filter by categorySlug
             if (req.query.categorySlug) {
-                // console.log(req.query.categorySlug);
-                const category = await categoryModel.findOne({ slug: req.query.categorySlug })
-                console.log(category._id);
-                filterQuery.categoryId = category._id
-                // console.log(categoryId);
-                if (req.query.colorSlug) {
-                    const color = await colorModel.findOne({ slug: req.query.colorSlug })
-                    filterQuery.colors = { $in: [color._id] };
-
+                const category = await categoryModel.findOne({ slug: req.query.categorySlug });
+                if (category) {
+                    filterQuery.categoryId = category._id;
                 }
-
+                // Filter by colorSlug
+                if (req.query.colorSlug) {
+                    const color = await colorModel.findOne({ slug: req.query.colorSlug });
+                    if (color) {
+                        filterQuery.colors = { $in: [color._id] };
+                    }
+                }
             }
-            console.log(filterQuery);
-            // console.log(req.query), "asad"
 
+            // Filter by price range
+            if (req.query.minPrice) {
+                filterQuery.finalPrice = { $gte: Number(req.query.minPrice) };
+            }
+            if (req.query.maxPrice) {
+                // If already has $gte, merge with $lte
+                filterQuery.finalPrice = {
+                    ...(filterQuery.finalPrice || {}),
+                    $lte: Number(req.query.maxPrice)
+                };
+            }
+
+            console.log("Filter Query:", filterQuery);
+
+            let products;
             if (id) {
-                products = await ProductModel.findById(id)
-
+                products = await ProductModel.findById(id);
             } else {
-                products = await ProductModel.find(filterQuery).limit(req.query.limit || 0).populate(["colors"]);
+                products = await ProductModel.find(filterQuery)
+                    .limit(Number(req.query.limit) || 0)
+                    .populate(["colors"]);
             }
 
             if (!products) {
                 return res.send({ msg: "No product found", flag: 0 });
             }
-            res.send({ msg: "Product fetched successfully", flag: 1, products })
 
+            res.send({ msg: "Product fetched successfully", flag: 1, products });
 
         } catch (err) {
-            res.send({ msg: "Internal server error", flag: 0 })
+            console.log(err);
+            res.send({ msg: "Internal server error", flag: 0 });
         }
-
-
     },
+
+
+    // async getdata(req, res) {
+    //     try {
+    //         const id = req.params.id;
+    //         // let products = null;
+    //         const filterQuery = {};
+    //         if (req.query.categorySlug) {
+    //             // console.log(req.query.categorySlug);
+    //             const category = await categoryModel.findOne({ slug: req.query.categorySlug })
+    //             console.log(category._id);
+    //             filterQuery.categoryId = category._id
+    //             // console.log(categoryId);
+    //             if (req.query.colorSlug) {
+    //                 const color = await colorModel.findOne({ slug: req.query.colorSlug })
+    //                 filterQuery.colors = { $in: [color._id] };
+    //             }
+    //         }
+    //         console.log(filterQuery);
+    //         // console.log(req.query), "asad"
+
+    //         if (id) {
+    //             products = await ProductModel.findById(id)
+
+    //         } else {
+    //             products = await ProductModel.find(filterQuery).limit(req.query.limit || 0).populate(["colors"]);
+    //         }
+
+    //         if (!products) {
+    //             return res.send({ msg: "No product found", flag: 0 });
+    //         }
+    //         res.send({ msg: "Product fetched successfully", flag: 1, products })
+
+
+    //     } catch (err) {
+    //         res.send({ msg: "Internal server error", flag: 0 })
+    //     }
+
+
+    // },
     async status(req, res) {
         try {
 

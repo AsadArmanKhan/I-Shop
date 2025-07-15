@@ -1,14 +1,20 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { FaPaypal } from 'react-icons/fa';
 import { MdOutlineLocalShipping } from 'react-icons/md';
 import { BsBank, BsCash } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { MainContext } from '../../Context';
 import axios from 'axios';
+import { emptycart } from '../../redux/slice/cartSlice';
+import { useRazorpay } from "react-razorpay";
+
+
 
 export default function Checkout() {
+    const { Razorpay } = useRazorpay();
+    const dispatcher = useDispatch()
     const user = useSelector((state) => state.user?.data);
     console.log(user?.data, "User Console")
     const cart = useSelector((state) => state.cart)
@@ -48,15 +54,18 @@ export default function Checkout() {
 
 
     function handlePlaceOrder() {
-        // Select the correct address (saved or from form)
+        if (!user?._id) {
+            notify("Please log in to place an order.", 0);
+            navigate("/login");
+            return;
+        }
+
         const selectedAddress = useSavedAddress
             ? user.shipping_address[selectedAddressIndex]
             : form;
 
-        // Log the shipping address being sent
         console.log("Selected shipping_details to be sent:", selectedAddress);
 
-        // Send the order
         axios.post(API_BASE_URL + "/order/place-order", {
             user_id: user._id,
             order_total: cart.finalTotal,
@@ -65,12 +74,26 @@ export default function Checkout() {
         }).then((response) => {
             notify(response.data.msg, response.data.flag);
             if (response.data.flag === 1) {
-                console.log("Order placed:", response.data);
+                dispatcher(emptycart)
+                if (paymentMode === 0) {
+                    navigate(`/thankyou/${response.data.order_id}`); // ✅ Redirect after successful order
+                } else {
+                    try {
+                        const options = {
+
+                        }
+                    } catch (error) {
+
+                    }
+                }
+                console.log("Order placed succesfully:", response.data.order_id);
             }
         }).catch((error) => {
             console.error("Order error:", error);
+            notify("Something went wrong while placing the order.", 0);
         });
     }
+
 
 
 
@@ -250,12 +273,13 @@ export default function Checkout() {
                         <span className="flex items-center gap-1"><FaPaypal /> Paypal <a href="#" className="text-blue-500 underline">What is PayPal?</a></span>
                     </label>
                 </div>
-
                 <button
                     onClick={handlePlaceOrder}
                     className="w-full bg-green-500 text-white font-semibold py-3 rounded-md hover:bg-green-600 transition duration-300">
                     PLACE ORDER
                 </button>
+
+
             </div>
         </div>
     );
