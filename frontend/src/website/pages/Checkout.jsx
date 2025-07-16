@@ -80,10 +80,47 @@ export default function Checkout() {
                 } else {
                     try {
                         const options = {
+                            key: "rzp_test_hYGOo0vBKlVRkD",
+                            currency: "INR",
+                            name: "Ishop",
+                            order_id: response.data.razorpay_order_id, // Generate order_id on server
+                            handler: (razorpay_response) => {
+                                console.log(razorpay_response);
+                                axios.post(
+                                    API_BASE_URL + "order/success",
+                                    {
+                                        order_id: response.data.order_id,
+                                        user_id: user.data._id,
+                                        razorpay_response
+                                    }
+                                ).then(
+                                    (response) => {
+                                        if (response.data.flag == 1) {
+                                            dispatcher(emptycart());
+                                            navigator(`/thank-you/${response.data.order_id}`)
+                                            console.log(response.data.msg);
+                                        }
+                                    }
+                                ).catch(
+                                    (error) => {
+                                        console.log(error);
 
-                        }
-                    } catch (error) {
+                                    }
+                                )
+                            },
+                            prefill: {
+                                name: user?.data?.name,
+                            },
+                            theme: {
+                                color: "#F37220",
+                            },
+                        };
 
+                        const razorpayInstance = new Razorpay(options);
+                        razorpayInstance.open();
+                    }
+                    catch (error) {
+                        console.log(error.message);
                     }
                 }
                 console.log("Order placed succesfully:", response.data.order_id);

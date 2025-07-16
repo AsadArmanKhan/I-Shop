@@ -130,7 +130,7 @@ export default function EditProduct() {
                                     type="number"
                                     name="originalPrice"
                                     ref={originalPriceRef}
-                                    defaultValue={products?.orignalPrice}
+                                    defaultValue={products?.originalPrice}
                                     onChange={finalPriceCal}
                                     id="originalPrice"
                                     className="block w-full rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus:border-primary-600 focus:ring-primary-600"
@@ -178,7 +178,7 @@ export default function EditProduct() {
                             <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">
                                 Category ID
                             </label>
-                            <Select name="categoryId" isMulti closeMenuOnSelect={false} options={
+                            <Select name="categoryId"  options={
                                 Categories.map(
                                     (cat, index) => {
                                         return { value: cat._id, label: cat.name }

@@ -58,7 +58,7 @@ export default function AddProduct() {
             (res) => {
                 notify(res.data.msg, res.data.flag);
                 if (res.data.flag === 1) {
-                    // e.target.reset();
+                    e.target.reset();
                 }
             }
         ).catch(
