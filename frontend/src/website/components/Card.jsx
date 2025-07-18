@@ -52,7 +52,7 @@ const Card = () => {
         {/* Featured Brands & Top Categories */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
           {/* Featured Brands */}
-          <div className="border rounded-lg p-6 bg-white">
+          <div className=" rounded-lg p-6 bg-white">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold">FEATURED BRANDS</h3>
               <a href="#" className="text-sm text-gray-600 hover:underline">View All</a>
@@ -72,7 +72,7 @@ const Card = () => {
           </div>
 
           {/* Top Categories */}
-          <div className="border rounded-lg p-4 bg-white">
+          <div className=" rounded-lg p-4 bg-white">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold">TOP CATEGORIES</h3>
               <a href="#" className="text-sm text-gray-600 hover:underline">View All</a>
@@ -80,19 +80,19 @@ const Card = () => {
             <div className="flex justify-between items-center gap-4">
               <div className="flex flex-col items-center">
                 <img src="/img/4 → Link → prod1.png.png" alt="Laptops" className="h-16 object-contain" />
-                <span className="mt-2 font-medium">Laptops</span>
+                <span className="mt-2 font-medium"> Monitors </span>
               </div>
               <div className="flex flex-col items-center">
                 <img src="/img/4 → Link → prod2.png.png" alt="PC Gaming" className="h-16 object-contain" />
-                <span className="mt-2 font-medium">PC Gaming</span>
+                <span className="mt-2 font-medium"> Headphones </span>
               </div>
               <div className="flex flex-col items-center">
                 <img src="/img/4 → Link → prod3.png.png" alt="Headphones" className="h-16 object-contain" />
-                <span className="mt-2 font-medium">Headphones</span>
+                <span className="mt-2 font-medium">PC Gaming</span>
               </div>
               <div className="flex flex-col items-center">
                 <img src="/img/4 → Link → prod4.png.png" alt="Monitors" className="h-16 object-contain" />
-                <span className="mt-2 font-medium">Monitors</span>
+                <span className="mt-2 font-medium">Laptops</span>
               </div>
             </div>
           </div>
@@ -178,15 +178,53 @@ const Card = () => {
         </div>
 
         {/* Pre Order Banner */}
-        <div className="bg-teal-500 text-white p-6 flex items-center justify-between mt-4">
+        {/* <div className="bg-teal-500 text-white p-6 flex items-center justify-between mt-4">
           <div>
             <h3 className="text-xl font-semibold">PRE ORDER</h3>
             <p className="text-sm">BE THE FIRST TO OWN</p>
             <p className="mt-1 text-sm font-bold">From $399</p>
           </div>
-          <img src="/img/products/watch.png" alt="Smartwatch" className="h-20 object-contain" />
+          <img src="/public/img/banner.png.png" alt="Smartwatch" className="h-20 object-contain" />
           <button className="bg-white text-teal-600 px-4 py-2 rounded-full text-sm font-semibold">Discover Now</button>
-        </div>
+        </div> */}
+        <div className="relative flex items-center rounded-md overflow-hidden bg-teal-500 mt-4 h-28 md:h-32">
+  {/* Left text */}
+  <div className="pl-4 md:pl-6 flex flex-col justify-center">
+    <h3 className="text-white text-base md:text-lg font-semibold">PRE ORDER</h3>
+    <p className="text-white text-xs md:text-sm">BE THE FIRST TO OWN</p>
+    <p className="text-white text-xs md:text-sm font-bold mt-1">From $399</p>
+  </div>
+
+  {/* Center relative container */}
+  <div className="relative flex-1 h-full">
+    {/* Left absolute image */}
+    <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+      <img
+        src="/public/img/banner.png.png"
+        alt="Watch"
+        className="h-16 md:h-20 object-contain"
+      />
+    </div>
+
+    {/* Right absolute text */}
+    <div className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 text-right">
+      <p className="text-white text-[10px] md:text-xs leading-tight">
+        Opplo Watch Sport<br />Series 8
+      </p>
+      <p className="text-white text-sm md:text-base font-medium">
+        A healthy leap ahead
+      </p>
+    </div>
+  </div>
+
+  {/* Right button */}
+  <div className="pr-4 md:pr-6">
+    <button className="bg-white text-teal-600 text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2 rounded-full font-semibold">
+      Discover Now
+    </button>
+  </div>
+</div>
+
       </div>
 
 

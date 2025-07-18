@@ -110,7 +110,41 @@ const orderController = {
             console.error("Error in orderSuccess:", error);
             res.send({ msg: "Internal server error", flag: 0 });
         }
+    },
+    async getOrders(req, res) {
+        try {
+            const orders = await OrderModel.find()
+            // .populate(
+            // 'user_id',
+            // '_id name email'
+            // )
+            res.send({ msg: 'Orders fetched succesfully', flag: 1, orders })
+        } catch (error) {
+            console.error('Error in Fetching Orders', error.msg);
+            res.send({ msg: "Internal Server Error", flag: 0 })
+        }
+    },
+    async getOrderById(req, res) {
+        try {
+            const { orderId } = req.params;
+            console.log(req.params);
+            console.log(orderId);
+            const order = await OrderModel.find({ razorpay_order_id: orderId }).populate(
+                'user_id',
+                '_id name email'
+            )
+            if (!order) {
+                return res.send({ msg: "Order not found", flag: 0 })
+            }
+            res.send({ msg: 'Order fetched succcesfully', flag: 1 })
+
+        } catch (error) {
+            console.log('Error in Fetching Order', error);
+            res.send({ msg: 'Internal server error', flag: 0 })
+
+        }
     }
+
 };
 
 module.exports = orderController;

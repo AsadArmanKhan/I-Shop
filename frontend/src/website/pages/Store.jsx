@@ -6,6 +6,7 @@ import { Link, useSearchParams, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from '../../redux/slice/cartSlice';
 import axios from 'axios';
+import AllStoreProducts from './AllStoreProducts';
 
 export default function Store() {
     const user = useSelector((state) => state.user?.data)
@@ -138,7 +139,7 @@ export default function Store() {
                     </div>
 
                     {/* Products Section */}
-                    <div className="col-span-5 p-4 bg-white text-white rounded-xl shadow-lg">
+                    <div className="col-span-5 p-4 bg-gray-200 text-white rounded-xl shadow-lg">
                         <select
                             onChange={(e) => setLimit(e.target.value)}
                             className="border rounded-lg px-6 py-2 text-sm text-black focus:ring-2 focus:ring-black transition-all duration-300 mb-6">
@@ -147,7 +148,7 @@ export default function Store() {
                             <option value="20">20</option>
                             <option value="24">24</option>
                         </select>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+                        {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
                             {products.map((product, index) => (
                                 <div key={index}
                                     className="border rounded-2xl p-4 hover:scale-[1.03] transform transition duration-300 shadow-xl hover:shadow-[0_0_15px_#facc15] relative">
@@ -178,7 +179,8 @@ export default function Store() {
                                     </button>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
+                        <AllStoreProducts />
                     </div>
                 </div>
             </div>
