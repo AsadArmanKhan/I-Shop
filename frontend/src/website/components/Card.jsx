@@ -178,61 +178,37 @@ const Card = () => {
         </div>
 
         {/* Pre Order Banner */}
-        {/* <div className="bg-teal-500 text-white p-6 flex items-center justify-between mt-4">
+        <div className="bg-teal-500 relative text-white p-6 flex items-center justify-between mt-4">
           <div>
             <h3 className="text-xl font-semibold">PRE ORDER</h3>
             <p className="text-sm">BE THE FIRST TO OWN</p>
             <p className="mt-1 text-sm font-bold">From $399</p>
           </div>
-          <img src="/public/img/banner.png.png" alt="Smartwatch" className="h-20 object-contain" />
+          <div className="rounded-[200] top-5 bg-[#5F81A2]">shvcjhadv hj jh
+            <div className="absolute top-10 left-100">
+              <img src="/public/img/banner.png.png" alt="Smartwatch" className="h-20 object-contain" />
+            </div>
+          </div>
+          <div>
+            <div className="">
+              <p className="text-white text-[10px] md:text-xs leading-tight">
+                Opplo Watch Sport<br />Series 8
+              </p>
+              <p className="text-white text-sm md:text-base font-medium">
+                A healthy leap ahead
+              </p>
+            </div>
+          </div>
           <button className="bg-white text-teal-600 px-4 py-2 rounded-full text-sm font-semibold">Discover Now</button>
-        </div> */}
-        <div className="relative flex items-center rounded-md overflow-hidden bg-teal-500 mt-4 h-28 md:h-32">
-  {/* Left text */}
-  <div className="pl-4 md:pl-6 flex flex-col justify-center">
-    <h3 className="text-white text-base md:text-lg font-semibold">PRE ORDER</h3>
-    <p className="text-white text-xs md:text-sm">BE THE FIRST TO OWN</p>
-    <p className="text-white text-xs md:text-sm font-bold mt-1">From $399</p>
-  </div>
-
-  {/* Center relative container */}
-  <div className="relative flex-1 h-full">
-    {/* Left absolute image */}
-    <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
-      <img
-        src="/public/img/banner.png.png"
-        alt="Watch"
-        className="h-16 md:h-20 object-contain"
-      />
-    </div>
-
-    {/* Right absolute text */}
-    <div className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 text-right">
-      <p className="text-white text-[10px] md:text-xs leading-tight">
-        Opplo Watch Sport<br />Series 8
-      </p>
-      <p className="text-white text-sm md:text-base font-medium">
-        A healthy leap ahead
-      </p>
-    </div>
-  </div>
-
-  {/* Right button */}
-  <div className="pr-4 md:pr-6">
-    <button className="bg-white text-teal-600 text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2 rounded-full font-semibold">
-      Discover Now
-    </button>
-  </div>
-</div>
-
+        </div>
       </div>
 
 
 
       {/* // Add this inside your Card component return() just after the last </div> of your existing code */}
-      <div className="mt-12 bg-white p-6 rounded-2xl shadow-md">
+      <div className="mt-12 mb-12 bg-white p-6 rounded-2xl shadow-md">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between  items-center mb-6">
           <div className="flex gap-6">
             <h2 className="text-lg font-bold">BEST SELLER</h2>
             <span className="text-gray-500 cursor-pointer hover:text-black">NEW IN</span>
@@ -244,8 +220,8 @@ const Card = () => {
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {/* Card 1 */}
-          <div className="relative flex flex-col items-center text-center p-4 border rounded-lg">
-            <img src="/img/products/headphone.png" alt="Headphone" className="h-24 object-contain mb-2" />
+          <div className="relative flex flex-col items-center text-center p-4 cursor-pointer border border-x-amber-600 border-y-amber-600 rounded-lg shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
+            <img src="/public/img/Group - 5/Headphone.png" alt="Headphone" className="h-35 object-contain mb-2 transform transition-transform duration-300 hover:scale-105" />
             <p className="text-xs text-gray-400">(152)</p>
             <h3 className="font-semibold mt-1">BOSO 2 Wireless On Ear Headphone</h3>
             <p className="text-lg font-bold mt-1">$359.00</p>
@@ -257,15 +233,15 @@ const Card = () => {
               <span className="w-2 h-2 bg-teal-500 rounded-full"></span> In stock
             </div>
             <div className="flex gap-2 mt-2">
-              <img src="/img/products/variant1.png" alt="variant" className="h-6 rounded-full" />
-              <img src="/img/products/variant2.png" alt="variant" className="h-6 rounded-full" />
+              <img src="/public/img/Group - 5/head-1.png" alt="variant" className="h-6 rounded-full" />
+              <img src="/public/img/Group - 5/head-2.png" alt="variant" className="h-6 rounded-full" />
             </div>
           </div>
 
           {/* Card 2 */}
-          <div className="relative flex flex-col items-center text-center p-4 border rounded-lg">
+          <div className="relative flex flex-col items-center text-center p-4 rounded-lg shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
             <div className="absolute top-2 left-2 bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded">SAVE $199.00</div>
-            <img src="/img/products/ipad.png" alt="iPad" className="h-24 object-contain mb-2" />
+            <img src="/public/img/Group - 5/tablet.png" alt="iPad" className="h-35 object-contain mb-2 transform transition-transform duration-300 hover:scale-105" />
             <p className="text-xs text-gray-400">(152)</p>
             <h3 className="font-semibold mt-1">OPod Pro 12.9 Inch M1 2023, 64GB + Wifi, GPS</h3>
             <div className="mt-1">
@@ -281,9 +257,9 @@ const Card = () => {
           </div>
 
           {/* Card 3 */}
-          <div className="relative flex flex-col items-center text-center p-4 border rounded-lg">
+          <div className="relative flex flex-col items-center text-center p-4 rounded-lg shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
             <div className="absolute top-2 left-2 bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded">SAVE $59.00</div>
-            <img src="/img/products/macmini.png" alt="Mac Mini" className="h-24 object-contain mb-2" />
+            <img src="/public/img/Group - 5/wifi.png" alt="Mac Mini" className="h-35 object-contain mb-2 transform transition-transform duration-300 hover:scale-105" />
             <p className="text-xs text-gray-400">(8)</p>
             <h3 className="font-semibold mt-1">uLosk Mini case 2.0, Xenon i10 / 32GB / SSD 512GB / VGA 8GB</h3>
             <div className="mt-1">
@@ -299,8 +275,8 @@ const Card = () => {
           </div>
 
           {/* Card 4 */}
-          <div className="relative flex flex-col items-center text-center p-4 border rounded-lg">
-            <img src="/img/products/watch.png" alt="Smartwatch" className="h-24 object-contain mb-2" />
+          <div className="relative flex flex-col items-center text-center p-4 rounded-lg shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
+            <img src="/public/img/Group - 5/Watch.png" alt="Smartwatch" className="h-35 object-contain mb-2 transform transition-transform duration-300 hover:scale-105" />
             <p className="text-xs text-gray-400">(—)</p>
             <h3 className="font-semibold mt-1">Opplo Watch Series 8 GPS + Cellular Stainless Steel Case with Milanese Loop</h3>
             <div className="mt-1 text-lg font-bold">$979.00 - $1,259.00</div>
@@ -311,9 +287,9 @@ const Card = () => {
           </div>
 
           {/* Card 5 */}
-          <div className="relative flex flex-col items-center text-center p-4 border rounded-lg">
+          <div className="relative flex flex-col items-center text-center p-4 rounded-lg shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
             <div className="absolute top-2 left-2 bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded">SAVE $3.00</div>
-            <img src="/img/products/charger.png" alt="Charger" className="h-24 object-contain mb-2" />
+            <img src="/public/img/Group - 5/Adaptor.png" alt="Charger" className="h-35 object-contain mb-2 transform transition-transform duration-300 hover:scale-105" />
             <p className="text-xs text-gray-400">(9)</p>
             <h3 className="font-semibold mt-1">iSmart 24V Charger</h3>
             <div className="mt-1">
@@ -326,6 +302,7 @@ const Card = () => {
             <div className="text-sm text-gray-500 mt-1">Contact</div>
           </div>
         </div>
+
       </div>
 
 
