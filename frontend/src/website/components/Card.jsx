@@ -5,13 +5,6 @@ import { GiVibratingSmartphone } from "react-icons/gi";
 import { TbDeviceTabletShare } from "react-icons/tb";
 
 const Card = () => {
-  const categories = [
-    { label: "Laptops", icon: <FaLaptop />, count: 1 },
-    { label: "PC & Computers", icon: <RiComputerFill />, count: 2 },
-    { label: "Cell Phones", icon: <GiVibratingSmartphone />, count: 3 },
-    { label: "Tablets", icon: <TbDeviceTabletShare />, count: 4 },
-    { label: "Cameras", icon: <FaCameraRetro />, count: 5 },
-  ];
   return (
     <>
       <div className="flex flex-col  p-4 rounded-2xl overflow-hidden">
@@ -21,20 +14,66 @@ const Card = () => {
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Category</h2>
             <div className="h-1 w-16 bg-teal-400 mb-6 rounded-full"></div>
 
-            {categories.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between bg-white rounded-xl border p-4 mb-4 shadow hover:shadow-lg transition-shadow"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl text-teal-600">{item.icon}</span>
-                  <span className="text-gray-800 font-medium">{item.label}</span>
-                </div>
-                <div className="w-6 h-6 bg-teal-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                  {item.count}
-                </div>
+            <div className="flex items-center justify-between bg-white rounded-xl border p-4 mb-4 shadow hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl text-teal-600">🍏</span>
+                <span className="text-gray-800 font-medium">Macbook</span>
               </div>
-            ))}
+              <div className="w-6 h-6 bg-teal-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                74
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between bg-white rounded-xl border p-4 mb-4 shadow hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl text-teal-600">🖥️</span>
+                <span className="text-gray-800 font-medium">Gaming PC</span>
+              </div>
+              <div className="w-6 h-6 bg-teal-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                5
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between bg-white rounded-xl border p-4 mb-4 shadow hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl text-teal-600">💼</span>
+                <span className="text-gray-800 font-medium">Laptop Office</span>
+              </div>
+              <div className="w-6 h-6 bg-teal-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                22
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between bg-white rounded-xl border p-4 mb-4 shadow hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl text-teal-600">💻</span>
+                <span className="text-gray-800 font-medium">Laptop 15"</span>
+              </div>
+              <div className="w-6 h-6 bg-teal-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                55
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between bg-white rounded-xl border p-4 mb-4 shadow hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl text-teal-600">⚡</span>
+                <span className="text-gray-800 font-medium">M1 2023</span>
+              </div>
+              <div className="w-6 h-6 bg-teal-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                32
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between bg-white rounded-xl border p-4 mb-4 shadow hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl text-teal-600">♻️</span>
+                <span className="text-gray-800 font-medium">Secondhand</span>
+              </div>
+              <div className="w-6 h-6 bg-teal-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                16
+              </div>
+            </div>
+
           </div>
 
           {/* Right Section */}
@@ -302,7 +341,6 @@ const Card = () => {
             <div className="text-sm text-gray-500 mt-1">Contact</div>
           </div>
         </div>
-
       </div>
 
 
@@ -315,110 +353,156 @@ const Card = () => {
 
         {/* Banner */}
         <div className="bg-gradient-to-r from-[#f4f1ef] to-[#d9e1ec] rounded-lg p-4 flex items-center mb-6">
-          <div className="flex-1">
-            <h3 className="text-xl font-semibold mb-1">Redmi Note 12 Pro+ 5G</h3>
-            <p className="text-sm text-gray-600 mb-2">Rise to the challenge</p>
-            <button className="bg-black text-white text-xs px-4 py-2 rounded">Shop Now</button>
+          <div
+            className="flex-1 relative w-52 h-64 sm:h-72 rounded overflow-hidden"
+            style={{ backgroundImage: "url('/public/ImagesForProducts/Store/prod18.png.png')", backgroundRepeat:'no-repeat', backgroundPosition: 'center' }}
+          >
+            <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-4">
+              <h3 className="text-xl font-semibold text-white mb-1">Redmi Note 12 Pro+ 5G</h3>
+              <p className="text-sm text-gray-200 mb-2">Rise to the challenge</p>
+              <button className="bg-black text-white text-xs px-4 py-2 rounded">Shop Now</button>
+            </div>
           </div>
-          <img src="/mnt/data/d243cd44-a398-4f96-a74e-e5d86462336e.png" alt="Phones" className="w-52 object-contain hidden sm:block" />
-        </div>
 
-        {/* Category Links */}
-        <div className="grid grid-cols-4 sm:grid-cols-6 gap-4 text-center text-xs mb-8">
-          {[
-            { label: "iPhone (iOS)", count: 74 },
-            { label: "Android", count: 35 },
-            { label: "5G Support", count: 12 },
-            { label: "Gaming", count: 9 },
-            { label: "Xiaomi", count: 52 },
-            { label: "Accessories", count: 29 },
-          ].map((cat, idx) => (
-            <div key={idx} className="flex flex-col items-center gap-1">
+          {/* Category Links */}
+          <div className="grid grid-cols-4 sm:grid-cols-6 gap-4 text-center text-xs mb-8">
+            <div className="flex flex-col items-center gap-1">
               <div className="w-10 h-14 bg-gray-200 rounded-md" />
               <div>
-                <p className="font-semibold text-sm">{cat.label}</p>
-                <span className="text-[11px] text-gray-500">{cat.count} Items</span>
+                <p className="font-semibold text-sm">iPhone (iOS)</p>
+                <span className="text-[11px] text-gray-500">74 Items</span>
               </div>
             </div>
-          ))}
+
+            <div className="flex flex-col items-center gap-1">
+              <div className="w-10 h-14 bg-gray-200 rounded-md" />
+              <div>
+                <p className="font-semibold text-sm">Android</p>
+                <span className="text-[11px] text-gray-500">35 Items</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center gap-1">
+              <div className="w-10 h-14 bg-gray-200 rounded-md" />
+              <div>
+                <p className="font-semibold text-sm">5G Support</p>
+                <span className="text-[11px] text-gray-500">12 Items</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center gap-1">
+              <div className="w-10 h-14 bg-gray-200 rounded-md" />
+              <div>
+                <p className="font-semibold text-sm">Gaming</p>
+                <span className="text-[11px] text-gray-500">9 Items</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center gap-1">
+              <div className="w-10 h-14 bg-gray-200 rounded-md" />
+              <div>
+                <p className="font-semibold text-sm">Xiaomi</p>
+                <span className="text-[11px] text-gray-500">52 Items</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center gap-1">
+              <div className="w-10 h-14 bg-gray-200 rounded-md" />
+              <div>
+                <p className="font-semibold text-sm">Accessories</p>
+                <span className="text-[11px] text-gray-500">29 Items</span>
+              </div>
+            </div>
+          </div>
         </div>
 
+
+
         {/* Products List */}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {/* Product Cards */}
-          {[
-            {
-              tag: "SAVE $199.00",
-              title: "SROK Smart Phone 128GB, Oled Retina",
-              price: "$579.00",
-              oldPrice: "$859.00",
-              shipping: "FREE SHIPPING",
-              availability: "In stock",
-              rating: 152,
-            },
-            {
-              tag: "NEW",
-              title: "aPod Pro Tablet 2023 LTE + Wifi, GPS Cellular 12.9 Inch, 512GB",
-              price: "$979.00 - $1,259.00",
-              shipping: "$2.98 SHIPPING",
-              availability: "In stock",
-              rating: null,
-            },
-            {
-              title: "OPod Pro 12.9 Inch M1 2023, 64GB + Wifi, GPS",
-              price: "$659.00",
-              shipping: "FREE SHIPPING",
-              gift: true,
-              availability: "In stock",
-              rating: 5,
-            },
-            {
-              tag: "SAVE $59.00",
-              title: "Xiaomi Redmi Note 5, 64GB",
-              price: "$1,239.00",
-              oldPrice: "$1,619.00",
-              shipping: "FREE SHIPPING",
-              availability: "Contact",
-              rating: 9,
-            },
-            {
-              title: "Microsute Alpha Ultra S5 Surface 128GB 2022, Sliver",
-              price: "$1,729.00",
-              shipping: "FREE SHIPPING",
-              availability: "Contact",
-              rating: 8,
-            },
-          ].map((item, idx) => (
-            <div
-              key={idx}
-              className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition"
-            >
-              {item.tag && (
-                <span className="absolute top-2 left-2 bg-teal-500 text-white text-[11px] font-semibold px-2 py-1 rounded">
-                  {item.tag}
-                </span>
-              )}
-              <div className="w-full h-40 bg-gray-200 rounded mb-2" />
-              {item.rating !== null && (
-                <p className="text-center text-xs text-gray-500">({item.rating})</p>
-              )}
-              <h4 className="text-sm font-semibold mt-1">{item.title}</h4>
-              <div className="text-sm flex flex-col gap-1 mt-1">
-                <div>
-                  <span className="text-green-600 font-bold">{item.price}</span>
-                  {item.oldPrice && (
-                    <span className="text-gray-400 line-through ml-2">{item.oldPrice}</span>
-                  )}
-                </div>
-                <div className="text-[11px] text-gray-500">{item.shipping}</div>
-                {item.gift && (
-                  <div className="text-[11px] text-blue-500 font-semibold">FREE GIFT</div>
-                )}
-                <div className="text-[11px] text-gray-600">{item.availability}</div>
+          {/* Card 1 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <span className="absolute top-2 left-2 bg-teal-500 text-white text-[11px] font-semibold px-2 py-1 rounded">
+              SAVE $199.00
+            </span>
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <p className="text-center text-xs text-gray-500">(152)</p>
+            <h4 className="text-sm font-semibold mt-1">SROK Smart Phone 128GB, Oled Retina</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$579.00</span>
+                <span className="text-gray-400 line-through ml-2">$859.00</span>
               </div>
+              <div className="text-[11px] text-gray-500">FREE SHIPPING</div>
+              <div className="text-[11px] text-gray-600">In stock</div>
             </div>
-          ))}
+          </div>
+
+          {/* Card 2 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <span className="absolute top-2 left-2 bg-teal-500 text-white text-[11px] font-semibold px-2 py-1 rounded">
+              NEW
+            </span>
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <h4 className="text-sm font-semibold mt-1">aPod Pro Tablet 2023 LTE + Wifi, GPS Cellular 12.9 Inch, 512GB</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$979.00 - $1,259.00</span>
+              </div>
+              <div className="text-[11px] text-gray-500">$2.98 SHIPPING</div>
+              <div className="text-[11px] text-gray-600">In stock</div>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <p className="text-center text-xs text-gray-500">(5)</p>
+            <h4 className="text-sm font-semibold mt-1">OPod Pro 12.9 Inch M1 2023, 64GB + Wifi, GPS</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$659.00</span>
+              </div>
+              <div className="text-[11px] text-gray-500">FREE SHIPPING</div>
+              <div className="text-[11px] text-blue-500 font-semibold">FREE GIFT</div>
+              <div className="text-[11px] text-gray-600">In stock</div>
+            </div>
+          </div>
+
+          {/* Card 4 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <span className="absolute top-2 left-2 bg-teal-500 text-white text-[11px] font-semibold px-2 py-1 rounded">
+              SAVE $59.00
+            </span>
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <p className="text-center text-xs text-gray-500">(9)</p>
+            <h4 className="text-sm font-semibold mt-1">Xiaomi Redmi Note 5, 64GB</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$1,239.00</span>
+                <span className="text-gray-400 line-through ml-2">$1,619.00</span>
+              </div>
+              <div className="text-[11px] text-gray-500">FREE SHIPPING</div>
+              <div className="text-[11px] text-gray-600">Contact</div>
+            </div>
+          </div>
+
+          {/* Card 5 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <p className="text-center text-xs text-gray-500">(8)</p>
+            <h4 className="text-sm font-semibold mt-1">Microsute Alpha Ultra S5 Surface 128GB 2022, Sliver</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$1,729.00</span>
+              </div>
+              <div className="text-[11px] text-gray-500">FREE SHIPPING</div>
+              <div className="text-[11px] text-gray-600">Contact</div>
+            </div>
+          </div>
         </div>
+
       </div>
 
 
@@ -436,105 +520,144 @@ const Card = () => {
             <p className="text-sm text-gray-300 mb-2">By M2</p>
             <p className="text-sm">Start from <span className="text-teal-400">$1,199</span></p>
           </div>
-          <img src="/mnt/data/30b6a60f-e26f-4f60-87da-6ee7a7a49070.png" alt="Laptop" className="w-52 object-contain hidden sm:block" />
+          <img src="/public/ImagesForProducts/Store/prod19.png.png" alt="Laptop" className="w-52 object-contain hidden sm:block" />
         </div>
 
         {/* Category Links */}
         <div className="grid grid-cols-4 sm:grid-cols-6 gap-4 text-center text-xs mb-8">
-          {[
-            { label: "Macbook", count: 74 },
-            { label: "Gaming PC", count: 5 },
-            { label: "Laptop Office", count: 22 },
-            { label: "Laptop 15\"", count: 55 },
-            { label: "M1 2023", count: 32 },
-            { label: "Secondhand", count: 16 },
-          ].map((cat, idx) => (
-            <div key={idx} className="flex flex-col items-center gap-1">
-              <div className="w-10 h-14 bg-gray-200 rounded-md" />
-              <div>
-                <p className="font-semibold text-sm">{cat.label}</p>
-                <span className="text-[11px] text-gray-500">{cat.count} Items</span>
-              </div>
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-10 h-14 bg-gray-200 rounded-md" />
+            <div>
+              <p className="font-semibold text-sm">Macbook</p>
+              <span className="text-[11px] text-gray-500">74 Items</span>
             </div>
-          ))}
+          </div>
+
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-10 h-14 bg-gray-200 rounded-md" />
+            <div>
+              <p className="font-semibold text-sm">Gaming PC</p>
+              <span className="text-[11px] text-gray-500">5 Items</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-10 h-14 bg-gray-200 rounded-md" />
+            <div>
+              <p className="font-semibold text-sm">Laptop Office</p>
+              <span className="text-[11px] text-gray-500">22 Items</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-10 h-14 bg-gray-200 rounded-md" />
+            <div>
+              <p className="font-semibold text-sm">Laptop 15"</p>
+              <span className="text-[11px] text-gray-500">55 Items</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-10 h-14 bg-gray-200 rounded-md" />
+            <div>
+              <p className="font-semibold text-sm">M1 2023</p>
+              <span className="text-[11px] text-gray-500">32 Items</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-10 h-14 bg-gray-200 rounded-md" />
+            <div>
+              <p className="font-semibold text-sm">Secondhand</p>
+              <span className="text-[11px] text-gray-500">16 Items</span>
+            </div>
+          </div>
         </div>
+
 
         {/* Products List */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {/* Product Cards */}
-          {[
-            {
-              tag: "NEW",
-              title: "Pineapple Macbook Pro 2022 M1 / 512 GB",
-              price: "$579.00",
-              oldPrice: null,
-              shipping: "FREE SHIPPING",
-              availability: "In stock",
-              rating: 152,
-            },
-            {
-              tag: "NEW",
-              title: "C&O Bluetooth Speaker",
-              price: "$979.00",
-              shipping: "FREE SHIPPING",
-              availability: "In stock",
-              rating: null,
-            },
-            {
-              title: "Gigaby Custome Case, i7/16GB / SSD 256GB",
-              price: "$1,259.00",
-              shipping: "FREE SHIPPING",
-              gift: true,
-              availability: "In stock",
-              rating: 5,
-            },
-            {
-              tag: "SAVE $59.00",
-              title: "BEOS PC Gaming Case",
-              price: "$1,239.00",
-              oldPrice: "$1,619.00",
-              shipping: "$2.98 SHIPPING",
-              availability: "Contact",
-              rating: 9,
-            },
-            {
-              title: "aMoc All-in-one Computer M1",
-              price: "$1,729.00",
-              shipping: "FREE SHIPPING",
-              availability: "Contact",
-              rating: 8,
-            },
-          ].map((item, idx) => (
-            <div
-              key={idx}
-              className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition"
-            >
-              {item.tag && (
-                <span className="absolute top-2 left-2 bg-black text-white text-[11px] font-semibold px-2 py-1 rounded">
-                  {item.tag}
-                </span>
-              )}
-              <div className="w-full h-40 bg-gray-200 rounded mb-2" />
-              {item.rating !== null && (
-                <p className="text-center text-xs text-gray-500">({item.rating})</p>
-              )}
-              <h4 className="text-sm font-semibold mt-1">{item.title}</h4>
-              <div className="text-sm flex flex-col gap-1 mt-1">
-                <div>
-                  <span className="text-green-600 font-bold">{item.price}</span>
-                  {item.oldPrice && (
-                    <span className="text-gray-400 line-through ml-2">{item.oldPrice}</span>
-                  )}
-                </div>
-                <div className="text-[11px] text-gray-500">{item.shipping}</div>
-                {item.gift && (
-                  <div className="text-[11px] text-blue-500 font-semibold">FREE GIFT</div>
-                )}
-                <div className="text-[11px] text-gray-600">{item.availability}</div>
+          {/* Card 1 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <span className="absolute top-2 left-2 bg-black text-white text-[11px] font-semibold px-2 py-1 rounded">
+              NEW
+            </span>
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <p className="text-center text-xs text-gray-500">(152)</p>
+            <h4 className="text-sm font-semibold mt-1">Pineapple Macbook Pro 2022 M1 / 512 GB</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$579.00</span>
               </div>
+              <div className="text-[11px] text-gray-500">FREE SHIPPING</div>
+              <div className="text-[11px] text-gray-600">In stock</div>
             </div>
-          ))}
+          </div>
+
+          {/* Card 2 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <span className="absolute top-2 left-2 bg-black text-white text-[11px] font-semibold px-2 py-1 rounded">
+              NEW
+            </span>
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <h4 className="text-sm font-semibold mt-1">C&O Bluetooth Speaker</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$979.00</span>
+              </div>
+              <div className="text-[11px] text-gray-500">FREE SHIPPING</div>
+              <div className="text-[11px] text-gray-600">In stock</div>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <p className="text-center text-xs text-gray-500">(5)</p>
+            <h4 className="text-sm font-semibold mt-1">Gigaby Custome Case, i7/16GB / SSD 256GB</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$1,259.00</span>
+              </div>
+              <div className="text-[11px] text-gray-500">FREE SHIPPING</div>
+              <div className="text-[11px] text-blue-500 font-semibold">FREE GIFT</div>
+              <div className="text-[11px] text-gray-600">In stock</div>
+            </div>
+          </div>
+
+          {/* Card 4 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <span className="absolute top-2 left-2 bg-black text-white text-[11px] font-semibold px-2 py-1 rounded">
+              SAVE $59.00
+            </span>
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <p className="text-center text-xs text-gray-500">(9)</p>
+            <h4 className="text-sm font-semibold mt-1">BEOS PC Gaming Case</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$1,239.00</span>
+                <span className="text-gray-400 line-through ml-2">$1,619.00</span>
+              </div>
+              <div className="text-[11px] text-gray-500">$2.98 SHIPPING</div>
+              <div className="text-[11px] text-gray-600">Contact</div>
+            </div>
+          </div>
+
+          {/* Card 5 */}
+          <div className="relative border rounded-lg p-3 shadow-sm hover:shadow-md transition">
+            <div className="w-full h-40 bg-gray-200 rounded mb-2" />
+            <p className="text-center text-xs text-gray-500">(8)</p>
+            <h4 className="text-sm font-semibold mt-1">aMoc All-in-one Computer M1</h4>
+            <div className="text-sm flex flex-col gap-1 mt-1">
+              <div>
+                <span className="text-green-600 font-bold">$1,729.00</span>
+              </div>
+              <div className="text-[11px] text-gray-500">FREE SHIPPING</div>
+              <div className="text-[11px] text-gray-600">Contact</div>
+            </div>
+          </div>
         </div>
+
       </div>
 
 
