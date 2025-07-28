@@ -83,7 +83,7 @@ export default function App() {
           element: <ThankYou />
         },
         {
-          path: '/productdetailpage',
+          path: '/productdetailpage/:_id',
           element: <ProductDetailPage />
         }
       ]
