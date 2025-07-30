@@ -65,9 +65,9 @@ export default function BestSeller() {
                 FREE SHIPPING
               </span>
             </div>
-            <button className="mt-3 bg-teal-500 text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-teal-600 transition">
+            {/* <button className="mt-3 bg-teal-500 text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-teal-600 transition">
               Add to Cart
-            </button>
+            </button> */}
           </div>
         ))}
       </div>
