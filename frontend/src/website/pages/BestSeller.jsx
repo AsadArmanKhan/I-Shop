@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function BestSeller() {
   const { products, API_BASE_URL } = useContext(MainContext);
-
+  
   const bestSellerIds = [
     "687a29ec77a99f5026e1dd56",
     "6879f244d6950506c96fdcb6",

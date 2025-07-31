@@ -92,7 +92,9 @@ function Context(props) {
     id = null,
     limit = 0,
     categorySlug = null,
-    colorSlug = null
+    colorSlug = null,
+    minPrice = null,
+    maxPrice = null
   ) {
     // console.log(limit, "limit");
 
@@ -109,6 +111,12 @@ function Context(props) {
     }
     if (colorSlug) {
       query.append("colorSlug", colorSlug);
+    }
+    if (minPrice) {
+      query.append("minPrice", minPrice);
+    }
+    if (maxPrice) {
+      query.append("maxPrice", maxPrice);
     }
 
     axios

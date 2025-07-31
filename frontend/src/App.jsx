@@ -1,45 +1,44 @@
-import React from 'react'
-import WebsiteLayout from './website/pages/WebsiteLayout'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Home from './website/pages/Home'
-import AdminLayout from './admin/pages/AdminLayout'
-import DashBoard from './admin/pages/DashBoard'
-import ViewCategory from './admin/pages/Category/ViewCategory'
-import AddCategory from './admin/pages/Category/AddCategory'
-import EditCategory from './admin/pages/Category/EditCategory'
-import ViewColor from './admin/pages/Colors/ViewColor'
-import AddColor from './admin/pages/Colors/AddColor'
-import ViewProduct from './admin/pages/Product/ViewProduct'
-import AddProduct from './admin/pages/Product/AddProduct'
-import MultipleImage from './admin/pages/Product/MultipleImage'
-import EditProduct from './admin/pages/Product/EditProduct'
-import EditColor from './admin/pages/Colors/EditColor'
-import AdminLogin from './admin/pages/AdminLogin'
-import Card from './website/components/Card'
-import Cart from './website/pages/Cart'
-import Profile from './website/pages/Profile'
-import Homeeee from './website/pages/Homeeee'
-import Store from './website/pages/Store'
-import Checkout from './website/pages/Checkout'
-import AuthForm from './website/pages/AuthForm'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { lsAdmin } from './redux/slice/adminSlice'
-import { lsUser } from './redux/slice/userSlice'
-import UserAdress from './website/pages/UserAdress'
-import EditAddress from './website/pages/EditAddress'
-import ThankYou from './website/pages/ThankYou'
-import ProductDetailPage from './website/pages/ProductDetailPage'
+import React from "react";
+import WebsiteLayout from "./website/pages/WebsiteLayout";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./website/pages/Home";
+import AdminLayout from "./admin/pages/AdminLayout";
+import DashBoard from "./admin/pages/DashBoard";
+import ViewCategory from "./admin/pages/Category/ViewCategory";
+import AddCategory from "./admin/pages/Category/AddCategory";
+import EditCategory from "./admin/pages/Category/EditCategory";
+import ViewColor from "./admin/pages/Colors/ViewColor";
+import AddColor from "./admin/pages/Colors/AddColor";
+import ViewProduct from "./admin/pages/Product/ViewProduct";
+import AddProduct from "./admin/pages/Product/AddProduct";
+import MultipleImage from "./admin/pages/Product/MultipleImage";
+import EditProduct from "./admin/pages/Product/EditProduct";
+import EditColor from "./admin/pages/Colors/EditColor";
+import AdminLogin from "./admin/pages/AdminLogin";
+import Card from "./website/components/Card";
+import Cart from "./website/pages/Cart";
+import Profile from "./website/pages/Profile";
+import Homeeee from "./website/pages/Homeeee";
+import Store from "./website/pages/Store";
+import Checkout from "./website/pages/Checkout";
+import AuthForm from "./website/pages/AuthForm";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { lsAdmin } from "./redux/slice/adminSlice";
+import { lsUser } from "./redux/slice/userSlice";
+import UserAdress from "./website/pages/UserAdress";
+import EditAddress from "./website/pages/EditAddress";
+import ThankYou from "./website/pages/ThankYou";
+import ProductDetailPage from "./website/pages/ProductDetailPage";
+import About from "./website/pages/About";
+import Contact from "./website/pages/Contact";
 
 export default function App() {
-  const dispatcher = useDispatch()
-  useEffect(
-    () => {
-      dispatcher(lsAdmin())
-      dispatcher(lsUser())
-    },
-    []
-  )
+  const dispatcher = useDispatch();
+  useEffect(() => {
+    dispatcher(lsAdmin());
+    dispatcher(lsUser());
+  }, []);
 
   const routers = createBrowserRouter([
     {
@@ -48,45 +47,53 @@ export default function App() {
       children: [
         {
           path: "/",
-          element: <Home />
+          element: <Home />,
         },
         {
           path: "/cart",
-          element: <Cart />
-        },
-        {
-          path: "/profile",
-          element: <Profile />
-        },
-        {
-          path: "/profile/useraddress",
-          element: <UserAdress />
-        },
-        {
-          path: "/ghar",
-          element: <Homeeee />
+          element: <Cart />,
         },
         {
           path: "/store/:categorySlug?",
-          element: <Store />
+          element: <Store />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
+        },
+        {
+          path: "/profile/useraddress",
+          element: <UserAdress />,
+        },
+        {
+          path: "/about",
+          element: <About />,
+        },
+        {
+          path: "/contact",
+          element: <Contact />,
+        },
+        {
+          path: "/ghar",
+          element: <Homeeee />,
         },
         {
           path: "/checkout",
-          element: <Checkout />
+          element: <Checkout />,
         },
         {
           path: "edit/address",
-          element: <EditAddress />
+          element: <EditAddress />,
         },
         {
           path: `/thankyou/:orderId`,
-          element: <ThankYou />
+          element: <ThankYou />,
         },
         {
-          path: '/productdetailpage/:_id',
-          element: <ProductDetailPage />
-        }
-      ]
+          path: "/productdetailpage/:_id",
+          element: <ProductDetailPage />,
+        },
+      ],
     },
 
     {
@@ -95,67 +102,64 @@ export default function App() {
       children: [
         {
           path: "/admin",
-          element: <DashBoard />
+          element: <DashBoard />,
         },
         {
           path: "category",
-          element: <ViewCategory />
+          element: <ViewCategory />,
         },
         {
           path: "category/add",
-          element: <AddCategory />
+          element: <AddCategory />,
         },
         {
           path: "category/edit/:categoryId",
-          element: <EditCategory />
+          element: <EditCategory />,
         },
         {
           path: "color",
-          element: <ViewColor />
+          element: <ViewColor />,
         },
         {
           path: "color/add",
-          element: <AddColor />
+          element: <AddColor />,
         },
         {
           path: "color/edit/:colorId",
-          element: <EditColor />
+          element: <EditColor />,
         },
         {
           path: "product",
-          element: <ViewProduct />
+          element: <ViewProduct />,
         },
         {
           path: "product/add",
-          element: <AddProduct />
+          element: <AddProduct />,
         },
         {
           path: `product/multiple/:productId`,
-          element: <MultipleImage />
+          element: <MultipleImage />,
         },
         {
           path: `product/edit/:productId`,
-          element: <EditProduct />
+          element: <EditProduct />,
         },
-      ]
+      ],
     },
 
     {
       path: "/admin/login",
-      element: <AdminLogin />
-
+      element: <AdminLogin />,
     },
 
     {
       path: "/login",
-      element: <AuthForm />
+      element: <AuthForm />,
     },
-
-
-  ])
+  ]);
   return (
     <div>
       <RouterProvider router={routers} />
     </div>
-  )
+  );
 }
