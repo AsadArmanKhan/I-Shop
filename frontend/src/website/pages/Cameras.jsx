@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import RecentlyViewed from "./RecentlyViewed";
 
 export default function Cameras() {
-  const { products, Categories, API_BASE_URL } = useContext(MainContext);
+  const { products } = useContext(MainContext);
 
   const wantedAudioProducts = [
     "688898439a34014333c1742c",
@@ -24,7 +24,6 @@ export default function Cameras() {
     "688897d69a34014333c17428",
     "68889a709a34014333c175aa",
   ];
-
   const wantedChairProduct = ["6889c20016826e6432492506"];
 
   const filteredAudioProducts = wantedAudioProducts
@@ -45,13 +44,13 @@ export default function Cameras() {
 
   return (
     <>
-      <div className="bg-gray-100 min-h-screen p-4 space-y-6">
+      <div className="bg-gray-950 min-h-screen p-4 space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Audios & Cameras */}
-          <div className="bg-white rounded-lg p-4 space-y-4">
+          <div className="bg-gray-900 rounded-lg p-4 space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="font-semibold">AUDIOS & CAMERAS</h2>
-              <a href="#" className="text-xs text-gray-500">
+              <h2 className="font-semibold text-teal-400">AUDIOS & CAMERAS</h2>
+              <a href="#" className="text-xs text-gray-400 hover:text-teal-300">
                 View All
               </a>
             </div>
@@ -59,7 +58,7 @@ export default function Cameras() {
               className="relative w-full h-50 rounded-md overflow-hidden bg-cover bg-no-repeat bg-center flex text-white"
               style={{ backgroundImage: "url(/img/Mike.png)" }}
             >
-              <div className="absolute inset-0 bg-opacity-30"></div>
+              <div className="absolute  bg-black bg-opacity-30"></div>
               <div className="relative z-10 text-xl px-8 py-8">
                 <p className="font-bold">Best</p>
                 <p className="font-bold">Speaker</p>
@@ -80,8 +79,8 @@ export default function Cameras() {
                     <Link to={`/productdetailpage/${p._id}`} key={p._id}>
                       <div>
                         <img src={src} alt={alt} className="mx-auto w-25" />
-                        <p className="font-semibold">{p.name}</p>
-                        <span className="text-gray-500">
+                        <p className="font-semibold text-gray-200">{p.name}</p>
+                        <span className="text-gray-400">
                           {p.productcount} Items
                         </span>
                       </div>
@@ -93,10 +92,10 @@ export default function Cameras() {
           </div>
 
           {/* Gaming */}
-          <div className="bg-white rounded-lg p-4 space-y-4">
+          <div className="bg-gray-900 rounded-lg p-4 space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="font-semibold">GAMING</h2>
-              <a href="#" className="text-xs text-gray-500">
+              <h2 className="font-semibold text-teal-400">GAMING</h2>
+              <a href="#" className="text-xs text-gray-400 hover:text-teal-300">
                 View All
               </a>
             </div>
@@ -104,8 +103,8 @@ export default function Cameras() {
               className="relative w-full h-50 rounded-md overflow-hidden bg-cover bg-no-repeat bg-center flex text-black"
               style={{ backgroundImage: "url(/img/Mouse.png)" }}
             >
-              <div className="absolute inset-0 bg-opacity-30"></div>
-              <div className="relative z-10 text-l px-8 py-8">
+              <div className="absolute bg-black bg-opacity-30"></div>
+              <div className="relative z-10 text-l px-8 py-8 text-black">
                 <p className="font-bold">WIRELESS</p>
                 <p className="font-bold">RGB GAMING</p>
                 <p className="font-bold">MOUSE</p>
@@ -125,8 +124,8 @@ export default function Cameras() {
                     <Link to={`/productdetailpage/${p._id}`} key={p._id}>
                       <div>
                         <img src={src} alt={alt} className="mx-auto w-25" />
-                        <p className="font-semibold">{p.name}</p>
-                        <span className="text-gray-500">
+                        <p className="font-semibold text-gray-200">{p.name}</p>
+                        <span className="text-gray-400">
                           {p.productcount} Items
                         </span>
                       </div>
@@ -138,10 +137,10 @@ export default function Cameras() {
           </div>
 
           {/* Office Equipments */}
-          <div className="bg-white rounded-lg p-4 space-y-4">
+          <div className="bg-gray-900 rounded-lg p-4 space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="font-semibold">OFFICE EQUIPMENTS</h2>
-              <a href="#" className="text-xs text-gray-500">
+              <h2 className="font-semibold text-teal-400">OFFICE EQUIPMENTS</h2>
+              <a href="#" className="text-xs text-gray-400 hover:text-teal-300">
                 View All
               </a>
             </div>
@@ -149,7 +148,7 @@ export default function Cameras() {
               className="relative w-full h-50 rounded-md overflow-hidden bg-cover bg-no-repeat bg-center flex justify-center text-white"
               style={{ backgroundImage: "url(/img/projector.png)" }}
             >
-              <div className="absolute inset-0 bg-opacity-30"></div>
+              <div className="absolute  bg-black bg-opacity-30"></div>
               <div className="relative z-10 text-xs py-9">
                 <p className="font-light text-xs text-center">
                   Home Theater 4k
@@ -171,8 +170,8 @@ export default function Cameras() {
                     <Link to={`/productdetailpage/${p._id}`} key={p._id}>
                       <div>
                         <img src={src} alt={alt} className="mx-auto w-25" />
-                        <p className="font-semibold">{p.name}</p>
-                        <span className="text-gray-500">
+                        <p className="font-semibold text-gray-200">{p.name}</p>
+                        <span className="text-gray-400">
                           {p.productcount} Items
                         </span>
                       </div>
@@ -186,7 +185,6 @@ export default function Cameras() {
 
         {/* Promo Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {}
           <div className="bg-teal-600 rounded-lg flex justify-between p-4 text-white">
             {filteredChairProduct.map((p) => (
               <React.Fragment key={p._id}>

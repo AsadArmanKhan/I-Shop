@@ -18,10 +18,13 @@ export default function RecentlyViewed() {
 
   return (
     <>
-      <div className="bg-white rounded-lg p-4 space-y-4">
+      <div className="bg-[#0e1623] rounded-lg p-4 space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="font-semibold">YOUR RECENTLY VIEWED</h2>
-          <Link to={"/store"} className="text-xs font-bold text-black">
+          <h2 className="font-semibold text-teal-400">YOUR RECENTLY VIEWED</h2>
+          <Link
+            to={"/store"}
+            className="text-xs font-bold text-teal-400 hover:underline"
+          >
             View All
           </Link>
         </div>
@@ -29,7 +32,7 @@ export default function RecentlyViewed() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {filterRecentlyProducts.map((p) => (
             <Link to={`/productdetailpage/${p._id}`} key={p._id}>
-              <div className="relative bg-white rounded-md overflow-hidden shadow p-2 space-y-1 transform transition duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="relative bg-[#121c2b] rounded-md overflow-hidden shadow p-2 space-y-1 transform transition duration-300 hover:scale-105 hover:shadow-lg">
                 <img
                   src={`${API_BASE_URL}/images/product/${p.thumbnail}`}
                   alt={p.name}
@@ -38,14 +41,10 @@ export default function RecentlyViewed() {
                 <span className="absolute top-1 left-1 bg-green-500 text-white text-[10px] px-1 rounded">
                   SAVE ₹{p?.originalPrice - p?.finalPrice}
                 </span>
-                {/* Top Right count badge (optional) */}
-                <span className="absolute top-1 right-1 bg-gray-200 text-[10px] px-2 rounded-full">
-                  {/* 152 */}
-                </span>
-                {/* Product name */}
-                <p className="text-xs mt-1 font-medium">{p.name}</p>
-                {/* Price */}
-                <p className="font-semibold text-sm">
+                <p className="text-xs mt-1 font-medium text-gray-100">
+                  {p.name}
+                </p>
+                <p className="font-semibold text-sm text-gray-100">
                   ₹{p.finalPrice}{" "}
                   <span className="line-through text-gray-400 text-xs">
                     ₹{p.originalPrice}

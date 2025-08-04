@@ -1,37 +1,47 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function Homeeee() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black to-gray-800 text-white">
-      {/* <header className="fixed top-0 w-full flex justify-between items-center p-4 bg-opacity-50 backdrop-blur">
-        <h1 className="text-2xl font-bold">BrandName</h1>
-        <nav>
-          <ul className="flex space-x-4">
-            <li><a href="#about" className="hover:text-gray-400">About</a></li>
-            <li><a href="#services" className="hover:text-gray-400">Services</a></li>
-            <li><a href="#contact" className="hover:text-gray-400">Contact</a></li>
-          </ul>
-        </nav>
-      </header> */}
-
+    <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white">
       <main className="pt-20">
-        <section className="flex items-center justify-center h-screen">
+        {/* Hero Section */}
+        <section className="flex flex-col items-center justify-center h-screen text-center px-4">
           <motion.div
-            initial={{ opacity: 0, y: -50 }}
+            initial={{ opacity: 0, y: -40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="text-center"
           >
-            <h2 className="text-4xl font-bold mb-4">Welcome to Our Website</h2>
-            <p className="text-lg">We provide exceptional services to help you grow.</p>
+            <h2 className="text-5xl sm:text-6xl font-extrabold mb-6">
+              Discover Luxury & Style
+            </h2>
+            <p className="text-lg sm:text-xl mb-8 max-w-2xl">
+              Explore our exclusive collection of premium products designed to
+              inspire your lifestyle.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link
+                to={"/"}
+                className="bg-yellow-500 hover:bg-yellow-600
+                text-black font-semibold py-2 px-6 rounded-full transition"
+              >
+                Shop Now
+              </Link>
+              <Link to={'/store'}
+                href="#categories"
+                className="border border-yellow-500 hover:bg-yellow-500 hover:text-black font-semibold py-2 px-6 rounded-full transition"
+              >
+                Explore Categories
+              </Link>
+            </div>
           </motion.div>
         </section>
 
-        {/* Additional sections like About, Services, Portfolio, etc. */}
+        {/* Featured Products Section */}
       </main>
 
-      <footer className="p-4 text-center">
-        <p>&copy; 2025 BrandName. All rights reserved.</p>
+      <footer className="p-4 text-center border-t border-gray-700">
+        <p>&copy; 2025 SWOO TECH MART. All rights reserved.</p>
       </footer>
     </div>
   );

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/slice/cartSlice";
 import axios from "axios";
 import AllStoreProducts from "./AllStoreProducts";
+import CategorySidebar from "./CategorySidebar";
 
 export default function Store() {
   const user = useSelector((state) => state.user?.data);
@@ -86,84 +87,51 @@ export default function Store() {
       <TopSells />
       <BestSeller />
 
-      <div className="bg-gray-100 p-6 rounded-xl shadow-xl text-white">
+      <div className="bg-[#0e1623] p-6 rounded-xl shadow-xl text-white">
         <h2 className="text-lg font-bold mb-6 text-yellow-400 tracking-wide">
           BEST SELLER IN THIS CATEGORY
         </h2>
         <div className="grid grid-cols-6 gap-4">
           {/* Sidebar */}
-          <div className="col-span-1 bg-gray-200 text-white p-4 rounded-xl shadow-lg">
-            <h3 className="font-semibold text-yellow-400 mb-4 tracking-wide">
+          {/* <div
+            className="w-full sm:w-64 md:w-72 lg:w-60 bg-[#121c2b] p-4 rounded-xl shadow-lg 
+             mb-4 sm:mb-0 flex-shrink-0"
+          >
+            <h3 className="font-semibold text-yellow-400 mb-4 tracking-wide text-base sm:text-lg md:text-xl">
               CATEGORIES
             </h3>
-            <button className="w-full text-sm font-semibold text-left mb-4 px-3 py-2 bg-blue-50 rounded shadow-md text-black hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black transition transform hover:scale-105">
+
+            <button
+              className="w-full text-xs sm:text-sm font-semibold text-left mb-4 px-3 py-2 bg-blue-50 rounded shadow-md text-black 
+               hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black transition transform hover:scale-105"
+            >
               <Link to={`/store`}>All Categories</Link>
             </button>
-            <ul className="space-y-2 text-sm">
+
+            <ul className="space-y-2 text-xs sm:text-sm">
               {Categories.map((category) => (
                 <li
                   key={category._id}
-                  className="flex justify-between cursor-pointer text-sm font-semibold text-left py-2 px-3 bg-blue-50 text-black rounded shadow-md transition transform hover:scale-105 hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black"
+                  className="flex justify-between items-center cursor-pointer py-2 px-3 bg-blue-50 text-black rounded shadow-md 
+                   transition transform hover:scale-105 hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black"
                 >
-                  <Link to={`/store/${category.slug}`}>{category.name}</Link>
-                  <span className="flex justify-end">
-                    ({category.productCount}){/* <img src="" alt=""  /> */}
+                  <Link to={`/store/${category.slug}`} className="truncate">
+                    {category.name}
+                  </Link>
+                  <span className="ml-2 text-xs font-medium">
+                    ({category.productCount})
                   </span>
                 </li>
               ))}
             </ul>
+          </div> */}
 
-            {/* Color Filter */}
-            <div className="my-10">
-              <h4 className="font-semibold text-yellow-400 mb-2 tracking-wide">
-                BY COLOR
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {colors.map((color, index) => (
-                  <li
-                    key={index}
-                    onClick={() => setColorSlug(color.slug)}
-                    className="w-6 h-6 rounded-full border-2 border-gray-600 list-none hover:scale-110 transition"
-                    style={{ backgroundColor: color.hexcode }}
-                  ></li>
-                ))}
-              </div>
-            </div>
-
-            <div className="my-10">
-              <h4 className="font-semibold text-yellow-400 mb-2 tracking-wide">
-                FILTER BY PRICE
-              </h4>
-              <div className="flex flex-col space-y-2">
-                <input
-                  type="number"
-                  placeholder="Min Price"
-                  value={minPrice}
-                  onChange={(e) => setMinPrice(e.target.value)}
-                  className="w-full px-2 py-1 rounded border border-gray-300 text-black text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                />
-                <input
-                  type="number"
-                  placeholder="Max Price"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(e.target.value)}
-                  className="w-full px-2 py-1 rounded border border-gray-300 text-black text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                />
-                <button
-                  onClick={handleFilterByPrice}
-                  className="mt-2 w-full bg-yellow-400 text-black font-semibold text-sm py-2 rounded hover:bg-yellow-500 transition"
-                >
-                  Apply
-                </button>
-              </div>
-            </div>
-          </div>
-
+          <CategorySidebar />
           {/* Products Section */}
-          <div className="col-span-5 p-4 bg-gray-200 text-white rounded-xl shadow-lg">
+          <div className="col-span-5 p-4 bg-[#121c2b] rounded-xl shadow-lg">
             <select
               onChange={(e) => setLimit(e.target.value)}
-              className="border rounded-lg px-6 py-2 text-sm text-black focus:ring-2 focus:ring-black transition-all duration-300 mb-6"
+              className="border rounded-lg px-6 py-2 text-sm text-black focus:ring-2 focus:ring-yellow-400 transition-all duration-300 mb-6"
             >
               <option value="0">All</option>
               <option value="2">2</option>

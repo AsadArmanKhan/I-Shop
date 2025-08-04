@@ -177,22 +177,19 @@ export default function About() {
       </div>
 
       {/* Leadership Section */}
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <h4 className="font-semibold text-lg mb-4">LEADERSHIPS</h4>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {[
-            { name: "Henry Avery", role: "CHAIRMAN" },
-            { name: "Michael Edward", role: "VICE PRESIDENT" },
-            { name: "Eden Hazard", role: "CEO" },
-            { name: "Robert Downey Jr", role: "CEO" },
-            { name: "Nathan Drake", role: "STRATEGIST DIRECTOR" },
-          ].map((leader, idx) => (
-            <div key={idx} className="text-center">
-              <div className="w-full h-32 bg-gray-300 rounded-md mb-2"></div>
-              <p className="font-semibold">{leader.name}</p>
-              <p className="text-gray-500 text-xs">{leader.role}</p>
-            </div>
-          ))}
+      <div className="bg-white rounded-xl text-center shadow-md p-6">
+        <h4 className="font-bold text-2xl mb-4">LEADERSHIP</h4>
+        <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
+          <div className="text-center">
+            <img
+              src="/About-Contact/Car-image.JPG"
+              className="w-[1500px] h-300 bg-gray-300 rounded-md mb-2"
+            ></img>
+          </div>
+        </div>
+        <div className="">
+          <p className="font-semibold text-2xl">Asad Arman Khan</p>
+          <p className="text-gray-500 text-xl">CEO</p>
         </div>
       </div>
     </div>

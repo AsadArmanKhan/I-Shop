@@ -12,14 +12,16 @@ export default function FeaturedBrand() {
 
   // local images in same order as wantedNames
   const localImages = [
-      "/img/4 → Link → prod3.png.png",
-      "/img/4 → Link → prod2.png.png",
-      "/img/4 → Link → prod4.png.png",
-      "/img/4 → Link → prod1.png.png",
+    "/img/4 → Link → prod3.png.png",
+    "/img/4 → Link → prod2.png.png",
+    "/img/4 → Link → prod4.png.png",
+    "/img/4 → Link → prod1.png.png",
   ];
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+    <div
+      className="grid bg-gradient-to-br from-black via-gray-900 to-black         
+    text-black shadow-xl border border-gray-800  grid-cols-1 md:grid-cols-2 gap-4 mt-8"
+    >
       {/* Featured Brands */}
       <div className="rounded-lg p-6 bg-white">
         <div className="flex justify-between items-center mb-4">

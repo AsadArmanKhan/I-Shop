@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { MainContext } from "../../Context";
+import Slider from "react-slick";
 import { Link } from "react-router-dom";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function TopCategories() {
   const { Categories, API_BASE_URL } = useContext(MainContext);
-  console.log(Categories);
 
   const wantedNames = [
     "Macbook",
@@ -19,11 +21,22 @@ export default function TopCategories() {
     wantedNames.includes(cat?.name)
   );
 
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    arrows: false,
+  };
+
   return (
     <div className="flex">
       {/* Left Sidebar */}
-      <div className="w-80 bg-white rounded-2xl shadow-md p-6 flex flex-col">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Category</h2>
+      <div className="w-80 bg-gradient-to-br from-black via-gray-900 to-black text-gray-200 shadow-xl border border-gray-800 rounded-2xl p-6 flex flex-col">
+        <h2 className="text-2xl font-semibold text-white mb-4">Category</h2>
         <div className="h-1 w-16 bg-teal-400 mb-6 rounded-full"></div>
 
         {filteredCategories.map((category) => (
@@ -49,14 +62,42 @@ export default function TopCategories() {
         ))}
       </div>
 
-      {/* Right Section */}
-      <div className="flex-1 ml-6 rounded-2xl overflow-hidden relative">
-        <div
-          className="w-full h-full min-h-[500px] bg-cover bg-center rounded-2xl flex flex-col justify-center items-start p-10"
-          style={{
-            backgroundImage: "url('./img/Tabpanel.png')",
-          }}
-        ></div>
+      {/* Right Section - Slider */}
+      <div className="flex-1 ml-6 rounded-2xl overflow-hidden">
+        <Slider {...sliderSettings}>
+          {/* Slide 1 */}
+          <div className="">
+            <div
+              className="w-full min-h-[600px] bg-cover bg-center rounded-2xl flex flex-col justify-center items-start p-10"
+              style={{
+                backgroundImage: "url('/About-Contact/i-phone-image.png')",
+              }}
+            ></div>
+          </div>
+          <div className="">
+            <div
+              className="w-full min-h-[600px] bg-cover bg-center rounded-2xl flex flex-col justify-center items-start p-10"
+              style={{
+                backgroundImage: "url('/About-Contact/Multi-product.png')",
+              }}
+            ></div>
+          </div>
+          <div
+            className=""
+            style={{ backgroundImage: "url('/img/Tabpanel.png')" }}
+          >
+            <div
+              className="w-full min-h-[600px] bg-cover bg-center rounded-2xl flex flex-col justify-center items-start p-10"
+              style={{ backgroundImage: "url('/img/Tabpanel.png')" }}
+            ></div>
+          </div>
+
+          {/* Slide 2 */}
+          {/* <div
+            className="w-full min-h-[500px] bg-cover bg-center rounded-2xl flex flex-col justify-center items-start p-10"
+            style={{ backgroundImage: "url('/img/Tabpanel.png')" }}
+          ></div> */}
+        </Slider>
       </div>
     </div>
   );

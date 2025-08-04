@@ -14,21 +14,24 @@ import FeaturedBrand from "../pages/FeaturedBrand";
 const Card = () => {
   return (
     <>
-      <div className="flex flex-col  p-4 rounded-2xl overflow-hidden">
+      <div
+        className="flex flex-col p-4 rounded-2xl 
+        bg-gradient-to-br from-black via-gray-900 to-black 
+        text-gray-200 shadow-xl border border-gray-800"
+      >
         <TopCategories />
-
         <FeaturedBrand />
+
+        <DealsOfDay />
+
+        <BestSeller />
+
+        <TopCellphones />
+
+        <BestLaptop />
+
+        <Cameras />
       </div>
-      
-      <DealsOfDay />
-
-      <BestSeller />
-
-      <TopCellphones />
-
-      <BestLaptop />
-
-      <Cameras />
     </>
   );
 };

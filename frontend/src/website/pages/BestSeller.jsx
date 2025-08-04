@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function BestSeller() {
   const { products, API_BASE_URL } = useContext(MainContext);
-  
+
   const bestSellerIds = [
     "687a29ec77a99f5026e1dd56",
     "6879f244d6950506c96fdcb6",
@@ -16,22 +16,21 @@ export default function BestSeller() {
   const filteredProducts = bestSellerIds
     .map((id) => products.find((p) => p._id === id))
     .filter(Boolean);
-  console.log("products:", products);
 
   return (
-    <div className="mt-12 mb-12 bg-white p-6 rounded-2xl shadow-md">
+    <div className="mt-12 mb-12 bg-gradient-to-br from-black via-gray-900 to-black p-6 rounded-2xl shadow-xl border border-gray-800 text-gray-200">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex gap-6">
-          <h2 className="text-lg font-bold">BEST SELLER</h2>
-          <span className="text-gray-500 cursor-pointer hover:text-black">
+          <h2 className="text-lg font-bold text-teal-500">BEST SELLER</h2>
+          <span className="text-gray-400 cursor-pointer hover:text-teal-400">
             NEW IN
           </span>
-          <span className="text-gray-500 cursor-pointer hover:text-black">
+          <span className="text-gray-400 cursor-pointer hover:text-teal-400">
             POPULAR
           </span>
         </div>
-        <a href="#" className="text-sm text-gray-600 hover:underline">
+        <a href="#" className="text-sm text-gray-400 hover:text-teal-400">
           View All
         </a>
       </div>
@@ -41,7 +40,7 @@ export default function BestSeller() {
         {filteredProducts.map((product) => (
           <div
             key={product._id}
-            className="relative flex flex-col items-center text-center p-4 rounded-lg shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1"
+            className="relative flex flex-col items-center text-center p-4 rounded-lg bg-gray-800 hover:bg-gray-700 transition hover:-translate-y-1 shadow hover:shadow-teal-500/20"
           >
             <Link to={`/productdetailpage/${product._id}`}>
               <img
@@ -50,24 +49,21 @@ export default function BestSeller() {
                 className="h-35 object-contain mb-2 transform transition-transform duration-300 hover:scale-105"
               />
             </Link>
-            <p className="text-xs text-gray-400">(152)</p>
-            <h3 className="font-semibold mt-1">{product.name}</h3>
+            <p className="text-xs text-gray-500">(152)</p>
+            <h3 className="font-semibold mt-1 text-gray-100">{product.name}</h3>
             <div className="mt-1">
-              <span className="text-teal-500 font-bold text-lg">
+              <span className="text-teal-400 font-bold text-lg">
                 ₹{product.finalPrice}
               </span>
-              <span className="line-through text-gray-400 ml-2">
+              <span className="line-through text-gray-500 ml-2">
                 ₹{product.originalPrice}
               </span>
             </div>
             <div className="flex gap-2 justify-center mt-2">
-              <span className="bg-teal-50 text-teal-500 text-xs font-semibold px-2 py-1 rounded-full">
+              <span className="bg-teal-100 text-teal-700 text-xs font-semibold px-2 py-1 rounded-full">
                 FREE SHIPPING
               </span>
             </div>
-            {/* <button className="mt-3 bg-teal-500 text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-teal-600 transition">
-              Add to Cart
-            </button> */}
           </div>
         ))}
       </div>
