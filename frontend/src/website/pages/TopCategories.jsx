@@ -72,7 +72,13 @@ export default function TopCategories() {
               style={{
                 backgroundImage: "url('/About-Contact/i-phone-image.png')",
               }}
-            ></div>
+            >
+              <Link to={"/store"}>
+                <button className=" cursor-pointer font-semibold border-white bg-white p-2 rounded-2xl text-black text-xl">
+                  Shop Now
+                </button>
+              </Link>
+            </div>
           </div>
           <div className="">
             <div
@@ -80,7 +86,13 @@ export default function TopCategories() {
               style={{
                 backgroundImage: "url('/About-Contact/Multi-product.png')",
               }}
-            ></div>
+            >
+              <Link to={"/store"}>
+                <button className=" cursor-pointer font-semibold border-white bg-black p-2 rounded-2xl text-white text-xl">
+                  Shop Now
+                </button>
+              </Link>
+            </div>
           </div>
           <div
             className=""
@@ -91,12 +103,6 @@ export default function TopCategories() {
               style={{ backgroundImage: "url('/img/Tabpanel.png')" }}
             ></div>
           </div>
-
-          {/* Slide 2 */}
-          {/* <div
-            className="w-full min-h-[500px] bg-cover bg-center rounded-2xl flex flex-col justify-center items-start p-10"
-            style={{ backgroundImage: "url('/img/Tabpanel.png')" }}
-          ></div> */}
         </Slider>
       </div>
     </div>

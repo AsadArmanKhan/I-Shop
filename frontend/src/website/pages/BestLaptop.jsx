@@ -3,7 +3,8 @@ import { MainContext } from "../../Context";
 import { Link } from "react-router-dom";
 
 export default function BestLaptop() {
-  const { products, Categories, API_BASE_URL } = useContext(MainContext);
+  const { products, Categories, isDark, toggleTheme, API_BASE_URL } =
+    useContext(MainContext);
 
   const wantedNames = [
     "Macbook",
@@ -30,12 +31,37 @@ export default function BestLaptop() {
   );
 
   return (
-    <div className="bg-gradient-to-br from-black via-gray-900 to-black text-gray-200 py-6 px-4 md:px-12 rounded-2xl shadow-xl border border-gray-800">
+    <div
+      className={`py-6 px-4 md:px-12 rounded-2xl shadow-xl border transition-colors duration-300
+        ${
+          isDark
+            ? "bg-gradient-to-br from-black via-gray-900 to-black text-gray-200 border-gray-800"
+            : "bg-white text-gray-800 border-gray-200"
+        }`}
+    >
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg md:text-xl font-bold uppercase text-teal-500">
+        <h2
+          className={`text-lg md:text-xl font-bold uppercase ${
+            isDark ? "text-teal-500" : "text-teal-600"
+          }`}
+        >
           Best Laptops & Computers
         </h2>
+
+        {/* Toggle Theme Button */}
+        {/* <button
+          onClick={toggleTheme}
+          className={`text-sm px-3 py-1 rounded font-medium transition
+            ${
+              isDark
+                ? "bg-gray-700 text-white hover:bg-gray-600"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+            }`}
+        >
+          Toggle Theme
+        </button> */}
+
         <Link to={"/store"}>
           <button className="cursor-pointer text-sm text-gray-400 hover:text-teal-400">
             View All
@@ -44,7 +70,10 @@ export default function BestLaptop() {
       </div>
 
       {/* Banner */}
-      <div className="bg-gray-800 rounded-lg p-4 flex items-center mb-6 shadow-inner">
+      <div
+        className={`rounded-lg p-4 flex items-center mb-6 shadow-inner
+        ${isDark ? "bg-gray-800" : "bg-gray-100"}`}
+      >
         <div
           className="flex-1 relative w-full h-40 sm:h-48 md:h-52 rounded overflow-hidden flex items-center"
           style={{
@@ -53,10 +82,10 @@ export default function BestLaptop() {
             backgroundPosition: "center",
           }}
         >
-          <div className="ml-4 text-left text-white">
+          <div className="ml-4 text-left">
             <h1 className="text-2xl font-bold mb-1">Mobok 2</h1>
             <h1 className="text-2xl font-bold mb-1">Supercharged</h1>
-            <p className="text-white text-xl font-light">By M2</p>
+            <p className="text-xl font-light">By M2</p>
           </div>
         </div>
 
@@ -65,13 +94,16 @@ export default function BestLaptop() {
             <Link
               to={`/store/${category?.slug}`}
               key={category?._id}
-              className="flex items-center justify-between p-2 rounded bg-gray-900 hover:bg-gray-800 transition"
+              className={`flex items-center justify-between p-2 rounded transition
+                ${
+                  isDark
+                    ? "bg-gray-900 hover:bg-gray-800"
+                    : "bg-gray-200 hover:bg-gray-300"
+                }`}
             >
               <div>
-                <p className="font-semibold text-sm text-gray-100">
-                  {category.name}
-                </p>
-                <span className="text-[11px] text-gray-400">
+                <p className="font-semibold text-sm">{category.name}</p>
+                <span className="text-[11px] text-gray-500">
                   {category.productCount} items
                 </span>
               </div>
@@ -89,7 +121,14 @@ export default function BestLaptop() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {filteredProducts.map((product) => (
           <Link to={`/productdetailpage/${product._id}`} key={product?._id}>
-            <div className="relative rounded-lg p-3 bg-gray-800 hover:bg-gray-700 transition shadow hover:shadow-teal-500/20">
+            <div
+              className={`relative rounded-lg p-3 transition shadow
+              ${
+                isDark
+                  ? "bg-gray-800 hover:bg-gray-700 hover:shadow-teal-500/20"
+                  : "bg-gray-100 hover:bg-white hover:shadow-teal-500/40"
+              }`}
+            >
               <span className="absolute top-2 left-2 bg-teal-500 text-white text-[11px] font-semibold px-2 py-1 rounded">
                 SAVE ₹{product?.originalPrice - product?.finalPrice}
               </span>
@@ -98,15 +137,13 @@ export default function BestLaptop() {
                 alt={product?.name}
                 className="w-full h-40 object-contain rounded mb-2"
               />
-              <h4 className="text-sm font-semibold mt-1 text-gray-100">
-                {product?.name}
-              </h4>
+              <h4 className="text-sm font-semibold mt-1">{product?.name}</h4>
               <div className="text-sm flex flex-col gap-1 mt-1">
                 <div>
-                  <span className="text-teal-400 font-bold">
+                  <span className="text-teal-500 font-bold">
                     ₹{product?.finalPrice}
                   </span>
-                  <span className="text-gray-500 line-through ml-2">
+                  <span className="text-gray-400 line-through ml-2">
                     ₹{product?.originalPrice}
                   </span>
                 </div>

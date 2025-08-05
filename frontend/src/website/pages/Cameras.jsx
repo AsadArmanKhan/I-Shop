@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import RecentlyViewed from "./RecentlyViewed";
 
 export default function Cameras() {
-  const { products } = useContext(MainContext);
+  const { products, isDark } = useContext(MainContext);
 
   const wantedAudioProducts = [
     "688898439a34014333c1742c",
@@ -42,15 +42,28 @@ export default function Cameras() {
     .map((id) => products.find((p) => p._id === id))
     .filter(Boolean);
 
+  // Theming classes
+  const bgMain = isDark ? "bg-[#1A2233]" : "bg-white";
+  const cardBg = isDark ? "bg-[#1F2A3C]" : "bg-gray-100";
+  const textAccent = isDark ? "text-[#17C3B2]" : "text-teal-600";
+  const mutedText = isDark ? "text-gray-400" : "text-gray-600";
+  const headingText = isDark ? "text-white" : "text-black";
+  const promoBg = isDark ? "bg-[#17C3B2]" : "bg-teal-600";
+
   return (
     <>
-      <div className="bg-gray-950 min-h-screen p-4 space-y-6">
+      <div className={`${bgMain} min-h-screen p-4 space-y-6`}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Audios & Cameras */}
-          <div className="bg-gray-900 rounded-lg p-4 space-y-4">
+          <div className={`${cardBg} rounded-lg p-4 space-y-4`}>
             <div className="flex justify-between items-center">
-              <h2 className="font-semibold text-teal-400">AUDIOS & CAMERAS</h2>
-              <a href="#" className="text-xs text-gray-400 hover:text-teal-300">
+              <h2 className={`font-semibold ${textAccent}`}>
+                AUDIOS & CAMERAS
+              </h2>
+              <a
+                href="#"
+                className={`text-xs hover:${textAccent} ${mutedText}`}
+              >
                 View All
               </a>
             </div>
@@ -58,14 +71,14 @@ export default function Cameras() {
               className="relative w-full h-50 rounded-md overflow-hidden bg-cover bg-no-repeat bg-center flex text-white"
               style={{ backgroundImage: "url(/img/Mike.png)" }}
             >
-              <div className="absolute  bg-black bg-opacity-30"></div>
+              <div className="absolute bg-black bg-opacity-30"></div>
               <div className="relative z-10 text-xl px-8 py-8">
                 <p className="font-bold">Best</p>
                 <p className="font-bold">Speaker</p>
                 <p className="font-bold">2023</p>
               </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 text-center text-xs">
+            <div className="grid grid-cols-2 gap-4 text-center text-xs">
               {(() => {
                 const staticImages = [
                   { src: "/img/speaker.png", alt: "Speaker" },
@@ -79,8 +92,10 @@ export default function Cameras() {
                     <Link to={`/productdetailpage/${p._id}`} key={p._id}>
                       <div>
                         <img src={src} alt={alt} className="mx-auto w-25" />
-                        <p className="font-semibold text-gray-200">{p.name}</p>
-                        <span className="text-gray-400">
+                        <p className={`font-semibold ${headingText}`}>
+                          {p.name}
+                        </p>
+                        <span className={`${mutedText}`}>
                           {p.productcount} Items
                         </span>
                       </div>
@@ -92,10 +107,13 @@ export default function Cameras() {
           </div>
 
           {/* Gaming */}
-          <div className="bg-gray-900 rounded-lg p-4 space-y-4">
+          <div className={`${cardBg} rounded-lg p-4 space-y-4`}>
             <div className="flex justify-between items-center">
-              <h2 className="font-semibold text-teal-400">GAMING</h2>
-              <a href="#" className="text-xs text-gray-400 hover:text-teal-300">
+              <h2 className={`font-semibold ${textAccent}`}>GAMING</h2>
+              <a
+                href="#"
+                className={`text-xs hover:${textAccent} ${mutedText}`}
+              >
                 View All
               </a>
             </div>
@@ -110,7 +128,7 @@ export default function Cameras() {
                 <p className="font-bold">MOUSE</p>
               </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 text-center text-xs">
+            <div className="grid grid-cols-2 gap-4 text-center text-xs">
               {(() => {
                 const staticImages = [
                   { src: "/img/bigtv.png", alt: "Monitors" },
@@ -124,8 +142,10 @@ export default function Cameras() {
                     <Link to={`/productdetailpage/${p._id}`} key={p._id}>
                       <div>
                         <img src={src} alt={alt} className="mx-auto w-25" />
-                        <p className="font-semibold text-gray-200">{p.name}</p>
-                        <span className="text-gray-400">
+                        <p className={`font-semibold ${headingText}`}>
+                          {p.name}
+                        </p>
+                        <span className={`${mutedText}`}>
                           {p.productcount} Items
                         </span>
                       </div>
@@ -137,10 +157,15 @@ export default function Cameras() {
           </div>
 
           {/* Office Equipments */}
-          <div className="bg-gray-900 rounded-lg p-4 space-y-4">
+          <div className={`${cardBg} rounded-lg p-4 space-y-4`}>
             <div className="flex justify-between items-center">
-              <h2 className="font-semibold text-teal-400">OFFICE EQUIPMENTS</h2>
-              <a href="#" className="text-xs text-gray-400 hover:text-teal-300">
+              <h2 className={`font-semibold ${textAccent}`}>
+                OFFICE EQUIPMENTS
+              </h2>
+              <a
+                href="#"
+                className={`text-xs hover:${textAccent} ${mutedText}`}
+              >
                 View All
               </a>
             </div>
@@ -148,7 +173,7 @@ export default function Cameras() {
               className="relative w-full h-50 rounded-md overflow-hidden bg-cover bg-no-repeat bg-center flex justify-center text-white"
               style={{ backgroundImage: "url(/img/projector.png)" }}
             >
-              <div className="absolute  bg-black bg-opacity-30"></div>
+              <div className="absolute bg-black bg-opacity-30"></div>
               <div className="relative z-10 text-xs py-9">
                 <p className="font-light text-xs text-center">
                   Home Theater 4k
@@ -156,7 +181,7 @@ export default function Cameras() {
                 <p className="font-semibold text-3xl">Laser Projector</p>
               </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 text-center text-xs">
+            <div className="grid grid-cols-2 gap-4 text-center text-xs">
               {(() => {
                 const staticImages = [
                   { src: "/img/printer.png", alt: "Printers" },
@@ -170,8 +195,10 @@ export default function Cameras() {
                     <Link to={`/productdetailpage/${p._id}`} key={p._id}>
                       <div>
                         <img src={src} alt={alt} className="mx-auto w-25" />
-                        <p className="font-semibold text-gray-200">{p.name}</p>
-                        <span className="text-gray-400">
+                        <p className={`font-semibold ${headingText}`}>
+                          {p.name}
+                        </p>
+                        <span className={`${mutedText}`}>
                           {p.productcount} Items
                         </span>
                       </div>
@@ -185,7 +212,9 @@ export default function Cameras() {
 
         {/* Promo Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-teal-600 rounded-lg flex justify-between p-4 text-white">
+          <div
+            className={`${promoBg} rounded-lg flex justify-between p-4 text-white`}
+          >
             {filteredChairProduct.map((p) => (
               <React.Fragment key={p._id}>
                 <div>

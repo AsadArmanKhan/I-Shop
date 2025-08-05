@@ -3,7 +3,7 @@ import { MainContext } from "../../Context";
 import { Link } from "react-router-dom";
 
 export default function BestSeller() {
-  const { products, API_BASE_URL } = useContext(MainContext);
+  const { products, API_BASE_URL, isDark } = useContext(MainContext);
 
   const bestSellerIds = [
     "687a29ec77a99f5026e1dd56",
@@ -18,19 +18,45 @@ export default function BestSeller() {
     .filter(Boolean);
 
   return (
-    <div className="mt-12 mb-12 bg-gradient-to-br from-black via-gray-900 to-black p-6 rounded-2xl shadow-xl border border-gray-800 text-gray-200">
+    <div
+      className={`mt-12 mb-12 p-6 rounded-2xl shadow-xl border transition-colors duration-300
+        ${
+          isDark
+            ? "bg-gradient-to-br from-black via-gray-900 to-black text-gray-200 border-gray-800"
+            : "bg-white text-gray-800 border-gray-200"
+        }`}
+    >
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex gap-6">
-          <h2 className="text-lg font-bold text-teal-500">BEST SELLER</h2>
-          <span className="text-gray-400 cursor-pointer hover:text-teal-400">
+          <h2
+            className={`text-lg font-bold ${
+              isDark ? "text-teal-500" : "text-teal-600"
+            }`}
+          >
+            BEST SELLER
+          </h2>
+          <span
+            className={`cursor-pointer hover:text-teal-400 ${
+              isDark ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
             NEW IN
           </span>
-          <span className="text-gray-400 cursor-pointer hover:text-teal-400">
+          <span
+            className={`cursor-pointer hover:text-teal-400 ${
+              isDark ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
             POPULAR
           </span>
         </div>
-        <a href="#" className="text-sm text-gray-400 hover:text-teal-400">
+        <a
+          href="#"
+          className={`text-sm hover:text-teal-400 ${
+            isDark ? "text-gray-400" : "text-gray-500"
+          }`}
+        >
           View All
         </a>
       </div>
@@ -40,7 +66,12 @@ export default function BestSeller() {
         {filteredProducts.map((product) => (
           <div
             key={product._id}
-            className="relative flex flex-col items-center text-center p-4 rounded-lg bg-gray-800 hover:bg-gray-700 transition hover:-translate-y-1 shadow hover:shadow-teal-500/20"
+            className={`relative flex flex-col items-center text-center p-4 rounded-lg transition transform hover:-translate-y-1 shadow
+              ${
+                isDark
+                  ? "bg-gray-800 hover:bg-gray-700 hover:shadow-teal-500/20 text-gray-100"
+                  : "bg-gray-100 hover:bg-white hover:shadow-teal-500/30 text-gray-800"
+              }`}
           >
             <Link to={`/productdetailpage/${product._id}`}>
               <img
@@ -50,12 +81,22 @@ export default function BestSeller() {
               />
             </Link>
             <p className="text-xs text-gray-500">(152)</p>
-            <h3 className="font-semibold mt-1 text-gray-100">{product.name}</h3>
+            <h3
+              className={`font-semibold mt-1 ${
+                isDark ? "text-gray-100" : "text-gray-800"
+              }`}
+            >
+              {product.name}
+            </h3>
             <div className="mt-1">
               <span className="text-teal-400 font-bold text-lg">
                 ₹{product.finalPrice}
               </span>
-              <span className="line-through text-gray-500 ml-2">
+              <span
+                className={`line-through ml-2 ${
+                  isDark ? "text-gray-500" : "text-gray-400"
+                }`}
+              >
                 ₹{product.originalPrice}
               </span>
             </div>
