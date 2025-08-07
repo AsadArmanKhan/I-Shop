@@ -47,14 +47,25 @@ const Cart = () => {
       <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
 
       {cart?.item?.length === 0 ? (
-        <div className="bg-white p-10 rounded-2xl shadow-xl text-center mx-auto max-w-xl animate-fade-in-up dark:bg-[#1F2A3C] dark:text-white">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
-            alt="Empty Cart"
-            className="mx-auto w-32 h-32 mb-6 opacity-80 animate-bounce-slow"
-          />
+        <div
+          className={`p-10 rounded-2xl shadow-xl text-center mx-auto max-w-xl animate-fade-in-up transition-all duration-300 ${
+            isDark ? "bg-[#1F2A3C] text-white" : "bg-white text-black"
+          }`}
+        >
+          <div
+            className={`w-32 h-32 mx-auto mb-6 flex items-center justify-center rounded-full ${
+              isDark ? "bg-[#2B3A4B]" : "bg-gray-100"
+            } animate-bounce`}
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+              alt="Empty Cart"
+              className="w-30 h-30 opacity-80"
+            />
+          </div>
+
           <h2 className="text-3xl font-bold mb-4">Your Cart is Empty</h2>
-          <p className="text-gray-500 text-lg mb-6 dark:text-gray-300">
+          <p className="text-black text-lg mb-6 dark:text-gray-300">
             Looks like you haven’t added anything to your cart yet.
           </p>
           <Link to="/">
