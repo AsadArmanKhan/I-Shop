@@ -27,10 +27,10 @@ const Card = () => {
       <button
         onClick={toggleTheme}
         className={`self-end mb-4 px-4 py-2 rounded-full text-sm font-semibold ${
-          isDark ? "bg-[#17C3B2] text-[#1A2233]" : "bg-[#1A2233] text-[#17C3B2]"
+          isDark ? "bg-[#1A2233] text-[#1A2233]" : "bg-white text-[#17C3B2]"
         }`}
       >
-        Toggle Theme
+        {/* Toggle Theme */}
         {/* {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"} */}
       </button>
       <TopCategories />

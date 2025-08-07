@@ -3,94 +3,79 @@ import { MainContext } from "../../Context";
 import { Link } from "react-router-dom";
 
 export default function FeaturedBrand() {
-  const { Categories } = useContext(MainContext);
-  const wantedNames = ["Monitors", "Headphone", "Gaming PC", "Laptop Office"];
+  const { Categories, isDark } = useContext(MainContext);
 
+  const wantedNames = ["Monitors", "Headphone", "Gaming PC", "Laptop Office"];
   const filteredCategories = Categories.filter((cat) =>
     wantedNames.includes(cat?.name)
   );
 
-  // local images in same order as wantedNames
+  // Local images in same order as wantedNames
   const localImages = [
     "/img/4 → Link → prod3.png.png",
     "/img/4 → Link → prod2.png.png",
     "/img/4 → Link → prod4.png.png",
     "/img/4 → Link → prod1.png.png",
   ];
+
+  const backgroundClass = isDark
+    ? "bg-[#1F2A3C] text-white border border-[#2C3A52]"
+    : "bg-white text-black border border-gray-200";
+
+  const cardClass = isDark ? "bg-[#273245] text-white" : "bg-white text-black";
+
+  const linkTextClass = isDark ? "text-gray-300" : "text-gray-600";
+
   return (
     <div
-      className="grid bg-gradient-to-br from-black via-gray-900 to-black         
-    text-black shadow-xl border border-gray-800  grid-cols-1 md:grid-cols-2 gap-4 mt-8"
+      className={`grid ${backgroundClass}  grid-cols-1 md:grid-cols-2 gap-4 mt-8 rounded-2xl`}
     >
       {/* Featured Brands */}
-      <div className="rounded-lg p-6 bg-white">
+      <div className={`rounded-lg p-6 shadow-2xl  ${cardClass}`}>
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-bold">FEATURED BRANDS</h3>
-          <a href="#" className="text-sm text-gray-600 hover:underline">
+          <Link
+            to={"/store"}
+            href="#"
+            className={`text-sm hover:underline ${linkTextClass}`}
+          >
             View All
-          </a>
+          </Link>
         </div>
         <div className="grid grid-cols-5 gap-4 items-center">
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo4.png.png"
-            alt="Jamk"
-            className="h-8 object-contain"
-          />
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo5.png.png"
-            alt="Digitek"
-            className="h-8 object-contain"
-          />
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo1.png.png"
-            alt="Tek React"
-            className="h-8 object-contain"
-          />
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo2.png.png"
-            alt="Grafbase"
-            className="h-8 object-contain"
-          />
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo3.png.png"
-            alt="Ohbear"
-            className="h-8 object-contain"
-          />
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo8.png.png"
-            alt="Oak"
-            className="h-8 object-contain"
-          />
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo7.png.png"
-            alt="Snyk"
-            className="h-8 object-contain"
-          />
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo8.png.png"
-            alt="Sonex"
-            className="h-8 object-contain"
-          />
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo9.png.png"
-            alt="Stropi"
-            className="h-8 object-contain"
-          />
-          <img
-            src="/ImagesForProducts/Cart-images/Link → logo10.png.png"
-            alt="MSI"
-            className="h-8 object-contain"
-          />
+          {[
+            "logo4",
+            "logo5",
+            "logo1",
+            "logo2",
+            "logo3",
+            "logo8",
+            "logo7",
+            "logo8",
+            "logo9",
+            "logo10",
+          ].map((logo, index) => (
+            <img
+              key={index}
+              src={`/ImagesForProducts/Cart-images/Link → ${logo}.png.png`}
+              alt={`Brand ${index}`}
+              className="h-8 object-contain"
+            />
+          ))}
         </div>
       </div>
 
       {/* Top Categories */}
-      <div className="rounded-lg p-4 bg-white">
+      <div className={`rounded-lg shadow-2xl  p-4 ${cardClass}`}>
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-bold">TOP CATEGORIES</h3>
-          <a href="#" className="text-sm text-gray-600 hover:underline">
+          <Link
+            to={"/store"}
+            href="#"
+            className={`text-sm hover:underline ${linkTextClass}`}
+          >
             View All
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

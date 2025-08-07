@@ -3,7 +3,7 @@ import { MainContext } from "../../Context";
 import { Link } from "react-router-dom";
 
 export default function RecentlyViewed() {
-  const { products, API_BASE_URL, darkMode } = useContext(MainContext);
+  const { products, API_BASE_URL, isDark } = useContext(MainContext);
 
   const wantedFilteredProducts = [
     "6889c5bf16826e643249270d",
@@ -17,12 +17,12 @@ export default function RecentlyViewed() {
     .filter(Boolean);
 
   // Dynamic theme classes
-  const containerBg = darkMode
+  const containerBg = isDark
     ? "bg-[#0e1623] text-gray-100"
     : "bg-[#f3f4f6] text-gray-900";
-  const cardBg = darkMode ? "bg-[#121c2b]" : "bg-white";
-  const textMuted = darkMode ? "text-gray-100" : "text-gray-800";
-  const strikeText = darkMode ? "text-gray-400" : "text-gray-500";
+  const cardBg = isDark ? "bg-[#121c2b]" : "bg-white";
+  const textMuted = isDark ? "text-gray-100" : "text-gray-800";
+  const strikeText = isDark ? "text-gray-400" : "text-gray-500";
 
   return (
     <div className={`${containerBg} rounded-lg p-4 space-y-4`}>

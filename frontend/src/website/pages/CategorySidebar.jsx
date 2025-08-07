@@ -23,6 +23,7 @@ export default function CategorySidebar() {
     colors,
     API_BASE_URL,
     notify,
+    isDark,
   } = useContext(MainContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,35 +59,53 @@ export default function CategorySidebar() {
   };
 
   return (
-    <div className="w-full sm:w-64 md:w-72 lg:w-60 bg-[#121c2b] p-4 rounded-xl shadow-lg mb-4 sm:mb-0 flex-shrink-0">
+    <div
+      className={`w-full sm:w-64 md:w-72 lg:w-60 p-4 rounded-xl shadow-lg mb-4 sm:mb-0 flex-shrink-0 transition-all duration-300 ${
+        isDark ? "bg-[#121c2b] text-white" : "bg-white text-gray-900"
+      }`}
+    >
       {/* Header + Toggle */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-yellow-400 tracking-wide text-base sm:text-lg md:text-xl">
+        <h3
+          className={`font-semibold tracking-wide text-base sm:text-lg md:text-xl ${
+            isDark ? "text-yellow-400" : "text-teal-600"
+          }`}
+        >
           CATEGORIES
         </h3>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="sm:hidden text-yellow-400 focus:outline-none text-xl"
+          className={`sm:hidden text-xl ${
+            isDark ? "text-yellow-400" : "text-teal-600"
+          }`}
         >
           ☰
         </button>
       </div>
 
+      {/* Sidebar Body */}
       <div className={`${isOpen ? "block" : "hidden"} sm:block space-y-6`}>
         {/* Categories */}
         <div>
           <button
-            className="w-full text-xs sm:text-sm font-semibold text-left mb-4 px-3 py-2 bg-blue-50 rounded shadow-md text-black 
-                     hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black transition transform hover:scale-105"
+            className={`w-full text-xs sm:text-sm font-semibold text-left mb-4 px-3 py-2 rounded shadow-md transition transform hover:scale-105 ${
+              isDark
+                ? "bg-[#1f2a3c] text-white hover:bg-yellow-700"
+                : "bg-blue-50 text-black hover:bg-gradient-to-r from-white to-yellow-700"
+            }`}
           >
             <Link to={`/store`}>All Categories</Link>
           </button>
+
           <ul className="space-y-2 text-xs sm:text-sm">
             {Categories.map((category) => (
               <li
                 key={category._id}
-                className="flex justify-between items-center cursor-pointer py-2 px-3 bg-blue-50 text-black rounded shadow-md 
-                           transition transform hover:scale-105 hover:bg-gradient-to-r from-white to-yellow-700 hover:text-black"
+                className={`flex justify-between items-center cursor-pointer py-2 px-3 rounded shadow-md transition transform hover:scale-105 ${
+                  isDark
+                    ? "bg-[#1f2a3c] text-white hover:bg-yellow-700"
+                    : "bg-blue-50 text-black hover:bg-gradient-to-r from-white to-yellow-700"
+                }`}
               >
                 <Link to={`/store/${category.slug}`} className="truncate">
                   {category.name}
@@ -101,12 +120,14 @@ export default function CategorySidebar() {
 
         {/* Color Filter */}
         <div className="my-10 border-t border-gray-300 pt-4">
-          {" "}
-          <h4 className="font-semibold text-yellow-400 mb-2 tracking-wide">
-            BY COLOR{" "}
-          </h4>{" "}
-          <div className="flex flex-wrap  gap-2">
-            {" "}
+          <h4
+            className={`font-semibold mb-2 tracking-wide ${
+              isDark ? "text-yellow-400" : "text-teal-600"
+            }`}
+          >
+            BY COLOR
+          </h4>
+          <div className="flex flex-wrap gap-2">
             {colors.map((color, index) => (
               <li
                 onClick={() => setColorSlug(color.slug)}
@@ -120,11 +141,15 @@ export default function CategorySidebar() {
 
         {/* Price Filter */}
         <div className="my-6 border-t border-gray-300 pt-4">
-          <h4 className="font-semibold text-yellow-400 mb-2 tracking-wide">
+          <h4
+            className={`font-semibold mb-2 tracking-wide ${
+              isDark ? "text-yellow-400" : "text-teal-600"
+            }`}
+          >
             BY PRICE
           </h4>
 
-          {/* Range Line */}
+          {/* Range */}
           <div className="mb-4">
             <input
               type="range"
@@ -137,53 +162,35 @@ export default function CategorySidebar() {
             />
           </div>
 
-          {/* Price Fields */}
+          {/* Min/Max Inputs */}
           <div className="flex items-center gap-2 text-sm">
             <input
               type="number"
               value={minPrice}
               onChange={(e) => setMinPrice(Number(e.target.value))}
-              className="w-1/2 px-2 py-1 rounded border border-gray-300 text-white"
+              className={`w-1/2 px-2 py-1 rounded border text-sm ${
+                isDark
+                  ? "border-gray-600 bg-[#1f2a3c] text-white"
+                  : "border-gray-300 bg-white text-black"
+              }`}
               placeholder="Min"
             />
-            <span className="text-White">—</span>
+            <span className={`${isDark ? "text-white" : "text-gray-700"}`}>
+              —
+            </span>
             <input
               type="number"
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-1/2 px-2 py-1 rounded border border-gray-300 text-white"
+              className={`w-1/2 px-2 py-1 rounded border text-sm ${
+                isDark
+                  ? "border-gray-600 bg-[#1f2a3c] text-white"
+                  : "border-gray-300 bg-white text-black"
+              }`}
               placeholder="Max"
             />
           </div>
         </div>
-
-        {/* <div>
-          <h4 className="text-yellow-300 font-medium mb-2">By Price</h4>
-          <div className="flex flex-col gap-2">
-            <div className="flex justify-between gap-2">
-              <input
-                type="number"
-                placeholder=" Min"
-                value={minPrice}
-                onChange={(e) => setMinPrice(e.target.value)}
-                className="w-full p-2 rounded bg-white text-black shadow"
-              />
-              <input
-                type="number"
-                placeholder=" Max"
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(e.target.value)}
-                className="w-full p-2 rounded bg-white text-black shadow"
-              />
-            </div>
-            <button
-              onClick={handleFilterByPrice}
-              className="w-full bg-green-500 text-white font-semibold py-2 rounded shadow hover:bg-green-600 transition"
-            >
-              Go
-            </button>
-          </div>
-        </div> */}
       </div>
     </div>
   );

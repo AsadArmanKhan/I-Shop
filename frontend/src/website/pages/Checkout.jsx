@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FaPaypal } from "react-icons/fa";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { BsBank, BsCash } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { MainContext } from "../../Context";
 import axios from "axios";
 import { emptycart } from "../../redux/slice/cartSlice";
@@ -12,16 +11,17 @@ import { useRazorpay } from "react-razorpay";
 
 export default function Checkout() {
   const { Razorpay } = useRazorpay();
-  const dispatcher = useDispatch();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const user = useSelector((state) => state.user?.data);
-  console.log(user?.data, "User Console");
   const cart = useSelector((state) => state.cart);
-  console.log(cart, "cart Console");
-  const { API_BASE_URL, notify } = useContext(MainContext);
+  const { API_BASE_URL, notify, isDark } = useContext(MainContext);
+
   const [showSavedAddress, setShowSavedAddress] = useState(false);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
   const [useSavedAddress, setUseSavedAddress] = useState(false);
-  const [paymentMode, setpaymentMode] = useState(0);
+  const [paymentMode, setPaymentMode] = useState(0);
   const [form, setForm] = useState({
     adressLine1: "",
     adressLine2: "",
@@ -31,8 +31,6 @@ export default function Checkout() {
     country: "",
     contact: "",
   });
-
-  const navigate = useNavigate();
 
   const savedAddresses = user?.shipping_address || [];
   const saved = savedAddresses[selectedAddressIndex] || {};
@@ -50,7 +48,7 @@ export default function Checkout() {
     }).format(amount);
   };
 
-  function handlePlaceOrder() {
+  const handlePlaceOrder = () => {
     if (!user?._id) {
       notify("Please log in to place an order.", 0);
       navigate("/login");
@@ -61,10 +59,8 @@ export default function Checkout() {
       ? user.shipping_address[selectedAddressIndex]
       : form;
 
-    console.log("Selected shipping_details to be sent:", selectedAddress);
-
     axios
-      .post(API_BASE_URL + "/order/place-order", {
+      .post(`${API_BASE_URL}/order/place-order`, {
         user_id: user._id,
         order_total: cart.finalTotal,
         payment_mode: paymentMode,
@@ -73,37 +69,33 @@ export default function Checkout() {
       .then((response) => {
         notify(response.data.msg, response.data.flag);
         if (response.data.flag === 1) {
-          dispatcher(emptycart);
+          dispatch(emptycart());
+
           if (paymentMode === 0) {
-            navigate(`/thankyou/${response.data.order_id}`); // ✅ Redirect after successful order
+            navigate(`/thankyou/${response.data.order_id}`);
           } else {
             try {
               const options = {
                 key: "rzp_test_hYGOo0vBKlVRkD",
                 currency: "INR",
                 name: "Ishop",
-                order_id: response.data.razorpay_order_id, // Generate order_id on server
+                order_id: response.data.razorpay_order_id,
                 handler: (razorpay_response) => {
-                  console.log(razorpay_response);
                   axios
-                    .post(API_BASE_URL + "order/success", {
+                    .post(`${API_BASE_URL}/order/success`, {
                       order_id: response.data.order_id,
-                      user_id: user.data._id,
+                      user_id: user._id,
                       razorpay_response,
                     })
-                    .then((response) => {
-                      if (response.data.flag == 1) {
-                        dispatcher(emptycart());
-                        navigator(`/thank-you/${response.data.order_id}`);
-                        console.log(response.data.msg);
+                    .then((res) => {
+                      if (res.data.flag === 1) {
+                        dispatch(emptycart());
+                        navigate(`/thank-you/${res.data.order_id}`);
                       }
-                    })
-                    .catch((error) => {
-                      console.log(error);
                     });
                 },
                 prefill: {
-                  name: user?.data?.name,
+                  name: user?.name,
                 },
                 theme: {
                   color: "#F37220",
@@ -116,20 +108,24 @@ export default function Checkout() {
               console.log(error.message);
             }
           }
-          console.log("Order placed succesfully:", response.data.order_id);
         }
       })
       .catch((error) => {
         console.error("Order error:", error);
         notify("Something went wrong while placing the order.", 0);
       });
-  }
+  };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <div
+      className={`w-full max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-10 transition-all duration-300 ${
+        isDark ? "bg-[#1A2233] text-white" : "bg-white text-black"
+      }`}
+    >
+      {/* Address Section */}
       <div className="lg:col-span-2 space-y-6">
         <div className="space-y-4">
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+          <label className="flex items-center gap-2 text-sm font-medium">
             <input
               type="checkbox"
               checked={showSavedAddress}
@@ -144,23 +140,21 @@ export default function Checkout() {
               {savedAddresses.map((address, index) => (
                 <div
                   key={index}
-                  className={`p-4 border rounded-md bg-white shadow-sm text-sm space-y-1 ${
+                  className={`p-4 border rounded-md text-sm space-y-1 ${
                     selectedAddressIndex === index
                       ? "border-yellow-400"
-                      : "border-gray-200"
+                      : isDark
+                      ? "border-gray-700 bg-[#2A3446]"
+                      : "border-gray-200 bg-white"
                   }`}
                 >
-                  <p className="font-medium text-gray-700">
+                  <p className="font-medium">
                     {address.adressLine1}, {address.city}, {address.state}
                   </p>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-sm">
                     {address.country} - {address.postalCode}
                   </p>
-                  {address.contact && (
-                    <p className="text-sm text-gray-500">
-                      📞 {address.contact}
-                    </p>
-                  )}
+                  {address.contact && <p>📞 {address.contact}</p>}
 
                   <button
                     className="mt-2 text-sm text-white bg-green-600 hover:bg-green-700 px-4 py-1 rounded"
@@ -184,6 +178,7 @@ export default function Checkout() {
           )}
         </div>
 
+        {/* Billing Form */}
         <form className="space-y-4">
           <h2 className="text-xl font-semibold">Billing Details</h2>
 
@@ -199,7 +194,6 @@ export default function Checkout() {
               className="w-full p-3 border rounded-md"
               disabled={useSavedAddress}
             />
-
             <input
               type="text"
               name="adressLine2"
@@ -244,7 +238,6 @@ export default function Checkout() {
               className="w-full p-3 border rounded-md"
               disabled={useSavedAddress}
             />
-
             <input
               type="text"
               name="country"
@@ -274,70 +267,83 @@ export default function Checkout() {
       </div>
 
       {/* Order Summary */}
-      <div className="bg-gray-50 border border-gray-200 p-6 rounded-md space-y-4 shadow-md">
+      <div
+        className={`p-6 rounded-md space-y-4 shadow-md border ${
+          isDark
+            ? "bg-[#2A3446] text-white border-gray-600"
+            : "bg-gray-50 text-black border-gray-200"
+        }`}
+      >
         <h2 className="text-lg font-semibold">Your Order</h2>
-        <div className="border-t border-b py-4">
+        <div className="border-t border-b py-4 space-y-2">
           <div className="flex justify-between text-sm font-medium">
             <span>SUBTOTAL</span>
-            <span className="text-black-600">
-              {formatCurrencyINR(cart.originalTotal)}
+            <span>{formatCurrencyINR(cart.originalTotal)}</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span>Discount</span>
+            <span className="text-red-500">
+              {formatCurrencyINR(cart.originalTotal - cart.finalTotal)}
             </span>
           </div>
-
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex justify-between  text-base font-semibold">
-              Discount
-              <div></div>
-            </div>
-            <p className="text-sm text-red-500">
-              {formatCurrencyINR(cart.originalTotal - cart.finalTotal)}
-            </p>
-          </div>
-
-          <div className="flex justify-between mt-4 text-base font-semibold">
+          <div className="flex justify-between font-semibold text-base">
             <span>Order Total</span>
-            <span className="text-green-600">
+            <span className="text-green-500">
               {formatCurrencyINR(cart.finalTotal)}
             </span>
           </div>
         </div>
 
         {/* Payment Options */}
-        <div className="space-y-3">
-          <label className="flex items-start space-x-2">
+        <div className="space-y-3 text-sm">
+          <label className="flex items-start gap-2">
             <input
               type="radio"
               name="payment"
+              checked={paymentMode === 0}
+              onChange={() => setPaymentMode(0)}
               className="mt-1 accent-green-600"
             />
             <span>
               <strong className="flex items-center gap-1">
-                <BsBank /> Direct Bank Transfer
+                <BsBank /> Bank Transfer
               </strong>
               <br />
-              Make your payment directly into our bank account. Use Order ID as
-              reference.
+              Pay directly into our bank account using Order ID as reference.
             </span>
           </label>
-          <label className="flex items-center space-x-2">
-            <input type="radio" name="payment" className="accent-gray-600" />
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="payment"
+              checked={paymentMode === 1}
+              onChange={() => setPaymentMode(1)}
+              className="accent-gray-600"
+            />
             <span className="flex items-center gap-1">
               <BsCash /> Cash on Delivery
             </span>
           </label>
-          <label className="flex items-center space-x-2">
-            <input type="radio" name="payment" className="accent-blue-500" />
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="payment"
+              checked={paymentMode === 2}
+              onChange={() => setPaymentMode(2)}
+              className="accent-blue-500"
+            />
             <span className="flex items-center gap-1">
-              <FaPaypal /> Paypal{" "}
-              <a href="#" className="text-blue-500 underline">
+              <FaPaypal /> PayPal
+              <a href="#" className="text-blue-500 underline ml-1">
                 What is PayPal?
               </a>
             </span>
           </label>
         </div>
+
         <button
           onClick={handlePlaceOrder}
-          className="w-full bg-green-500 text-white font-semibold py-3 rounded-md hover:bg-green-600 transition duration-300"
+          className="w-full bg-green-500 text-white font-semibold py-3 rounded-md hover:bg-green-600 transition"
         >
           PLACE ORDER
         </button>

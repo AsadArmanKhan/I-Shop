@@ -19,7 +19,9 @@ export const cartSlice = createSlice({
       if (existingItem) {
         existingItem.qty += 1;
       } else {
-        state.item.push({ productId, qty: 1 });
+        // state.item.push({ productId, qty: 1 });
+        //This is the new code
+        state.item.push({ productId, qty: 1, finalPrice, originalPrice });
       }
 
       state.finalTotal += Number(finalPrice);
@@ -48,21 +50,27 @@ export const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state));
     },
 
-    removeItem(state, action) {
+    removeItem: (state, action) => {
       const productId = action.payload;
-      const existingItem = state.item.find(
-        (item) => item.productId === productId
-      );
-      if (existingItem) {
-        state.finalTotal -=
-          Number(existingItem.qty) * Number(existingItem.finalPrice || 0);
-        state.originalTotal -=
-          Number(existingItem.qty) * Number(existingItem.originalPrice || 0);
-        state.item = state.item.filter((item) => item.productId !== productId);
-      }
+      state.item = state.item.filter((item) => item.productId !== productId);
+
+      let final = 0;
+      let original = 0;
+
+      state.item.forEach((item) => {
+        const qty = Number(item.qty);
+        const fp = Number(item.finalPrice);
+        const op = Number(item.originalPrice);
+
+        if (!isNaN(qty) && !isNaN(fp)) final += qty * fp;
+        if (!isNaN(qty) && !isNaN(op)) original += qty * op;
+      });
+
+      state.finalTotal = final;
+      state.originalTotal = original;
+
       localStorage.setItem("cart", JSON.stringify(state));
     },
-
     emptycart(state) {
       state.item = [];
       state.finalTotal = 0;
@@ -80,16 +88,24 @@ export const cartSlice = createSlice({
     },
 
     setCartFromDb(state, action) {
-      const dbCart = action.payload; // array from backend
+      const dbCart = action.payload;
       state.item = [];
       state.finalTotal = 0;
       state.originalTotal = 0;
 
       dbCart.forEach((item) => {
+        // state.item.push({
+        //   productId: item.product_id._id,
+        //   qty: item.qty,
+        // });
+        //This is the new code
         state.item.push({
           productId: item.product_id._id,
           qty: item.qty,
+          finalPrice: item.product_id.finalPrice,
+          originalPrice: item.product_id.originalPrice,
         });
+
         state.finalTotal += Number(item.product_id.finalPrice) * item.qty;
         state.originalTotal += Number(item.product_id.originalPrice) * item.qty;
       });

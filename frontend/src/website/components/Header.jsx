@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { FaSearch, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -6,12 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { emptycart, lsToCart } from "../../redux/slice/cartSlice";
 import { userLogout } from "../../redux/slice/userSlice";
+import { MainContext } from "../../Context";
 
 const Header = () => {
   const user = useSelector((state) => state.user.data);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { darkMode, toggleTheme } = useContext(MainContext);
 
   useEffect(() => {
     dispatch(lsToCart());
@@ -35,7 +37,11 @@ const Header = () => {
           {/* Logo */}
           <Link to={"/"} className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-teal-500 rounded-full flex items-center justify-center shadow-md">
-              <img src="/img/mike2.png" alt="Logo" className="w-8 h-8 object-cover" />
+              <img
+                src="/img/mike2.png"
+                alt="Logo"
+                className="w-8 h-8 object-cover"
+              />
             </div>
             <div className="font-bold leading-tight text-xs sm:text-sm md:text-base tracking-wide">
               <div>SWOO</div>
@@ -45,15 +51,27 @@ const Header = () => {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex space-x-4 lg:space-x-6 font-semibold text-gray-200 text-xs sm:text-sm">
-            <Link to={"/ghar"} className="hover:text-teal-400 transition">HOME</Link>
-            <Link to={"/"} className="hover:text-teal-400 transition">PRODUCTS</Link>
-            <Link to={"/store"} className="hover:text-teal-400 transition">STORE</Link>
-            <Link to={"/contact"} className="hover:text-teal-400 transition">CONTACT</Link>
-            <Link to={"/about"} className="hover:text-teal-400 transition">ABOUT</Link>
-            <Link to={"/profile"} className="hover:text-teal-400 transition">PROFILE</Link>
+            <Link to={"/ghar"} className="hover:text-teal-400 transition">
+              HOME
+            </Link>
+            <Link to={"/"} className="hover:text-teal-400 transition">
+              PRODUCTS
+            </Link>
+            <Link to={"/store"} className="hover:text-teal-400 transition">
+              STORE
+            </Link>
+            <Link to={"/contact"} className="hover:text-teal-400 transition">
+              CONTACT
+            </Link>
+            <Link to={"/about"} className="hover:text-teal-400 transition">
+              ABOUT
+            </Link>
+            <Link to={"/profile"} className="hover:text-teal-400 transition">
+              PROFILE
+            </Link>
           </nav>
 
-          {/* User, cart & hamburger */}
+          {/* User, cart, theme toggle & hamburger */}
           <div className="flex items-center space-x-3 text-teal-400">
             {user == null ? (
               <Link to={"/login?ref=Products"}>
@@ -69,6 +87,15 @@ const Header = () => {
                 LOG OUT |
               </div>
             )}
+
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="bg-teal-500 hover:bg-teal-400 text-black px-2 py-1 rounded text-xs sm:text-sm transition"
+              title="Toggle Theme"
+            >
+              Toggle Theme
+            </button>
 
             <Link to={"/cart"}>
               <motion.div
@@ -108,9 +135,15 @@ const Header = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-6 text-xs sm:text-sm font-medium">
-            <span className="hover:text-black transition">FREE SHIPPING OVER $199</span>
-            <span className="hover:text-black transition">30 DAYS MONEY BACK</span>
-            <span className="hover:text-black transition">100% SECURE PAYMENT</span>
+            <span className="hover:text-black transition">
+              {/* FREE SHIPPING OVER $199 */}
+            </span>
+            <span className="hover:text-black transition">
+              {/* 30 DAYS MONEY BACK */}
+            </span>
+            <span className="hover:text-black transition">
+              {/* 100% SECURE PAYMENT */}
+            </span>
           </div>
         </div>
       </motion.div>
@@ -119,7 +152,6 @@ const Header = () => {
       <AnimatePresence>
         {menuOpen && (
           <>
-            {/* Dark overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.6 }}
@@ -127,8 +159,6 @@ const Header = () => {
               className="fixed inset-0 bg-black z-10"
               onClick={() => setMenuOpen(false)}
             />
-
-            {/* Slide-in menu */}
             <motion.nav
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
@@ -136,18 +166,44 @@ const Header = () => {
               transition={{ type: "tween" }}
               className="fixed top-0 left-0 bottom-0 w-64 bg-gradient-to-b from-black via-gray-900 to-black text-teal-400 z-20 shadow-xl p-6 flex flex-col space-y-4 font-semibold text-sm"
             >
-              <Link to={"/ghar"} onClick={() => setMenuOpen(false)}>HOME</Link>
-              <Link to={"/"} onClick={() => setMenuOpen(false)}>PRODUCTS</Link>
-              <Link to={"/store"} onClick={() => setMenuOpen(false)}>STORE</Link>
-              <Link to={"/contact"} onClick={() => setMenuOpen(false)}>CONTACT</Link>
-              <Link to={"/about"} onClick={() => setMenuOpen(false)}>ABOUT</Link>
-              <Link to={"/profile"} onClick={() => setMenuOpen(false)}>PROFILE</Link>
+              <Link to={"/ghar"} onClick={() => setMenuOpen(false)}>
+                HOME
+              </Link>
+              <Link to={"/"} onClick={() => setMenuOpen(false)}>
+                PRODUCTS
+              </Link>
+              <Link to={"/store"} onClick={() => setMenuOpen(false)}>
+                STORE
+              </Link>
+              <Link to={"/contact"} onClick={() => setMenuOpen(false)}>
+                CONTACT
+              </Link>
+              <Link to={"/about"} onClick={() => setMenuOpen(false)}>
+                ABOUT
+              </Link>
+              <Link to={"/profile"} onClick={() => setMenuOpen(false)}>
+                PROFILE
+              </Link>
               {user == null ? (
-                <Link to={"/login?ref=Products"} onClick={() => setMenuOpen(false)}>LOG IN</Link>
+                <Link
+                  to={"/login?ref=Products"}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  LOG IN
+                </Link>
               ) : (
-                <div onClick={() => { logouthandler(); setMenuOpen(false); }}>LOG OUT</div>
+                <div
+                  onClick={() => {
+                    logouthandler();
+                    setMenuOpen(false);
+                  }}
+                >
+                  LOG OUT
+                </div>
               )}
-              <Link to={"/cart"} onClick={() => setMenuOpen(false)}>CART ({cart.item.length})</Link>
+              <Link to={"/cart"} onClick={() => setMenuOpen(false)}>
+                CART ({cart.item.length})
+              </Link>
             </motion.nav>
           </>
         )}

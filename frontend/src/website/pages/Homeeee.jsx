@@ -1,9 +1,33 @@
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { MainContext } from "../../Context";
 
 function Homeeee() {
+  const { isDark, toggleTheme } = useContext(MainContext);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white">
+    <div
+      className={`min-h-screen ${
+        isDark
+          ? "bg-gradient-to-br from-black to-gray-900 text-white"
+          : "bg-gradient-to-br from-white to-gray-100 text-black"
+      }`}
+    >
+      {/* Toggle Button */}
+      <div className="absolute top-5 right-5">
+        <button
+          onClick={toggleTheme}
+          className={`px-4 py-2 rounded-md font-medium transition ${
+            isDark
+              ? "bg-white text-black hover:bg-gray-200"
+              : "bg-black text-white hover:bg-gray-800"
+          }`}
+        >
+          {isDark ? "Light Mode" : "Dark Mode"}
+        </button>
+      </div>
+
       <main className="pt-20">
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center h-screen text-center px-4">
@@ -22,13 +46,12 @@ function Homeeee() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 to={"/"}
-                className="bg-yellow-500 hover:bg-yellow-600
-                text-black font-semibold py-2 px-6 rounded-full transition"
+                className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 px-6 rounded-full transition"
               >
                 Shop Now
               </Link>
-              <Link to={'/store'}
-                href="#categories"
+              <Link
+                to={"/store"}
                 className="border border-yellow-500 hover:bg-yellow-500 hover:text-black font-semibold py-2 px-6 rounded-full transition"
               >
                 Explore Categories
@@ -36,11 +59,13 @@ function Homeeee() {
             </div>
           </motion.div>
         </section>
-
-        {/* Featured Products Section */}
       </main>
 
-      <footer className="p-4 text-center border-t border-gray-700">
+      <footer
+        className={`p-4 text-center border-t ${
+          isDark ? "border-gray-700" : "border-gray-300"
+        }`}
+      >
         <p>&copy; 2025 SWOO TECH MART. All rights reserved.</p>
       </footer>
     </div>
