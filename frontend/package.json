@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "serve -s dist"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -25,6 +26,7 @@
     "react-router-dom": "^7.5.3",
     "react-select": "^5.10.1",
     "react-toastify": "^11.0.5",
+    "serve": "^14.2.4",
     "sweetalert2": "^11.21.0"
   },
   "devDependencies": {

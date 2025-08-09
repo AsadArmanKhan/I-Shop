@@ -11,7 +11,7 @@ function Context(props) {
   const [isDark, setIsDark] = useState(true);
   const toggleTheme = () => setIsDark((prev) => !prev);
 
-  const API_BASE_URL = "http://localhost:5000";
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const CATEGORY_URL = "/category";
   const COLOR_URL = "/color";
   const PRODUCT_URL = "/product";
