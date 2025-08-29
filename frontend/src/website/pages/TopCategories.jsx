@@ -85,6 +85,7 @@ export default function TopCategories() {
 
       {/* Right Section - Slider */}
       <div className="flex-1 ml-6 rounded-2xl overflow-hidden">
+      
         <Slider {...sliderSettings}>
           {/* Slide 1 */}
           <div>

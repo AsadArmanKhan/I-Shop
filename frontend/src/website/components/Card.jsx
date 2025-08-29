@@ -18,7 +18,7 @@ const Card = () => {
 
   return (
     <div
-      className={`flex flex-col p-4 rounded-2xl shadow-xl border ${
+      className={`flex flex-col p-4 rounded-2xl mt-25 shadow-xl border ${
         isDark
           ? "bg-[#1A2233] text-white border-gray-700"
           : "bg-white text-black border-gray-200"
@@ -29,10 +29,7 @@ const Card = () => {
         className={`self-end mb-4 px-4 py-2 rounded-full text-sm font-semibold ${
           isDark ? "bg-[#1A2233] text-[#1A2233]" : "bg-white text-[#17C3B2]"
         }`}
-      >
-        {/* Toggle Theme */}
-        {/* {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"} */}
-      </button>
+      ></button>
       <TopCategories />
       <FeaturedBrand />
       <DealsOfDay />
@@ -46,7 +43,6 @@ const Card = () => {
 
 export default Card;
 
-// import React from "react";
 // import { FaLaptop, FaCameraRetro } from "react-icons/fa";
 // import { RiComputerFill } from "react-icons/ri";
 // import { GiVibratingSmartphone } from "react-icons/gi";

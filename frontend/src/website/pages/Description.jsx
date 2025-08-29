@@ -3,21 +3,35 @@ import Related from "./Related";
 import { MainContext } from "../../Context";
 
 export default function Description() {
-  const {products} = useContext(MainContext);
+  const { isDark } = useContext(MainContext);
+  // Dynamic theme classes
+  const containerBg = isDark
+    ? "bg-[#0e1623] text-gray-100"
+    : "bg-[#f3f4f6] text-gray-900";
+  const cardBg = isDark ? "bg-[#121c2b]" : "bg-white";
+  const textMuted = isDark ? "text-gray-100" : "text-gray-800";
+  const strikeText = isDark ? "text-gray-400" : "text-gray-500";
+  const bottomBorder = isDark ? "border-white" : "border-black";
   return (
     <>
-      <div className="bg-white rounded-lg p-4 space-y-6">
+      <div className={`${cardBg} rounded-lg p-4 space-y-6`}>
         {/* Tabs */}
         <div className="flex border-b border-gray-300 space-x-4">
-          <button className="text-black font-semibold pb-2 border-b-2 border-black">
+          <button
+            className={`${textMuted} font-semibold pb-2 border-b-2 ${bottomBorder}`}
+          >
             DESCRIPTION
           </button>
-          <button className="text-gray-500 pb-2">REVIEWS (5)</button>
-          <button className="text-gray-500 pb-2">ADDITIONAL INFORMATION</button>
+          <button className={`${textMuted} font-semibold pb-2 `}>
+            REVIEWS (5)
+          </button>
+          <button className={`${textMuted} font-semibold pb-2  `}>
+            ADDITIONAL INFORMATION
+          </button>
         </div>
 
         {/* Top description text */}
-        <p className="text-gray-700 text-sm">
+        <p className={`${textMuted} text-sm`}>
           Built for ultra-fast performance, the thin and lightweight Samsung
           Galaxy Tab S2 goes anywhere you go. Photos, movies and documents pop
           on a crisp, clear Super AMOLED display. Expandable memory lets you

@@ -13,7 +13,8 @@ import DealsOfDay from "./DealsOfDay";
 // import Related from "./Related";
 
 export default function ProductDetailPage() {
-  const { API_BASE_URL, PRODUCT_URL, products } = useContext(MainContext);
+  const { API_BASE_URL, PRODUCT_URL, products, isDark } =
+    useContext(MainContext);
   const user = useSelector((state) => state?.data?.user);
   const cart = useSelector((state) => state?.cart);
   const { _id } = useParams();
@@ -73,27 +74,39 @@ export default function ProductDetailPage() {
 
   const cartItem = cart?.item?.find((item) => item.productId === product._id);
 
+  // Dynamic theme classes
+  const containerBg = isDark
+    ? "bg-[#0e1623] text-gray-100"
+    : "bg-[#f3f4f6] text-gray-900";
+  const cardBg = isDark ? "bg-[#121c2b]" : "bg-white";
+  const textMuted = isDark ? "text-gray-100" : "text-gray-800";
+  const strikeText = isDark ? "text-gray-400" : "text-gray-500";
+
   return (
     <>
       <div className="bg-black">
         <div className="bg-black">b</div>
-        <div className="max-w-[1450px] rounded-2xl mx-auto py-10 p-4 md:p-8 bg-white grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div
+          className={`max-w-[1450px] rounded-2xl mx-auto py-10 p-4 md:p-8 ${containerBg} grid grid-cols-1 lg:grid-cols-3 gap-8`}
+        >
           {/* Back to Store */}
           <div className="lg:col-span-3 mb-6">
             <Link
               to="/store"
-              className="flex items-center space-x-2 text-black hover:underline"
+              className={`w-30 flex items-center space-x-2 ${textMuted} hover:underline`}
             >
               <ArrowLeft size={16} />
-              <span>Back to Store</span>
+              <span className=""> Back to Store</span>
             </Link>
           </div>
           {/* Product Images and Info */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            className={`lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6`}
+          >
             {/* Images gallery */}
             <div>
               <motion.div
-                className="rounded-2xl overflow-hidden shadow-lg"
+                className={`${cardBg} rounded-2xl overflow-hidden shadow-lg`}
                 whileHover={{ scale: 1.02 }}
               >
                 <img
@@ -149,10 +162,10 @@ export default function ProductDetailPage() {
                       <span className="line-through text-gray-400">
                         ₹{product.originalPrice}
                       </span>
-                      <span className="text-green-600 text-sm font-medium">
+                      <span className={`${textMuted} text-sm font-medium`}>
                         Save{" "}
                         {Math.round(
-                          ((product.originalPrice - product.finalPrice) /
+                          (` ${product.originalPrice - product.finalPrice}` /
                             product.originalPrice) *
                             100
                         )}
@@ -162,7 +175,9 @@ export default function ProductDetailPage() {
                   )}
                 </div>
 
-                <ul className="list-disc ml-5 text-gray-600 text-sm mb-4 space-y-1">
+                <ul
+                  className={`${textMuted} list-disc ml-5  text-sm mb-4 space-y-1`}
+                >
                   <li>
                     Intel LGA 1700 Socket: Supports 13th & 12th Gen Intel Core
                   </li>
@@ -228,7 +243,9 @@ export default function ProductDetailPage() {
                 </div>
 
                 {/* Promotion */}
-                <div className="bg-green-50 border border-green-200 p-4 rounded-lg text-sm mb-4">
+                <div
+                  className={` ${cardBg} border border-green-200 p-4 rounded-lg text-sm mb-4`}
+                >
                   <p>
                     Buy <span className="text-red-500 font-semibold">02</span>{" "}
                     boxes get a{" "}
@@ -347,7 +364,7 @@ export default function ProductDetailPage() {
           </div>
         </div>
         <div className="mx-10">
-        <DealsOfDay />
+          <DealsOfDay />
         </div>
         <div className="mx-10 my-5 rounded-2xl">
           <Description />

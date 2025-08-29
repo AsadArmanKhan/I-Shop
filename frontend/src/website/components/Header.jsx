@@ -30,10 +30,10 @@ const Header = () => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
-        className="mx-auto font-sans text-sm border-b border-gray-700 shadow-lg bg-gradient-to-r from-black via-gray-900 to-black relative z-20"
+        className=" mx-auto font-sans text-sm border-b border-gray-700 shadow-lg bg-gradient-to-r from-black via-gray-900 to-black fixed top-0  w-full z-10"
       >
         {/* Top section */}
-        <div className="flex justify-between items-center px-4 md:px-8 py-3 text-white">
+        <div className=" flex justify-between items-center px-4 md:px-8 py-3  text-white">
           {/* Logo */}
           <Link to={"/"} className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-teal-500 rounded-full flex items-center justify-center shadow-md">
@@ -48,7 +48,6 @@ const Header = () => {
               <div>TECH MART</div>
             </div>
           </Link>
-
           {/* Desktop nav */}
           <nav className="hidden md:flex space-x-4 lg:space-x-6 font-semibold text-gray-200 text-xs sm:text-sm">
             <Link to={"/ghar"} className="hover:text-teal-400 transition">
@@ -70,7 +69,6 @@ const Header = () => {
               PROFILE
             </Link>
           </nav>
-
           {/* User, cart, theme toggle & hamburger */}
           <div className="flex items-center space-x-3 text-teal-400">
             {user == null ? (
