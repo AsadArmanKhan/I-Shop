@@ -11,11 +11,11 @@ const UserRouter = require("./router/userRouter");
 const cartRouter = require("./router/cartRouter");
 const OrderRouter = require("./router/orderRouter");
 const server = express();
-server.use(cors());
-// server.use(cors({
-//   origin: "https://i-shop-1-kb57.onrender.com", // your frontend Render domain
-//   credentials: true
-// }));
+// server.use(cors());
+server.use(cors({
+  origin: "https://i-shop-1-kb57.onrender.com", // your frontend Render domain
+  credentials: true
+}));
 
 server.use(express.json());
 server.use("/category", categoryRouter);
