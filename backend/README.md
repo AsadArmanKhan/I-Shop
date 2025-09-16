@@ -1,7 +1,5 @@
-# React + Vite
 
-
-# I-Shop Frontend
+# I-Shop Backend
 
 ## Table of Contents
 - [Overview](#overview)
@@ -10,87 +8,65 @@
 - [Folder Structure](#folder-structure)
 - [Setup & Installation](#setup--installation)
 - [Usage](#usage)
-- [Pages & Components](#pages--components)
+- [API Documentation](#api-documentation)
 - [Authentication](#authentication)
-- [API Integration](#api-integration)
-- [API Endpoints Used](#api-endpoints-used)
+- [Database](#database)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Overview
-I-Shop Frontend is the client-side application for the I-Shop e-commerce platform. Built with React and Vite, it provides a fast, modern, and responsive user experience for customers and admins. It integrates with the backend via RESTful APIs for all e-commerce operations.
+I-Shop Backend is the server-side application for the I-Shop e-commerce platform. It provides RESTful APIs for user and admin authentication, product management, category and color management, cart and order processing, and image handling. Built with Node.js, Express, and MongoDB.
 
 ## Features
-- User registration, login, and logout
-- Product browsing and search
-- Category and color filtering
-- Cart management (add, remove, clear)
-- Order placement and history
-- Admin dashboard for managing products, categories, colors, orders, and users
-- Responsive design
-- Image galleries for products and categories
-- Global state management using React Context and Redux
-- Toast notifications for user feedback
-- Dark/light theme toggle
+- User authentication (login, logout, registration)
+- Admin authentication and management
+- Product management (CRUD)
+- Category management (CRUD)
+- Color management (CRUD)
+- Cart management
+- Order management
+- Image handling for products and categories
+- Middleware for authentication and authorization
 
 ## Technologies Used
-- React
-- Vite
-- Redux
-- Axios
-- React Toastify
+- Node.js
+- Express.js
+- MongoDB & Mongoose
+- JWT (JSON Web Token)
+- Axios (for API calls)
+- Multer (for file uploads)
 
 ## Folder Structure
-- `public/` - Static assets and images
-- `src/` - Source code
-  - `admin/` - Admin dashboard components
-  - `redux/` - State management (Redux)
-  - `website/` - Main website components
-  - `App.jsx` - Main app component
-  - `Context.jsx` - React context for global state, API calls, notifications, and theme
-  - `main.jsx` - Entry point
-  - `App.css`, `index.css` - Stylesheets
+- `controller/` - Controllers for business logic
+- `middleWare/` - Authentication middleware
+- `model/` - Mongoose models
+- `public/images/` - Images for categories and products
+- `router/` - Express routers
+- `helper.js` - Utility functions
+- `index.js` - Server entry point
 
 ## Setup & Installation
 1. Clone the repository
-2. Navigate to the `frontend` folder
+2. Navigate to the `backend` folder
 3. Install dependencies:
 	```bash
 	npm install
 	```
-4. Start the development server:
-	```bash
-	npm run dev
+4. Create a `.env` file with the following variables:
+	```env
+	MONGODB_URI=your_mongodb_uri
+	JWT_SECRET=your_jwt_secret
+	PORT=5000
 	```
-5. Build for production:
+5. Start the server:
 	```bash
-	npm run build
+	npm start
 	```
 
 ## Usage
-Access the frontend at `http://localhost:5173` (default Vite port). Connects to the backend API for all data operations.
+The backend server runs on `http://localhost:5000` by default. Use the provided API endpoints to interact with the application.
 
-## Pages & Components
-- Home page
-- Product listing and details
-- Category listing
-- Cart page
-- Checkout page
-- User profile
-- Admin dashboard (products, categories, colors, orders, users)
-
-## Authentication
-- JWT-based authentication
-- Login and logout flows
-- Protected routes for admin dashboard
-
-## API Integration
-- Uses Axios for API calls
-- Handles authentication tokens and user sessions
-- Global state and API calls managed via `Context.jsx` and Redux
-- Toast notifications for feedback
-
-## API Endpoints Used
+## API Documentation
 
 ### Auth & User
 - `POST /api/user/register` - Register a new user
@@ -135,6 +111,13 @@ Access the frontend at `http://localhost:5173` (default Vite port). Connects to 
 - `GET /api/order/:id` - Get order details
 - `PUT /api/order/:id` - Update order status (admin only)
 - `DELETE /api/order/:id` - Cancel order
+
+## Authentication
+- JWT-based authentication for users and admins
+- Middleware for route protection
+
+## Database
+- MongoDB (see `dump/Ishop/` for BSON dumps)
 
 ## Contributing
 Contributions are welcome! Please fork the repository, create a new branch, and submit a pull request.

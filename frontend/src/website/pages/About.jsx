@@ -23,7 +23,7 @@ export default function About() {
 
   return (
     <div
-      className="p-4 md:p-8 space-y-8 transition-colors duration-300"
+      className="p-4 md:p-8 space-y-8 mt-25 transition-colors duration-300"
       style={{ backgroundColor }}
     >
       {/* Toggle Button */}

@@ -30,7 +30,7 @@ const Header = () => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
-        className=" mx-auto font-sans text-sm border-b border-gray-700 shadow-lg bg-gradient-to-r from-black via-gray-900 to-black fixed top-0  w-full z-10"
+        className=" mx-auto font-sans text-sm  border-gray-700 shadow-lg bg-gradient-to-r from-black via-gray-900 to-black fixed top-0  w-full z-50"
       >
         {/* Top section */}
         <div className=" flex justify-between items-center px-4 md:px-8 py-3  text-white">

@@ -118,7 +118,7 @@ export default function Checkout() {
 
   return (
     <div
-      className={`w-full max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-10 transition-all duration-300 ${
+      className={`mt-30 mb-2 rounded-2xl w-full max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-10 transition-all duration-300 ${
         isDark ? "bg-[#1A2233] text-white" : "bg-white text-black"
       }`}
     >

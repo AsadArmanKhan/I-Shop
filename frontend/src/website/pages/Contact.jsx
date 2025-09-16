@@ -14,7 +14,7 @@ export default function ContactUs() {
   const mapBg = isDark ? "bg-[#1F2A3C]" : "bg-gray-100";
 
   return (
-    <div className={`${bgMain} p-4 md:p-8 space-y-8 ${textMuted}`}>
+    <div className={`${bgMain} p-4 md:p-8 space-y-8 mt-30 ${textMuted}`}>
       {/* Contact Form and Info */}
       <div
         className={`${cardBg} rounded-xl shadow-md p-6 grid grid-cols-1 md:grid-cols-3 gap-6`}

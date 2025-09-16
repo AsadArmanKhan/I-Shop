@@ -40,7 +40,7 @@ const Cart = () => {
 
   return (
     <div
-      className={`min-h-screen p-6 transition-all duration-300 ${
+      className={`mt-27 min-h-screen p-6 transition-all duration-300 ${
         isDark ? "bg-[#1A2233] text-white" : "bg-white text-black"
       }`}
     >
