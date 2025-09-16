@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="https://lh3.googleusercontent.com/gg/AAHar4eZ8l5wOrHcufwghXXjdW0fQ2stTU-lZmQrZ3qhvxP63C4VVZLzs_1SdRpDuJuPxuXK9PiVze5P_YS1oCV4l-uK5O5mBiIo7LjrKyHJgdFBlt_H2qfpmwPp4bfloocapiuUeTftXqXvKN0U7TckSQfu1EwSWE-aID7Aku8zM-_riau5Lr0tYtC7op9UHgwNrvjjyp7QDWPWZM-x5jT6cF0i31ogTg_3c9NwxRbRgTVn-p9svRgLaAvr4bHppLYjyu3Q3u_5qcdd5djbNhw3oVznCIql6wHOAMlCODy0yX74xiZn6F2YD1yI6mO4IhG_ZuzylUMbkisah2BTifRKqCo=s1024" alt="I-Shop Logo" width="120" />
+	<img src="readme.img/Gemini_Generated_Image_ts51jwts51jwts51.png" alt="I-Shop Logo" width="120" />
 	<br>
 	<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=2000&pause=1000&color=1A73E8&center=true&vCenter=true&width=600&lines=Welcome+to+I-Shop!;Your+Modern+E-Commerce+Platform" alt="Welcome Animation" />
 </div>
