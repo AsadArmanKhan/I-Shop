@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="/Gemini_Generated_Image_ts51jwts51jwts51.png" alt="I-Shop Logo" width="120" />
+	<img src="Gemini_Generated_Image_ts51jwts51jwts51.png" alt="I-Shop Logo" width="120" />
 	<br>
 	<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=2000&pause=1000&color=1A73E8&center=true&vCenter=true&width=600&lines=Welcome+to+I-Shop!;Your+Modern+E-Commerce+Platform" alt="Welcome Animation" />
 </div>
@@ -20,11 +20,11 @@ I-Shop is a comprehensive e-commerce solution built with a robust backend (Node.
 
 ### Main Storefront
 
-<img src="frontend/public/{B9A61660-A455-4F13-8B67-624AF14AC040}.png" alt="I-Shop Main Storefront" width="600" />
+<img src="{B9A61660-A455-4F13-8B67-624AF14AC040}.png" alt="I-Shop Main Storefront" width="600" />
 
 ### Admin Panel
 
-<img src="frontend/public/ImagesForProducts/Link%20%E2%86%92%20prod21.png.png" alt="I-Shop Admin Panel" width="600" />
+<img src="{425C264B-CBFB-4DFF-8FB1-7C4F10268052}.png" alt="I-Shop Admin Panel" width="600" />
 
 ---
 
