@@ -28,6 +28,7 @@
     "react-razorpay": "^3.0.1",
     "react-slick": "^0.30.3",
     "react-toastify": "^11.0.5",
+    "recharts": "^3.2.0",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.21.0"
   },
