@@ -1,7 +1,11 @@
 <div align="center">
-	<img src="readme.img/Gemini_Generated_Image_ts51jwts51jwts51.png" alt="I-Shop Logo" width="120" />
-	<br>
-	<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=2000&pause=1000&color=1A73E8&center=true&vCenter=true&width=600&lines=Welcome+to+I-Shop!;Your+Modern+E-Commerce+Platform" alt="Welcome Animation" />
+	<img src="readme.img/Gemini_Generated_Image_ts51jwts51jwts51.png" 
+     alt="I-Shop Logo"  
+     width="1000" 
+     height="500" />
+    <br>
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=2000&pause=1000&color=1A73E8&center=true&vCenter=true&width=600&lines=Welcome+to+I-Shop!;Your+Modern+E-Commerce+Platform" alt="Welcome Animation" />
+
 </div>
 
 # I-Shop
